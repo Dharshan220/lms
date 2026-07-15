@@ -11,13 +11,13 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN mkdir -p storage/framework/{cache/data,sessions,views} \
+RUN cp -n .env.example .env \
+    && mkdir -p storage/framework/{cache/data,sessions,views} \
     && mkdir -p storage/logs \
     && mkdir -p bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
-
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+    && chmod -R 775 storage bootstrap/cache \
+    && composer install --no-dev --optimize-autoloader --no-interaction
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php artisan key:generate --force && php artisan config:clear && php artisan migrate --force && php artisan db:seed --force; php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "php artisan key:generate --force && php artisan config:clear && php artisan migrate --force && php artisan db:seed --force; exec php artisan serve --host=0.0.0.0 --port=8000"]
