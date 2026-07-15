@@ -3,7 +3,7 @@ set -e
 
 # Create .env file from environment variables
 cat > /var/www/html/.env <<EOF
-APP_NAME=Nano Spark LMS
+APP_NAME="Nano Spark LMS"
 APP_ENV=production
 APP_KEY=${APP_KEY:-}
 APP_DEBUG=false
@@ -29,7 +29,7 @@ MAIL_USERNAME=null
 MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=hello@nanospark.com
-MAIL_FROM_NAME=Nano Spark LMS
+MAIL_FROM_NAME="Nano Spark LMS"
 EOF
 
 # Create storage directories
