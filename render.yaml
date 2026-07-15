@@ -5,31 +5,15 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     envVars:
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: "false"
       - key: APP_KEY
         value: base64:5mqffIXKfmg6eSPA0URbWGK9Yoq3AXzAcv02HUQ+K48=
-      - key: APP_URL
-        sync: false
       - key: DB_CONNECTION
         value: pgsql
-      - key: DB_HOST
-        sync: false
       - key: DB_PORT
         value: "5432"
-      - key: DB_DATABASE
-        sync: false
-      - key: DB_USERNAME
-        sync: false
-      - key: DB_PASSWORD
-        sync: false
       - key: SESSION_DRIVER
         value: cookie
       - key: CACHE_DRIVER
         value: array
       - key: LOG_CHANNEL
         value: stderr
-      - key: FORCE_HTTPS
-        value: "true"

@@ -11,7 +11,7 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN cp -n .env.example .env \
+RUN chmod +x entrypoint.sh \
     && mkdir -p storage/framework/{cache/data,sessions,views} \
     && mkdir -p storage/logs \
     && mkdir -p bootstrap/cache \
@@ -20,4 +20,4 @@ RUN cp -n .env.example .env \
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php artisan key:generate --force && php artisan config:clear && php artisan migrate --force && php artisan db:seed --force; exec php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["./entrypoint.sh"]
