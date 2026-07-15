@@ -8,6 +8,8 @@ $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
-)->send();
+);
+
+$response->send();
 
 $kernel->terminate($request, $response);

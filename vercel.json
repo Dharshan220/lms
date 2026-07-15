@@ -1,49 +1,53 @@
 {
   "version": 2,
+  "buildCommand": "composer install --no-dev --optimize-autoloader --no-interaction",
+  "outputDirectory": "public",
   "builds": [
     {
       "src": "api/index.php",
       "use": "vercel-php@0.5.8",
       "config": {
         "includeFiles": [
-          "**/*"
+          "vendor/**",
+          "app/**",
+          "bootstrap/**",
+          "config/**",
+          "database/**",
+          "routes/**",
+          "resources/**",
+          "public/**"
         ]
       }
     }
   ],
-  "outputDirectory": "public",
   "routes": [
     {
       "src": "/build/(.*)",
-      "dest": "/build/$1"
+      "dest": "/public/build/$1"
     },
     {
       "src": "/fonts/(.*)",
-      "dest": "/fonts/$1"
+      "dest": "/public/fonts/$1"
     },
     {
       "src": "/images/(.*)",
-      "dest": "/images/$1"
+      "dest": "/public/images/$1"
     },
     {
       "src": "/favicon\\.ico",
-      "dest": "/favicon.ico"
+      "dest": "/public/favicon.ico"
     },
     {
       "src": "/robots\\.txt",
-      "dest": "/robots.txt"
+      "dest": "/public/robots.txt"
+    },
+    {
+      "src": "/storage/(.*)",
+      "dest": "/public/storage/$1"
     },
     {
       "src": "/(.*)",
       "dest": "api/index.php"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/build/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
     }
   ]
 }

@@ -21,7 +21,5 @@ yarn-error.log
 chat_debug.html
 debug_chat.php
 check_active.php
-
 /storage/framework/sessions/*
 /composer.phar
-/public/build/
