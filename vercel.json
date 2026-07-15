@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "composer install --no-dev --optimize-autoloader --no-interaction",
+  "buildCommand": "curl -sS https://getcomposer.org/installer | php -- --quiet && php composer.phar install --no-dev --optimize-autoloader --no-interaction",
   "outputDirectory": "public",
   "functions": {
     "api/index.php": {
