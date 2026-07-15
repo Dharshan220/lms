@@ -16,11 +16,17 @@ use App\Models\QuizQuestion;
 use App\Models\Assignment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        if (User::count() > 0) {
+            $this->command->info('Database already seeded. Skipping...');
+            return;
+        }
+
         // Create Super Admin
         User::create([
             'name' => 'Super Admin',
