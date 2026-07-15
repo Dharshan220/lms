@@ -5,7 +5,7 @@
 /storage/framework/views/*
 /storage/framework/cache/*
 /storage/logs/*
-/vendor
+/.env
 .env
 .env.backup
 .env.production
