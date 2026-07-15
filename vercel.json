@@ -2,24 +2,11 @@
   "version": 2,
   "buildCommand": "composer install --no-dev --optimize-autoloader --no-interaction",
   "outputDirectory": "public",
-  "builds": [
-    {
-      "src": "api/index.php",
-      "use": "vercel-php@0.5.8",
-      "config": {
-        "includeFiles": [
-          "vendor/**",
-          "app/**",
-          "bootstrap/**",
-          "config/**",
-          "database/**",
-          "routes/**",
-          "resources/**",
-          "public/**"
-        ]
-      }
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.5.5"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/build/(.*)",
