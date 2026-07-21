@@ -19,6 +19,13 @@ php artisan view:cache || true
 
 php artisan migrate --force
 php artisan db:seed --force || true
+php -r "
+\$app = require __DIR__.'/bootstrap/app.php';
+\$kernel = \$app->make(Illuminate\Contracts\Console\Kernel::class);
+\$kernel->bootstrap();
+\$u = App\Models\User::where('email','admin@nanospark.com')->first();
+if (!\$u) { App\Models\User::create(['name'=>'Super Admin','email'=>'admin@nanospark.com','password'=>bcrypt('password'),'role'=>'super_admin','is_active'=>true,'email_verified_at'=>now()]); echo \"Created\n\"; } else { echo \"Exists\n\"; }
+" || true
 
 chown -R www-data:www-data storage bootstrap/cache
 
