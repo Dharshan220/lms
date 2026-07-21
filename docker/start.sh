@@ -28,6 +28,8 @@ require __DIR__.'/vendor/autoload.php';
 if (!\$u) { App\Models\User::create(['name'=>'Super Admin','email'=>'admin@nanospark.com','password'=>bcrypt('password'),'role'=>'super_admin','is_active'=>true,'email_verified_at'=>now()]); echo \"Created admin\n\"; } else { echo \"Admin exists\n\"; }
 \$u2 = App\Models\User::where('email','student1@nanospark.com')->first();
 if (!\$u2) { App\Models\User::create(['name'=>'Student 1','email'=>'student1@nanospark.com','password'=>bcrypt('password'),'role'=>'student','is_active'=>true,'email_verified_at'=>now()]); echo \"Created student\n\"; } else { echo \"Student exists\n\"; }
+\$emails = ['priya@nanospark.com'=>'Dr. Priya Sharma','rahul@nanospark.com'=>'Prof. Rahul Verma','anita@nanospark.com'=>'Ms. Anita Patel','schooladmin1@nanospark.com'=>'DPS Admin','parent@nanospark.com'=>'Parent User'];
+foreach (\$emails as \$e=>\$n) { \$u = App\Models\User::where('email',\$e)->first(); if (!\$u) { App\Models\User::create(['name'=>\$n,'email'=>\$e,'password'=>bcrypt('password'),'role'=>str_contains(\$e,'school')?'school_admin':(str_contains(\$e,'parent')?'parent':'teacher'),'is_active'=>true,'email_verified_at'=>now()]); echo \"Created \$e\n\"; } else { echo \"\$e exists\n\"; } }
 " || true
 
 chown -R www-data:www-data storage bootstrap/cache
