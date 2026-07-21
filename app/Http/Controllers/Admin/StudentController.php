@@ -36,7 +36,10 @@ class StudentController extends Controller
 
         $students = $query->latest()->paginate(15);
 
-        return view('admin.students.index', compact('students'));
+        $schools = School::where('is_active', true)->orderBy('name')->get();
+        $grades = User::where('role', 'student')->whereNotNull('grade')->distinct()->pluck('grade');
+
+        return view('admin.students.index', compact('students', 'schools', 'grades'));
     }
 
     public function create()
@@ -75,7 +78,7 @@ class StudentController extends Controller
     {
         abort_unless($student->isStudent(), 404);
 
-        $student->load('school', 'badges');
+        $student->load('school', 'badges', 'enrollments.course');
 
         $enrollments = Enrollment::where('user_id', $student->id)
             ->with('course')
@@ -101,6 +104,24 @@ class StudentController extends Controller
 
         $badges = $student->badges;
 
+        $xpProgress = $student->xp_points > 0 ? round(($student->xp_points % 500) / 5) : 0;
+
+        $recentActivity = [];
+        $recentLessons = LessonProgress::where('user_id', $student->id)->latest()->take(5)->get();
+        foreach ($recentLessons as $lp) {
+            $recentActivity[] = [
+                'message' => 'Completed lesson: ' . ($lp->lesson->title ?? 'Unknown'),
+                'time' => $lp->created_at?->diffForHumans() ?? '',
+            ];
+        }
+        foreach ($quizAttempts->take(5) as $qa) {
+            $recentActivity[] = [
+                'message' => 'Quiz attempt: ' . ($qa->quiz->title ?? 'Unknown') . ' - Score: ' . ($qa->score ?? 0),
+                'time' => $qa->created_at?->diffForHumans() ?? '',
+            ];
+        }
+        $recentActivity = collect($recentActivity)->sortByDesc('time')->take(10)->values()->all();
+
         return view('admin.students.show', compact(
             'student',
             'enrollments',
@@ -110,7 +131,9 @@ class StudentController extends Controller
             'totalLessonsCompleted',
             'quizAttempts',
             'averageScore',
-            'badges'
+            'badges',
+            'xpProgress',
+            'recentActivity'
         ));
     }
 

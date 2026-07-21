@@ -23,7 +23,7 @@ class ReportController extends Controller
             ? round(Enrollment::where('is_completed', true)->count() / $totalEnrollments * 100, 1)
             : 0;
 
-        $monthlyEnrollments = Enrollment::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
+        $monthlyEnrollments = Enrollment::selectRaw("TO_CHAR(created_at, 'YYYY-MM') as month, COUNT(*) as count")
             ->groupBy('month')
             ->orderBy('month', 'desc')
             ->take(12)
@@ -51,7 +51,7 @@ class ReportController extends Controller
         $dateFrom = $request->get('date_from', now()->subMonths(6)->startOfMonth());
         $dateTo = $request->get('date_to', now()->endOfMonth());
 
-        $enrollmentsByMonth = Enrollment::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
+        $enrollmentsByMonth = Enrollment::selectRaw("TO_CHAR(created_at, 'YYYY-MM') as month, COUNT(*) as count")
             ->whereBetween('created_at', [$dateFrom, $dateTo])
             ->groupBy('month')
             ->orderBy('month')
@@ -70,11 +70,30 @@ class ReportController extends Controller
             ->groupBy('is_completed')
             ->get();
 
-        $dailyEnrollments = Enrollment::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        $dailyEnrollments = Enrollment::selectRaw("DATE(created_at) as date, COUNT(*) as count")
             ->whereBetween('created_at', [$dateFrom, $dateTo])
             ->groupBy('date')
             ->orderBy('date')
             ->get();
+
+        $totalEnrollments = $enrollmentsByMonth->sum('count');
+        $completedEnrollments = $completionStats->where('is_completed', true)->sum('count');
+        $activeEnrollments = $completionStats->where('is_completed', false)->sum('count');
+
+        $enrolledStudents = Enrollment::whereBetween('created_at', [$dateFrom, $dateTo])->pluck('user_id')->unique();
+        $avgProgress = $enrolledStudents->isNotEmpty()
+            ? round(Enrollment::whereIn('user_id', $enrolledStudents)->avg('progress_percentage') ?? 0, 1)
+            : 0;
+
+        $courses = Course::orderBy('title')->get();
+
+        $chartLabels = $enrollmentsByMonth->pluck('month')->toArray();
+        $chartData = $enrollmentsByMonth->pluck('count')->toArray();
+
+        $enrollments = Enrollment::with(['user', 'course'])
+            ->whereBetween('created_at', [$dateFrom, $dateTo])
+            ->latest()
+            ->paginate(15);
 
         return view('admin.reports.enrollment', compact(
             'enrollmentsByMonth',
@@ -82,7 +101,15 @@ class ReportController extends Controller
             'completionStats',
             'dailyEnrollments',
             'dateFrom',
-            'dateTo'
+            'dateTo',
+            'totalEnrollments',
+            'completedEnrollments',
+            'activeEnrollments',
+            'avgProgress',
+            'courses',
+            'chartLabels',
+            'chartData',
+            'enrollments'
         ));
     }
 
@@ -102,7 +129,28 @@ class ReportController extends Controller
             ->orderByDesc('course_count')
             ->get();
 
-        return view('admin.reports.course', compact('courses', 'categoryStats'));
+        $totalCourses = Course::count();
+        $publishedCourses = Course::where('is_published', true)->count();
+        $avgRating = round(Course::avg('rating') ?? 0, 1);
+        $avgCompletion = round(Course::withCount('enrollments')->get()->avg('enrollments_count') > 0
+            ? Enrollment::where('is_completed', true)->count() / max(Enrollment::count(), 1) * 100
+            : 0, 1);
+
+        $courseStats = $courses->map(function ($c) {
+            return [
+                'title' => $c->title,
+                'teacher' => $c->teacher->name ?? 'N/A',
+                'enrollments' => $c->enrollments_count ?? 0,
+                'completion_rate' => $c->enrollments_count > 0 ? round(($c->completed_enrollments ?? 0) / $c->enrollments_count * 100) : 0,
+                'rating' => round($c->rating ?? 0, 1),
+                'revenue' => ($c->price ?? 0) * ($c->enrollments_count ?? 0),
+            ];
+        });
+
+        $chartLabels = $categoryStats->pluck('category_name')->toArray();
+        $chartData = $categoryStats->pluck('course_count')->toArray();
+
+        return view('admin.reports.course', compact('courses', 'categoryStats', 'totalCourses', 'publishedCourses', 'avgRating', 'avgCompletion', 'courseStats', 'chartLabels', 'chartData'));
     }
 
     public function studentReport(Request $request)
@@ -135,7 +183,36 @@ class ReportController extends Controller
         $topStudents = $students->sortByDesc('xp_points')->take(10);
 
         $averageXp = $students->avg('xp_points');
+        $totalStudents = $students->count();
+        $avgXp = round($averageXp ?? 0);
+        $avgLevel = round($students->avg('level') ?? 1, 1);
+        $activeStudents = User::where('role', 'student')->where('is_active', true)
+            ->where('updated_at', '>=', now()->subDays(30))->count();
 
-        return view('admin.reports.student', compact('students', 'topStudents', 'averageXp'));
+        $studentStats = $students->map(function ($s) {
+            return [
+                'id' => $s->id,
+                'name' => $s->name,
+                'school' => $s->school->name ?? 'N/A',
+                'grade' => $s->grade ?? 'N/A',
+                'xp' => $s->xp_points ?? 0,
+                'level' => $s->level ?? 1,
+                'courses_count' => $s->enrollments_count ?? 0,
+                'completion_rate' => $s->enrollments_count > 0 ? round(($s->completed_enrollments ?? 0) / $s->enrollments_count * 100) : 0,
+            ];
+        });
+
+        $gradeLabels = $students->pluck('grade')->filter()->unique()->values()->toArray();
+        $gradeData = $gradeLabels->map(fn($g) => $students->where('grade', $g)->count())->toArray();
+
+        $topStudentNames = $topStudents->pluck('name')->toArray();
+        $topStudentXp = $topStudents->pluck('xp_points')->toArray();
+
+        return view('admin.reports.student', compact(
+            'students', 'topStudents', 'averageXp',
+            'totalStudents', 'avgXp', 'avgLevel', 'activeStudents',
+            'studentStats', 'gradeLabels', 'gradeData',
+            'topStudentNames', 'topStudentXp'
+        ));
     }
 }

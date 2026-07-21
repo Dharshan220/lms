@@ -50,11 +50,31 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        $monthlyEnrollments = Enrollment::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+        $monthlyEnrollments = Enrollment::selectRaw('EXTRACT(MONTH FROM created_at) as month, COUNT(*) as count')
             ->whereYear('created_at', now()->year)
             ->groupBy('month')
             ->orderBy('month')
             ->get();
+
+        $activeCourses = $courseStats['published'];
+
+        $chartLabels = $monthlyEnrollments->pluck('month')->map(fn($m) => \Carbon\Carbon::create()->month($m)->format('M'))->toArray();
+        $chartData = $monthlyEnrollments->pluck('count')->toArray();
+
+        $recentActivities = collect()
+            ->concat($recentEnrollments->take(5)->map(fn($e) => [
+                'message' => ($e->user->name ?? 'Someone') . ' enrolled in ' . ($e->course->title ?? 'a course'),
+                'timestamp' => $e->created_at,
+            ]))
+            ->concat($recentUsers->take(5)->map(fn($u) => [
+                'message' => ($u->name ?? 'Someone') . ' joined as ' . ucfirst($u->role ?? 'user'),
+                'timestamp' => $u->created_at,
+            ]))
+            ->sortByDesc('timestamp')
+            ->take(10)
+            ->map(fn($a) => ['message' => $a['message'], 'time' => $a['timestamp']?->diffForHumans() ?? ''])
+            ->values()
+            ->all();
 
         return view('admin.dashboard', compact(
             'totalStudents',
@@ -69,7 +89,11 @@ class DashboardController extends Controller
             'courseStats',
             'enrollmentStats',
             'popularCourses',
-            'monthlyEnrollments'
+            'monthlyEnrollments',
+            'activeCourses',
+            'chartLabels',
+            'chartData',
+            'recentActivities'
         ));
     }
 }

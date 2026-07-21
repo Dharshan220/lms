@@ -92,7 +92,7 @@
                             <div class="mb-3">
                                 <label for="difficulty_level" class="form-label fw-semibold">Difficulty Level</label>
                                 <select name="difficulty_level" id="difficulty_level" class="form-select">
-                                    @foreach(['easy', 'medium', 'hard'] as $level)
+                                    @foreach(['beginner', 'intermediate', 'advanced'] as $level)
                                         <option value="{{ $level }}" {{ old('difficulty_level', $stemKit->difficulty_level) == $level ? 'selected' : '' }}>{{ ucfirst($level) }}</option>
                                     @endforeach
                                 </select>

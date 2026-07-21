@@ -32,13 +32,7 @@
         width: 44px;
         height: 44px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #FF6B35, #9B59B6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-weight: 800;
-        font-size: 16px;
+        object-fit: cover;
     }
 
     .ns-auth-logo span {
@@ -162,7 +156,7 @@
 <div class="ns-auth-wrapper">
     <div class="ns-auth-card">
         <a href="{{ url('/') }}" class="ns-auth-logo">
-            <div class="ns-logo-icon">NS</div>
+            <img src="{{ asset('images/nano-spark-logo.jpg') }}" alt="Nano Spark" class="ns-logo-icon">
             <span>Nano Spark</span>
         </a>
 

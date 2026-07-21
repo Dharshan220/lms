@@ -20,7 +20,7 @@ class Enrollment extends Model
     protected $casts = [
         'enrolled_at' => 'datetime',
         'completed_at' => 'datetime',
-        'progress_percentage' => 'decimal:2',
+        'progress_percentage' => 'integer',
         'is_completed' => 'boolean',
     ];
 

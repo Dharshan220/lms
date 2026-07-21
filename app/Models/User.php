@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,11 +37,6 @@ class User extends Authenticatable
         'avatar',
         'phone',
         'date_of_birth',
-        'gender',
-        'address',
-        'city',
-        'state',
-        'pincode',
         'is_active',
         'email_verified_at',
         'last_login_at',
@@ -50,6 +44,7 @@ class User extends Authenticatable
         'level',
         'daily_streak',
         'grade',
+        'dark_mode',
     ];
 
     protected $hidden = [
@@ -65,6 +60,8 @@ class User extends Authenticatable
         'is_active' => 'boolean',
         'xp_points' => 'integer',
         'level' => 'integer',
+        'daily_streak' => 'integer',
+        'dark_mode' => 'boolean',
     ];
 
     public function school(): BelongsTo

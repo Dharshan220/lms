@@ -50,7 +50,19 @@ class DashboardController extends Controller
             ];
         });
 
-        return view('parent.dashboard', compact('childrenData'));
+        $activeCourses = $childrenData->sum('total_courses') - $childrenData->sum('completed_courses');
+        $averageProgress = $childrenData->count() > 0
+            ? round($childrenData->avg('avg_progress'), 1)
+            : 0;
+
+        $stats = [
+            'children_count' => $children->count(),
+            'active_courses' => $activeCourses,
+            'average_progress' => $averageProgress,
+            'certificates_earned' => $childrenData->sum('completed_courses'),
+        ];
+
+        return view('parent.dashboard', compact('childrenData', 'children', 'stats'));
     }
 
     public function childProgress(Request $request, $childId)
@@ -78,14 +90,34 @@ class DashboardController extends Controller
         $totalXp = $child->xp_points;
         $currentLevel = $child->level;
 
+        $completedCourses = $enrollments->where('is_completed', true)->count();
+
+        $stats = [
+            'coursesEnrolled' => $enrollments->count(),
+            'coursesCompleted' => $completedCourses,
+            'totalXp' => $totalXp,
+            'level' => $currentLevel,
+            'streak' => $child->daily_streak ?? 0,
+            'badgesCount' => $badges->count(),
+            'lessonsCompleted' => $lessonsCompleted,
+            'quizAverage' => $quizAttempts->isNotEmpty()
+                ? round($quizAttempts->avg('score') / max($quizAttempts->avg('total_marks'), 1) * 100, 1)
+                : 0,
+        ];
+
+        $gradeReport = null;
+        $activities = collect();
+        $attendance = null;
+
         return view('parent.child-progress', compact(
             'child',
             'enrollments',
             'quizAttempts',
             'badges',
-            'lessonsCompleted',
-            'totalXp',
-            'currentLevel'
+            'stats',
+            'gradeReport',
+            'activities',
+            'attendance'
         ));
     }
 }

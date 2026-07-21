@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $student = $request->user();
 
         $enrollments = Enrollment::where('user_id', $student->id)
-            ->with('course')
+            ->with(['course.teacher', 'course.category'])
             ->latest()
             ->get();
 

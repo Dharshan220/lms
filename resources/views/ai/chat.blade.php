@@ -1,289 +1,646 @@
-@extends('layouts.app')
-
-@section('title', 'AI Tutor - Nano Spark')
-
-@section('content')
-@push('styles')
-<style>
-    .chat-container { height: calc(100vh - 160px); min-height: 500px; }
-    .chat-sidebar { border-right: 1px solid #e9ecef; }
-    .chat-history-item { cursor: pointer; transition: background 0.2s; border-left: 3px solid transparent; }
-    .chat-history-item:hover, .chat-history-item.active { background: #f8f9fa; border-left-color: #667eea; }
-    .chat-messages { overflow-y: auto; scroll-behavior: smooth; }
-    .chat-bubble { max-width: 75%; padding: 12px 16px; border-radius: 18px; margin-bottom: 12px; word-wrap: break-word; line-height: 1.5; }
-    .chat-bubble.user { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
-    .chat-bubble.ai { background: #f1f3f5; color: #212529; margin-right: auto; border-bottom-left-radius: 4px; }
-    .chat-bubble.ai pre { background: #1e1e2e; color: #cdd6f4; padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
-    .chat-bubble.ai code { font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85rem; }
-    .chat-bubble.ai p code { background: #e9ecef; padding: 2px 6px; border-radius: 4px; color: #e83e8c; }
-    .typing-indicator { display: flex; gap: 4px; padding: 8px 0; }
-    .typing-indicator span { width: 8px; height: 8px; border-radius: 50%; background: #adb5bd; animation: typing 1.4s infinite ease-in-out; }
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typing { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-8px);opacity:1} }
-    .chat-tabs .nav-link { font-size: 0.85rem; font-weight: 600; }
-    .chat-tabs .nav-link.active { background: #667eea; color: #fff; border-color: #667eea; }
-    .chat-input-area { border-top: 1px solid #e9ecef; }
-    .chat-input-area textarea { resize: none; border-radius: 20px; }
-    .sidebar-overlay { display: none; }
-    @media (max-width: 767.98px) {
-        .chat-sidebar { position: fixed; left: -280px; top: 0; bottom: 0; width: 280px; z-index: 1050; background: #fff; transition: left 0.3s; }
-        .chat-sidebar.show { left: 0; }
-        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1040; }
-        .sidebar-overlay.show { display: block; }
-        .chat-bubble { max-width: 90%; }
-    }
-</style>
-@endpush
-
-<div class="px-3 px-md-4 py-4">
-    {{-- Header --}}
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-secondary d-md-none" onclick="toggleChatSidebar()">
-                <i class="bi bi-list"></i>
-            </button>
-            <div class="rounded bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:48px;height:48px;">
-                <i class="bi bi-robot text-primary" style="font-size:1.4rem;"></i>
-            </div>
-            <div>
-                <h4 class="fw-bold mb-0">AI Tutor</h4>
-                <p class="text-muted mb-0" style="font-size:0.8rem;">Your personal AI learning assistant</p>
-            </div>
-        </div>
-    </div>
-
-    {{-- Chat Type Tabs --}}
-    <ul class="nav nav-pills chat-tabs gap-2 mb-3">
-        <li class="nav-item">
-            <a class="nav-link active rounded-pill" href="#" onclick="switchChatType('tutor', this)">
-                <i class="bi bi-mortarboard me-1"></i> AI Tutor
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link rounded-pill" href="#" onclick="switchChatType('coding', this)">
-                <i class="bi bi-code-slash me-1"></i> Coding Assistant
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link rounded-pill" href="#" onclick="switchChatType('quiz', this)">
-                <i class="bi bi-question-circle me-1"></i> Quiz Generator
-            </a>
-        </li>
-    </ul>
-
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
-            <div class="chat-container d-flex">
-                {{-- Sidebar Overlay --}}
-                <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleChatSidebar()"></div>
-
-                {{-- Sidebar: Chat History --}}
-                <div class="chat-sidebar d-none d-md-flex flex-column" style="width:280px; flex-shrink:0;">
-                    <div class="p-3 border-bottom">
-                        <button class="btn btn-primary btn-sm w-100 rounded-pill" onclick="startNewChat()">
-                            <i class="bi bi-plus-lg me-1"></i> New Chat
-                        </button>
-                    </div>
-                    <div class="flex-grow-1 overflow-auto p-2">
-                        @if(isset($chats) && $chats->count())
-                            @foreach($chats as $chat)
-                                <div class="chat-history-item rounded p-2 mb-1">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="bi bi-chat-dots text-muted" style="font-size:0.85rem;"></i>
-                                        <div class="min-width-0 flex-grow-1">
-                                            <small class="fw-semibold text-truncate d-block">{{ Str::limit($chat->message, 30) }}</small>
-                                            <small class="text-muted" style="font-size:0.7rem;">{{ $chat->created_at?->diffForHumans() }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="text-center py-4">
-                                <i class="bi bi-chat-dots text-muted" style="font-size:1.5rem;"></i>
-                                <p class="text-muted mt-2 mb-0" style="font-size:0.8rem;">No chats yet</p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Main Chat Area --}}
-                <div class="flex-grow-1 d-flex flex-column">
-                    {{-- Messages --}}
-                    <div class="chat-messages flex-grow-1 p-3" id="chatMessages">
-                        <div class="chat-bubble ai">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <i class="bi bi-robot"></i>
-                                <small class="fw-bold">Nano AI</small>
-                            </div>
-                            <div>Hello! I'm your AI tutor. I can help you with your courses, explain concepts, generate quizzes, and more. What would you like to learn today?</div>
-                        </div>
-
-                        @if(isset($chats) && $chats->count())
-                            @foreach($chats as $chat)
-                                <div class="chat-bubble user">
-                                    <div>{{ nl2br(e($chat->message)) }}</div>
-                                </div>
-                                <div class="chat-bubble ai">
-                                    <div class="d-flex align-items-center gap-2 mb-1">
-                                        <i class="bi bi-robot"></i>
-                                        <small class="fw-bold">Nano AI</small>
-                                    </div>
-                                    <div>{!! nl2br(e($chat->response)) !!}</div>
-                                </div>
-                            @endforeach
-                        @endif
-
-                        {{-- Typing Indicator --}}
-                        <div class="chat-bubble ai" id="typingIndicator" style="display:none;">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <i class="bi bi-robot"></i>
-                                <small class="fw-bold">Nano AI</small>
-                            </div>
-                            <div class="typing-indicator">
-                                <span></span><span></span><span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Input Area --}}
-                    <div class="chat-input-area p-3">
-                        <form id="chatForm" onsubmit="sendMessage(event)">
-                            @csrf
-                            <input type="hidden" name="chat_type" id="chatType" value="tutor">
-                            <input type="hidden" name="chat_id" id="chatId" value="{{ $activeChatId ?? '' }}">
-                            <div class="d-flex gap-2 align-items-end">
-                                <div class="flex-grow-1 position-relative">
-                                    <textarea name="message" class="form-control" id="chatInput" rows="1"
-                                        placeholder="Type your question here..."
-                                        style="border-radius:20px; padding-right:50px; max-height:120px;"
-                                        onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
-                                    <button type="button" class="btn position-absolute" style="right:8px;bottom:8px;padding:4px 8px;color:#667eea;" onclick="document.getElementById('chatInput').focus()">
-                                        <i class="bi bi-paperclip"></i>
-                                    </button>
-                                </div>
-                                <button type="submit" class="btn btn-primary rounded-circle flex-shrink-0" id="sendBtn" style="width:44px;height:44px;">
-                                    <i class="bi bi-send-fill"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-<script>
-    const chatMessages = document.getElementById('chatMessages');
-    const chatForm = document.getElementById('chatForm');
-    const chatInput = document.getElementById('chatInput');
-    const typingIndicator = document.getElementById('typingIndicator');
-    const sendBtn = document.getElementById('sendBtn');
-
-    function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function autoResize(el) {
-        el.style.height = 'auto';
-        el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-    }
-
-    function handleKeyDown(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            chatForm.dispatchEvent(new Event('submit'));
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>AI Tutor - Nano Spark LMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    }
 
-    function switchChatType(type, el) {
-        document.getElementById('chatType').value = type;
-        document.querySelectorAll('.chat-tabs .nav-link').forEach(l => l.classList.remove('active'));
-        el.classList.add('active');
+        body {
+            background: #050505;
+            color: #FFFFFF;
+            font-family: 'IBM Plex Sans', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-        const placeholders = {
-            tutor: 'Ask your AI tutor anything...',
-            coding: 'Paste your code or describe your coding problem...',
-            quiz: 'Enter a topic to generate quiz questions...'
-        };
-        chatInput.placeholder = placeholders[type] || placeholders.tutor;
-    }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-    function startNewChat() {
-        @if(route('ai.chat.index'))
-            window.location.href = '{{ route("ai.chat.index") }}';
-        @endif
-    }
+        .chat-header {
+            background: #121212;
+            border-bottom: 1px solid #1a1a1a;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+        }
 
-    function loadChat(chatId) {
-        @if(route('ai.chat.index'))
-            window.location.href = '{{ route("ai.chat.index") }}?chat=' + chatId;
-        @endif
-    }
+        .chat-header .robot-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #FFD400 0%, #FFC000 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
 
-    function toggleChatSidebar() {
-        const sidebar = document.querySelector('.chat-sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
-    }
+        .chat-header .robot-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #050505;
+        }
 
-    function sendMessage(e) {
-        e.preventDefault();
-        const message = chatInput.value.trim();
-        if (!message) return;
+        .chat-header .branding {
+            display: flex;
+            flex-direction: column;
+        }
 
-        const userBubble = document.createElement('div');
-        userBubble.className = 'chat-bubble user';
-        userBubble.innerHTML = '<div>' + message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>') + '</div>';
+        .chat-header .branding h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFD400;
+            line-height: 1.2;
+        }
 
-        const typingEl = document.getElementById('typingIndicator');
-        chatMessages.insertBefore(userBubble, typingEl);
-        chatInput.value = '';
-        chatInput.style.height = 'auto';
-        typingEl.style.display = 'block';
-        scrollToBottom();
-        sendBtn.disabled = true;
+        .chat-header .branding span {
+            font-size: 12px;
+            color: #888888;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
 
-        const formData = new FormData(chatForm);
-        fetch('{{ route("ai.chat.send") }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: formData
-        })
-        .then(r => r.json())
-        .then(data => {
-            typingEl.style.display = 'none';
-            const aiBubble = document.createElement('div');
-            aiBubble.className = 'chat-bubble ai';
-            const response = data.response || data.message || 'Sorry, I could not process your request.';
-            let formatted = response.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
-            formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
-            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            formatted = formatted.replace(/\n/g, '<br>');
-            aiBubble.innerHTML = '<div class="d-flex align-items-center gap-2 mb-1"><i class="bi bi-robot"></i><small class="fw-bold">Nano AI</small></div><div>' + formatted + '</div>';
-            chatMessages.insertBefore(aiBubble, typingEl);
-            scrollToBottom();
-            if (data.chat_id) document.getElementById('chatId').value = data.chat_id;
-        })
-        .catch(() => {
-            typingEl.style.display = 'none';
-            const errBubble = document.createElement('div');
-            errBubble.className = 'chat-bubble ai';
-            errBubble.innerHTML = '<div class="d-flex align-items-center gap-2 mb-1"><i class="bi bi-robot"></i><small class="fw-bold">Nano AI</small></div><div>Sorry, something went wrong. Please try again.</div>';
-            chatMessages.insertBefore(errBubble, typingEl);
-            scrollToBottom();
-        })
-        .finally(() => { sendBtn.disabled = false; chatInput.focus(); });
-    }
+        .chat-header .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-left: auto;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
 
-    scrollToBottom();
-</script>
-@endpush
-@endsection
+        .chat-header .status-text {
+            font-size: 12px;
+            color: #888888;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 80%;
+            animation: message-in 0.3s ease-out;
+        }
+
+        @keyframes message-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .message.bot .message-avatar {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+        }
+
+        .message.user .message-avatar {
+            background: #2a2200;
+            border: 1px solid #FFD40044;
+        }
+
+        .message-avatar svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .message.bot .message-avatar svg {
+            fill: #FFD400;
+        }
+
+        .message.user .message-avatar svg {
+            fill: #FFD400;
+        }
+
+        .message-content {
+            padding: 14px 18px;
+            border-radius: 16px;
+            line-height: 1.65;
+            font-size: 14px;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .message.bot .message-content {
+            background: #121212;
+            border: 1px solid #1a1a1a;
+            color: #CFCFCF;
+            border-top-left-radius: 4px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #FFD400 0%, #FFC000 100%);
+            color: #050505;
+            font-weight: 500;
+            border-top-right-radius: 4px;
+        }
+
+        .message-content pre {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #FFD400;
+        }
+
+        .message-content code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #FFD400;
+        }
+
+        .message-content pre code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: #FFD400;
+        }
+
+        .message-content p {
+            margin-bottom: 8px;
+        }
+
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-content ul, .message-content ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .message-content li {
+            margin-bottom: 4px;
+        }
+
+        .message-content strong {
+            color: #FFD400;
+            font-weight: 600;
+        }
+
+        .message.user .message-content strong {
+            color: #050505;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 6px 0;
+        }
+
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            background: #FFD400;
+            border-radius: 50%;
+            animation: typing-bounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing-bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .chat-input-area {
+            background: #121212;
+            border-top: 1px solid #1a1a1a;
+            padding: 18px 24px;
+            flex-shrink: 0;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 14px;
+            padding: 8px 8px 8px 18px;
+            transition: border-color 0.2s ease;
+        }
+
+        .chat-input-wrapper:focus-within {
+            border-color: #FFD40066;
+        }
+
+        .chat-input-wrapper textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: none;
+            max-height: 120px;
+            padding: 8px 0;
+        }
+
+        .chat-input-wrapper textarea::placeholder {
+            color: #888888;
+        }
+
+        .send-button {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #FFD400 0%, #FFC000 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #FFD40033;
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        .send-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .send-button svg {
+            width: 20px;
+            height: 20px;
+            fill: #050505;
+        }
+
+        .welcome-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 24px;
+            gap: 16px;
+        }
+
+        .welcome-message .welcome-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #FFD40022 0%, #FFD40008 100%);
+            border: 1px solid #FFD40033;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-message .welcome-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: #FFD400;
+        }
+
+        .welcome-message h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 22px;
+            color: #FFD400;
+        }
+
+        .welcome-message p {
+            color: #888888;
+            font-size: 14px;
+            max-width: 420px;
+            line-height: 1.6;
+        }
+
+        .welcome-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .welcome-suggestions button {
+            background: #121212;
+            border: 1px solid #1a1a1a;
+            color: #CFCFCF;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .welcome-suggestions button:hover {
+            border-color: #FFD40066;
+            color: #FFD400;
+            background: #1a1a1a;
+        }
+
+        @media (max-width: 640px) {
+            .message {
+                max-width: 90%;
+            }
+            .chat-messages {
+                padding: 16px;
+            }
+            .chat-input-area {
+                padding: 14px 16px;
+            }
+            .chat-header {
+                padding: 14px 16px;
+            }
+            .welcome-message {
+                padding: 40px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" x-data="chatApp()">
+        <div class="chat-header">
+            <div class="robot-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7.001 7.001 0 0 1 7.07 19H6a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M9.5 14a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></svg>
+            </div>
+            <div class="branding">
+                <h1>Nano AI Tutor</h1>
+                <span>Always here to help you learn</span>
+            </div>
+            <div class="status-dot"></div>
+            <span class="status-text">Online</span>
+        </div>
+
+        <div class="chat-messages" x-ref="messagesContainer" @scroll="handleScroll">
+            <template x-if="messages.length === 0">
+                <div class="welcome-message">
+                    <div class="welcome-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7.001 7.001 0 0 1 7.07 19H6a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M9.5 14a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></svg>
+                    </div>
+                    <h2>Welcome to Nano AI Tutor</h2>
+                    <p>Your personal AI learning assistant. Ask me anything about programming, science, math, or any topic you need help with.</p>
+                    <div class="welcome-suggestions">
+                        <button @click="sendSuggestion('Explain Python list comprehension')">Python Lists</button>
+                        <button @click="sendSuggestion('What is a binary search tree?')">Data Structures</button>
+                        <button @click="sendSuggestion('Help me understand CSS Flexbox')">CSS Flexbox</button>
+                        <button @click="sendSuggestion('Explain the CAP theorem')">Databases</button>
+                    </div>
+                </div>
+            </template>
+
+            <template x-for="(msg, index) in messages" :key="index">
+                <div class="message" :class="msg.role">
+                    <div class="message-avatar">
+                        <template x-if="msg.role === 'bot'">
+                            <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7.001 7.001 0 0 1 7.07 19H6a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M9.5 14a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></svg>
+                        </template>
+                        <template x-if="msg.role === 'user'">
+                            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4"/></svg>
+                        </template>
+                    </div>
+                    <div class="message-content" x-html="renderMarkdown(msg.content)"></div>
+                </div>
+            </template>
+
+            <template x-if="loading">
+                <div class="message bot">
+                    <div class="message-avatar">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7.001 7.001 0 0 1 7.07 19H6a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M9.5 14a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></svg>
+                    </div>
+                    <div class="message-content">
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+                <textarea
+                    x-model="userInput"
+                    @keydown.enter.prevent="if (!$event.shiftKey) sendMessage()"
+                    placeholder="Ask Nano AI Tutor anything..."
+                    rows="1"
+                    x-ref="inputField"
+                    @input="autoResize($event.target)"
+                ></textarea>
+                <button
+                    class="send-button"
+                    @click="sendMessage()"
+                    :disabled="loading || userInput.trim() === ''"
+                    title="Send message"
+                >
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function chatApp() {
+            return {
+                messages: [],
+                userInput: '',
+                loading: false,
+
+                async sendMessage() {
+                    const text = this.userInput.trim();
+                    if (!text || this.loading) return;
+
+                    this.messages.push({ role: 'user', content: text });
+                    this.userInput = '';
+                    this.loading = true;
+                    this.$nextTick(() => this.scrollToBottom());
+
+                    if (this.$refs.inputField) {
+                        this.$refs.inputField.style.height = 'auto';
+                    }
+
+                    try {
+                        const response = await fetch('{{ route("ai.chat.send") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Accept': 'application/json',
+                            },
+                            body: JSON.stringify({ message: text }),
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.reply) {
+                            this.messages.push({ role: 'bot', content: data.reply });
+                        } else {
+                            const errorMsg = data.message || data.error || 'Sorry, something went wrong. Please try again.';
+                            this.messages.push({ role: 'bot', content: errorMsg });
+                        }
+                    } catch (err) {
+                        this.messages.push({
+                            role: 'bot',
+                            content: 'Network error. Please check your connection and try again.'
+                        });
+                    } finally {
+                        this.loading = false;
+                        this.$nextTick(() => this.scrollToBottom());
+                    }
+                },
+
+                sendSuggestion(text) {
+                    this.userInput = text;
+                    this.sendMessage();
+                },
+
+                scrollToBottom() {
+                    const container = this.$refs.messagesContainer;
+                    if (container) {
+                        container.scrollTop = container.scrollHeight;
+                    }
+                },
+
+                handleScroll() {},
+
+                autoResize(el) {
+                    el.style.height = 'auto';
+                    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+                },
+
+                renderMarkdown(text) {
+                    if (!text) return '';
+                    let html = text;
+
+                    // Code blocks with language tag
+                    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, function (match, lang, code) {
+                        const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        return '<pre><code class="language-' + lang + '">' + escaped + '</code></pre>';
+                    });
+
+                    // Inline code
+                    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+                    // Bold
+                    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+                    // Italic
+                    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+                    // Unordered lists
+                    html = html.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+                    html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
+                    // Line breaks to paragraphs
+                    html = html.split(/\n\n+/).map(function (block) {
+                        block = block.trim();
+                        if (!block) return '';
+                        if (block.startsWith('<pre>') || block.startsWith('<ul>') || block.startsWith('<ol>')) return block;
+                        return '<p>' + block.replace(/\n/g, '<br>') + '</p>';
+                    }).join('');
+
+                    return html;
+                }
+            };
+        }
+    </script>
+</body>
+</html>

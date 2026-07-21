@@ -121,7 +121,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold">{{ $quiz->title ?? 'Quiz' }}</div>
-                                        <small class="text-muted">{{ $quiz->questions_count ?? $quiz->questions->count() ?? 0 }} questions &middot; {{ $quiz->time_limit ?? 0 }} min</small>
+                                        <small class="text-muted">{{ $quiz->questions_count ?? $quiz->questions->count() ?? 0 }} questions &middot; {{ $quiz->time_limit_minutes ?? $quiz->time_limit ?? 0 }} min</small>
                                     </div>
                                 </div>
                             @empty

@@ -69,7 +69,7 @@
                             <select name="parent_id" id="parent_id"
                                     class="form-select @error('parent_id') is-invalid @enderror">
                                 <option value="">None (Top Level)</option>
-                                @foreach($categories ?? [] as $cat)
+                                @foreach($parentCategories ?? [] as $cat)
                                     @if($cat->id !== $category->id)
                                         <option value="{{ $cat->id }}" {{ old('parent_id', $category->parent_id) == $cat->id ? 'selected' : '' }}>
                                             {{ $cat->name }}

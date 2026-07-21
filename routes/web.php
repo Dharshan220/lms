@@ -136,6 +136,7 @@ Route::middleware(['auth', 'verified', 'darkmode'])->group(function () {
 
         Route::resource('courses', TeacherCourseController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update']);
         Route::post('/courses/{course}/lessons', [TeacherLessonController::class, 'store'])->name('lessons.store');
+        Route::get('/courses/{course}/lessons/{lesson}/edit', [TeacherLessonController::class, 'edit'])->name('lessons.edit');
         Route::put('/courses/{course}/lessons/{lesson}', [TeacherLessonController::class, 'update'])->name('lessons.update');
         Route::delete('/courses/{course}/lessons/{lesson}', [TeacherLessonController::class, 'destroy'])->name('lessons.destroy');
 
@@ -186,13 +187,13 @@ Route::middleware(['auth', 'verified', 'darkmode'])->group(function () {
             return view('student.quizzes.index', compact('quizzes'));
         })->name('quizzes.index');
 
-        Route::get('/discussions', [DiscussionController::class, 'index'])->name('discussions.index');
+        Route::get('/discussions', [DiscussionController::class, 'index'])->name('student.discussions.index');
 
         Route::get('/badges', function () {
             $student = auth()->user();
-            $badges = \App\Models\Badge::all();
+            $allBadges = \App\Models\Badge::all();
             $earnedBadgeIds = $student->badges()->pluck('badge_id');
-            return view('student.badges', compact('badges', 'earnedBadgeIds'));
+            return view('student.badges', ['allBadgesList' => $allBadges, 'earnedBadgeIds' => $earnedBadgeIds, 'badges' => $allBadges]);
         })->name('badges');
 
         Route::get('/leaderboard', function () {
@@ -207,9 +208,9 @@ Route::middleware(['auth', 'verified', 'darkmode'])->group(function () {
             return view('student.learning-paths.index', compact('learningPaths'));
         })->name('learning-paths');
 
-        Route::get('/profile', [StudentProfileController::class, 'show'])->name('profile.show');
-        Route::get('/profile/edit', [StudentProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [StudentProfileController::class, 'update'])->name('profile.update');
+        Route::get('/profile', [StudentProfileController::class, 'show'])->name('student.profile.show');
+        Route::get('/profile/edit', [StudentProfileController::class, 'edit'])->name('student.profile.edit');
+        Route::patch('/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     });
 
     /*

@@ -51,6 +51,7 @@ class ProfileController extends Controller
                 return redirect()->back()->with('error', 'Current password is incorrect.');
             }
             $validated['password'] = Hash::make($validated['password']);
+            unset($validated['current_password']);
         } else {
             unset($validated['password'], $validated['current_password']);
         }

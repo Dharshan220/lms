@@ -62,6 +62,14 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        $courses = $coursesWithStats;
+        $pendingAssignments = $teacher->assignments()
+            ->withCount('submissions')
+            ->whereHas('submissions', function ($q) {
+                $q->where('status', 'pending');
+            })
+            ->get();
+
         return view('teacher.dashboard', compact(
             'totalCourses',
             'publishedCourses',
@@ -69,8 +77,10 @@ class DashboardController extends Controller
             'totalEnrollments',
             'totalRevenue',
             'pendingSubmissions',
+            'pendingAssignments',
             'upcomingClasses',
             'recentEnrollments',
+            'courses',
             'coursesWithStats'
         ));
     }

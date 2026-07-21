@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+docker
+vercel.json
+api/
+tests/
+.idea/
+.vscode/
+*.md

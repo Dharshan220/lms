@@ -87,7 +87,7 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        $course->load(['teacher', 'category', 'school', 'lessons', 'quizzes', 'assignments']);
+        $course->load(['teacher', 'category', 'school', 'lessons', 'quizzes', 'assignments', 'enrollments.user']);
 
         $enrollmentsCount = $course->enrollments()->count();
         $completedCount = $course->enrollments()->where('is_completed', true)->count();

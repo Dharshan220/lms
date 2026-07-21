@@ -14,26 +14,35 @@ class SettingController extends Controller
 
         $grouped = $settings->groupBy('group');
 
-        return view('admin.settings.index', compact('settings', 'grouped'));
+        $settingsArray = $settings->pluck('value', 'key')->toArray();
+
+        return view('admin.settings.index', ['settings' => $settingsArray, 'grouped' => $grouped]);
     }
 
     public function update(Request $request)
     {
-        $validated = $request->validate([
-            'settings' => 'required|array',
-            'settings.*.key' => 'required|string',
-            'settings.*.value' => 'nullable|string',
-            'settings.*.type' => 'required|in:string,integer,float,boolean,json',
-            'settings.*.group' => 'required|string',
-        ]);
+        $group = $request->input('group', 'general');
 
-        foreach ($validated['settings'] as $setting) {
-            Setting::setValue(
-                $setting['key'],
-                $setting['value'],
-                $setting['type'],
-                $setting['group']
-            );
+        $flatKeys = collect($request->except(['_token', 'group']))
+            ->filter(fn ($value, $key) => !in_array($key, ['logo', 'favicon']));
+
+        foreach ($flatKeys as $key => $value) {
+            $type = 'string';
+            if (is_bool($value)) $type = 'boolean';
+            elseif (is_numeric($value)) $type = 'integer';
+            elseif (is_array($value)) $type = 'json';
+
+            Setting::setValue($key, $value, $type, $group);
+        }
+
+        if ($request->hasFile('logo')) {
+            $path = $request->file('logo')->store('logos', 'public');
+            Setting::setValue('logo', $path, 'string', 'appearance');
+        }
+
+        if ($request->hasFile('favicon')) {
+            $path = $request->file('favicon')->store('favicons', 'public');
+            Setting::setValue('favicon', $path, 'string', 'appearance');
         }
 
         return redirect()->route('admin.settings.index')
