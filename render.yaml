@@ -46,6 +46,12 @@ services:
         value: sync
       - key: LOG_CHANNEL
         value: stderr
+      - key: MAIL_MAILER
+        value: resend
+      - key: MAIL_FROM_ADDRESS
+        value: hello@nanospark.com
+      - key: MAIL_FROM_NAME
+        value: "Nano Spark LMS"
 
 databases:
   - name: nanospark-db
