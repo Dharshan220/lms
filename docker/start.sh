@@ -9,16 +9,20 @@ ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 sed -i "s/listen 80;/listen ${PORT:-80};/g" /etc/nginx/sites-available/default
 
+# Ensure storage dirs exist
+mkdir -p storage/framework/{cache,sessions,views} storage/logs bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 
-php artisan storage:link || true
+php artisan storage:link 2>/dev/null || true
 
-php artisan config:cache || true
-php artisan route:cache || true
-php artisan view:cache || true
+# Cache config (allow failure if env vars not ready)
+php artisan config:cache 2>/dev/null || true
+php artisan route:cache 2>/dev/null || true
+php artisan view:cache 2>/dev/null || true
 
-php artisan migrate --force
-php artisan db:seed --force || true
+# Run migrations (allow failure so nginx still starts)
+php artisan migrate --force 2>/dev/null || echo "Migration failed - will retry on next deploy"
+php artisan db:seed --force 2>/dev/null || true
 php -r "
 require __DIR__.'/vendor/autoload.php';
 \$app = require_once __DIR__.'/bootstrap/app.php';
