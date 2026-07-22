@@ -570,10 +570,10 @@
 
                         const data = await response.json();
 
-                        if (response.ok && data.reply) {
-                            this.messages.push({ role: 'bot', content: data.reply });
+                        if (response.ok && data.response) {
+                            this.messages.push({ role: 'bot', content: data.response });
                         } else {
-                            const errorMsg = data.message || data.error || 'Sorry, something went wrong. Please try again.';
+                            const errorMsg = data.message || data.error || 'AI Tutor is temporarily unavailable. Please try again in a moment.';
                             this.messages.push({ role: 'bot', content: errorMsg });
                         }
                     } catch (err) {

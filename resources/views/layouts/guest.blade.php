@@ -13,7 +13,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
@@ -22,8 +22,8 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
-            background: #050505;
+            font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #121212;
             color: #FFFFFF;
             min-height: 100vh;
             overflow-x: hidden;
@@ -35,13 +35,14 @@
             display: flex; align-items: center; justify-content: space-between;
             z-index: 1000;
             backdrop-filter: blur(20px);
-            background: rgba(5, 5, 5, 0.7);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(18, 18, 18, 0.7);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             transition: all 0.3s;
         }
         .ns-guest-nav.scrolled {
-            background: rgba(5, 5, 5, 0.95);
-            border-bottom: 1px solid rgba(255, 212, 0, 0.1);
+            background: rgba(18, 18, 18, 0.95);
+            border-bottom: 1px solid rgba(255, 193, 7, 0.1);
         }
 
         .ns-guest-brand {
@@ -52,12 +53,13 @@
             width: 40px; height: 40px;
             border-radius: 12px;
             object-fit: cover;
-            box-shadow: 0 0 16px rgba(255, 212, 0, 0.3);
+            box-shadow: 0 0 16px rgba(255, 193, 7, 0.3);
         }
         .ns-guest-brand .brand-text {
-            font-family: 'Space Mono', monospace;
+            font-family: 'Poppins', 'Inter', sans-serif;
             font-size: 20px; font-weight: 700;
-            color: #FFD400;
+            color: #FFC107;
+            letter-spacing: -0.3px;
         }
 
         .ns-guest-links {
@@ -69,11 +71,11 @@
             text-decoration: none; transition: color 0.2s;
             position: relative;
         }
-        .ns-guest-links a:hover { color: #FFD400; }
+        .ns-guest-links a:hover { color: #FFC107; }
         .ns-guest-links a::after {
             content: ''; position: absolute;
             bottom: -4px; left: 0; width: 0; height: 2px;
-            background: #FFD400; transition: width 0.3s;
+            background: #FFC107; transition: width 0.3s;
         }
         .ns-guest-links a:hover::after { width: 100%; }
 
@@ -85,27 +87,27 @@
             border-radius: 12px; text-decoration: none;
             transition: all 0.2s;
         }
-        .ns-guest-btn-login:hover { color: #FFD400; border-color: rgba(255, 212, 0, 0.3); }
+        .ns-guest-btn-login:hover { color: #FFC107; border-color: rgba(255, 193, 7, 0.3); }
         .ns-guest-btn-register {
             padding: 10px 24px; font-size: 14px; font-weight: 700;
-            color: #050505;
-            background: linear-gradient(135deg, #FFD400, #FF9800);
+            color: #0D0D0D;
+            background: linear-gradient(135deg, #FFC107, #FF9800);
             border: none; border-radius: 12px; text-decoration: none;
-            box-shadow: 0 2px 12px rgba(255, 212, 0, 0.3);
+            box-shadow: 0 2px 12px rgba(255, 193, 7, 0.3);
             transition: all 0.2s;
         }
         .ns-guest-btn-register:hover {
-            box-shadow: 0 4px 20px rgba(255, 212, 0, 0.5);
-            transform: translateY(-1px); color: #050505;
+            box-shadow: 0 4px 20px rgba(255, 193, 7, 0.5);
+            transform: translateY(-1px); color: #0D0D0D;
         }
 
         .ns-guest-mobile-toggle {
             display: none; background: none; border: none;
-            color: #FFD400; font-size: 24px; cursor: pointer;
+            color: #FFC107; font-size: 24px; cursor: pointer;
         }
 
         .ns-guest-footer {
-            background: #0B0B0B;
+            background: #0D0D0D;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding: 64px 40px 24px;
         }
@@ -115,15 +117,15 @@
         }
         .footer-brand-text { color: #888888; font-size: 14px; line-height: 1.7; margin-top: 12px; }
         .footer-heading {
-            font-family: 'Space Mono', monospace;
-            font-size: 12px; font-weight: 700;
+            font-family: 'Inter', 'Poppins', sans-serif;
+            font-size: 12px; font-weight: 600;
             color: #CFCFCF; text-transform: uppercase;
             letter-spacing: 1.5px; margin-bottom: 16px;
         }
         .footer-links { list-style: none; padding: 0; margin: 0; }
         .footer-links li { margin-bottom: 10px; }
         .footer-links a { color: #888888; font-size: 14px; text-decoration: none; transition: color 0.2s; }
-        .footer-links a:hover { color: #FFD400; }
+        .footer-links a:hover { color: #FFC107; }
         .footer-social { display: flex; gap: 12px; margin-top: 20px; }
         .footer-social a {
             width: 36px; height: 36px; border-radius: 10px;
@@ -132,7 +134,7 @@
             display: flex; align-items: center; justify-content: center;
             color: #888888; font-size: 18px; transition: all 0.2s; text-decoration: none;
         }
-        .footer-social a:hover { background: rgba(255, 212, 0, 0.1); border-color: rgba(255, 212, 0, 0.3); color: #FFD400; }
+        .footer-social a:hover { background: rgba(255, 193, 7, 0.1); border-color: rgba(255, 193, 7, 0.3); color: #FFC107; }
         .footer-bottom {
             max-width: 1200px; margin: 32px auto 0;
             padding-top: 20px;

@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
+use App\Notifications\NewDeviceLogin;
+use App\Notifications\VerifyEmailNotification;
+use App\Notifications\WelcomeEmail;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -40,6 +45,7 @@ class User extends Authenticatable
         'is_active',
         'email_verified_at',
         'last_login_at',
+        'last_login_ip',
         'xp_points',
         'level',
         'daily_streak',
@@ -186,5 +192,25 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return in_array($this->role, [self::ROLE_SUPER_ADMIN, self::ROLE_SCHOOL_ADMIN]);
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword($token));
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmailNotification());
+    }
+
+    public function sendWelcomeNotification(): void
+    {
+        $this->notify(new WelcomeEmail());
+    }
+
+    public function sendNewDeviceLoginNotification(string $ip, string $userAgent): void
+    {
+        $this->notify(new NewDeviceLogin($ip, $userAgent, now()->format('F j, Y, g:i A T')));
     }
 }

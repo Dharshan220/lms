@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Ai;
 
 use App\Http\Controllers\Controller;
 use App\Models\AiChatHistory;
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('throttle:30,1')->only('chat');
+    }
+
     public function index(Request $request)
     {
         $chats = AiChatHistory::where('user_id', $request->user()->id)
@@ -28,61 +34,74 @@ class ChatController extends Controller
         ]);
 
         $user = $request->user();
-        $apiKey = config('services.gemini.key', env('GEMINI_API_KEY'));
-        $openaiKey = config('services.openai.key', env('OPENAI_API_KEY'));
 
-        $systemPrompt = "You are NanoSpark AI, an intelligent learning assistant for the NanoSpark LMS platform. " .
-            "You help students understand concepts, solve problems, generate quiz questions, and provide learning recommendations. " .
-            "Be educational, encouraging, and clear in your responses. " .
-            "Format your responses with proper markdown for readability.";
+        $systemPrompt = "You are NanoSpark AI, an intelligent learning assistant for the NanoSpark LMS platform. "
+            . "You help students understand concepts, solve problems, generate quiz questions, and provide learning recommendations. "
+            . "Be educational, encouraging, and clear in your responses. "
+            . "Explain concepts step-by-step. "
+            . "Adapt explanations to the student's level. "
+            . "Ask guiding questions instead of always giving direct answers. "
+            . "Provide examples when helpful. "
+            . "Help with IoT, Embedded Systems, electronics, C programming, Python, Arduino, ESP8266/ESP32, "
+            . "Raspberry Pi, basic robotics, VLSI, semiconductor fundamentals, mathematics, and engineering subjects. "
+            . "Generate quizzes when requested. "
+            . "Explain incorrect answers. "
+            . "Generate practice questions. "
+            . "Create study plans when requested. "
+            . "Be friendly and encouraging. "
+            . "Avoid unnecessarily complicated language. "
+            . "Never claim to be a human teacher. "
+            . "Clearly state uncertainty when information is uncertain. "
+            . "Never fabricate facts. "
+            . "Encourage students to understand concepts rather than blindly copy answers. "
+            . "Format responses with proper markdown for readability.";
 
         $recentChats = AiChatHistory::where('user_id', $user->id)
             ->latest()
             ->take(10)
             ->get()
-            ->pluck('message', 'response')
-            ->flatten()
-            ->toArray();
+            ->reverse();
 
         $messages = [
             ['role' => 'system', 'content' => $systemPrompt],
         ];
 
-        foreach ($recentChats as $i => $chat) {
-            if (isset($chat['message'])) {
-                $messages[] = ['role' => 'user', 'content' => $chat['message'] ?? ''];
-            }
+        foreach ($recentChats as $chat) {
+            $messages[] = ['role' => 'user', 'content' => $chat->message];
+            $messages[] = ['role' => 'assistant', 'content' => $chat->response];
         }
 
         $messages[] = ['role' => 'user', 'content' => $validated['message']];
 
         $responseText = null;
+        $gemini = new GeminiService();
 
-        if (!empty($apiKey)) {
-            $responseText = $this->callGemini($apiKey, $messages);
-        } elseif (!empty($openaiKey)) {
-            $responseText = $this->callOpenAI($openaiKey, $messages);
-        } else {
-            $responseText = $this->builtInResponse($validated['message'], $validated['chat_type'] ?? 'general');
+        if ($gemini->isConfigured()) {
+            $responseText = $gemini->generateResponse($messages);
         }
 
         if ($responseText === null) {
-            return response()->json([
-                'error' => 'Failed to get response from AI service. Please try again.',
-            ], 500);
+            $responseText = $this->builtInResponse($validated['message'], $validated['chat_type'] ?? 'general');
         }
 
-        $chatHistory = AiChatHistory::create([
-            'user_id' => $user->id,
-            'message' => $validated['message'],
-            'response' => $responseText,
-            'chat_type' => $validated['chat_type'] ?? 'general',
-            'tokens_used' => 0,
-        ]);
+        try {
+            $chatHistory = AiChatHistory::create([
+                'user_id' => $user->id,
+                'message' => $validated['message'],
+                'response' => $responseText,
+                'chat_type' => $validated['chat_type'] ?? 'general',
+                'tokens_used' => 0,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('ChatController: Failed to save chat history', [
+                'error' => $e->getMessage(),
+                'user_id' => $user->id,
+            ]);
+        }
 
         return response()->json([
             'response' => $responseText,
-            'chat_id' => $chatHistory->id,
+            'chat_id' => $chatHistory->id ?? null,
         ]);
     }
 
@@ -105,66 +124,6 @@ class ChatController extends Controller
         return response()->json(['chat' => $chatHistory], 201);
     }
 
-    private function callGemini(string $apiKey, array $messages): ?string
-    {
-        try {
-            $contents = [];
-            foreach ($messages as $msg) {
-                if ($msg['role'] === 'system') {
-                    $contents[] = ['role' => 'user', 'parts' => [['text' => $msg['content']]]];
-                } else {
-                    $role = $msg['role'] === 'assistant' ? 'model' : 'user';
-                    $contents[] = ['role' => $role, 'parts' => [['text' => $msg['content']]]];
-                }
-            }
-
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={$apiKey}", [
-                'contents' => $contents,
-                'generationConfig' => [
-                    'temperature' => 0.7,
-                    'maxOutputTokens' => 2048,
-                ],
-            ]);
-
-            if ($response->successful()) {
-                $result = $response->json();
-                return $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
-            }
-
-            return null;
-        } catch (\Exception $e) {
-            \Log::error('Gemini API error: ' . $e->getMessage());
-            return null;
-        }
-    }
-
-    private function callOpenAI(string $apiKey, array $messages): ?string
-    {
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => "Bearer {$apiKey}",
-                'Content-Type' => 'application/json',
-            ])->post('https://api.openai.com/v1/chat/completions', [
-                'model' => 'gpt-3.5-turbo',
-                'messages' => $messages,
-                'temperature' => 0.7,
-                'max_tokens' => 2048,
-            ]);
-
-            if ($response->successful()) {
-                $result = $response->json();
-                return $result['choices'][0]['message']['content'] ?? null;
-            }
-
-            return null;
-        } catch (\Exception $e) {
-            \Log::error('OpenAI API error: ' . $e->getMessage());
-            return null;
-        }
-    }
-
     private function builtInResponse(string $message, string $chatType): string
     {
         $lower = strtolower(trim($message));
@@ -174,13 +133,13 @@ class ChatController extends Controller
 
             'what is arduino' => "**Arduino** is an open-source electronics platform based on easy-to-use hardware and software.\n\n**Arduino Uno specifications:**\n- Microcontroller: ATmega328P\n- Digital I/O Pins: 14 (6 PWM output)\n- Analog Input Pins: 6\n- Flash Memory: 32 KB\n- Clock Speed: 16 MHz\n\n**Basic Arduino Code:**\n```cpp\nvoid setup() {\n  pinMode(13, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(1000);\n  digitalWrite(13, LOW);\n  delay(1000);\n}\n```\nThis blinks an LED connected to pin 13!",
 
-            'what is robotics' => "**Robotics** is the interdisciplinary branch of engineering and science that deals with the design, construction, operation, and use of robots.\n\n**Key areas of robotics:**\n1. **Mechanical Engineering** – Robot structure and movement\n2. **Electrical Engineering** – Sensors, motors, circuits\n3. **Computer Science** – Programming and AI\n4. **Mathematics** – Kinematics, algorithms\n\n**Types of robots:**\n- Industrial robots (manufacturing)\n- Service robots (cleaning, surgery)\n- Educational robots (micro:bit, LEGO Mindstorms)\n- Autonomous vehicles\n\n**Getting started:** Try building with micro:bit or Arduino!",
+            'what is robotics' => "**Robotics** is the interdisciplinary branch of engineering and science that deals with the design, construction, operation, and use of robots.\n\n**Key areas of robotics:**\n1. **Mechanical Engineering** – Robot structure and movement\n2. **Electrical Engineering** – Sensors, motors, circuits\n3. **Computer Science** – Programming and AI\n4. **Mathematics** – Kinematics, algorithms\n\n**Types of robots:**\n- Industrial robots (manufacturing)\n- Service robots (cleaning, surgery)\n- Educational robots (micro:bit, LEGO Mindstorms)\n- Autonomous vehicles\n\n**Getting started:** Try building with Arduino or micro:bit!",
 
             'what is python' => "**Python** is a high-level, interpreted programming language known for its simplicity and readability.\n\n**Why learn Python?**\n- Easy syntax, great for beginners\n- Huge community and library support\n- Used in AI/ML, web dev, data science, IoT\n\n**Basic example:**\n```python\n# Hello World\nprint(\"Hello, World!\")\n\n# Variables\nname = \"Student\"\nage = 15\nprint(f\"My name is {name} and I am {age} years old.\")\n\n# Loop\nfor i in range(5):\n    print(f\"Count: {i}\")\n```\n\n**Popular libraries:** NumPy, Pandas, TensorFlow, Flask",
 
-            'what is machine learning' => "**Machine Learning (ML)** is a subset of AI that enables systems to learn from data and improve without being explicitly programmed.\n\n**Types of ML:**\n1. **Supervised Learning** – Learns from labeled data (classification, regression)\n2. **Unsupervised Learning** – Finds patterns in unlabeled data (clustering)\n3. **Reinforcement Learning** – Learns through trial and error with rewards\n\n**Simple Python example:**\n```python\nfrom sklearn.linear_model import LinearRegression\n\n# Training data\nX = [[1], [2], [3], [4], [5]]  # Features\ny = [2, 4, 6, 8, 10]           # Labels\n\nmodel = LinearRegression()\nmodel.fit(X, y)\nprint(model.predict([[6]]))  # Predicts: [12]\n```\n\n**Applications:** Image recognition, voice assistants, recommendation systems",
+            'what is machine learning' => "**Machine Learning (ML)** is a subset of AI that enables systems to learn from data and improve without being explicitly programmed.\n\n**Types of ML:**\n1. **Supervised Learning** – Learns from labeled data (classification, regression)\n2. **Unsupervised Learning** – Finds patterns in unlabeled data (clustering)\n3. **Reinforcement Learning** – Learns through trial and error with rewards\n\n**Simple Python example:**\n```python\nfrom sklearn.linear_model import LinearRegression\n\n# Training data\nX = [[1], [2], [3], [4], [5]]\ny = [2, 4, 6, 8, 10]\n\nmodel = LinearRegression()\nmodel.fit(X, y)\nprint(model.predict([[6]]))\n```\n\n**Applications:** Image recognition, voice assistants, recommendation systems",
 
-            'what is micro:bit' => "**micro:bit** is a pocket-sized computer designed to make learning to code easy and fun!\n\n**micro:bit v2 features:**\n- 25 red LEDs (5x5 display)\n- 2 programmable buttons\n- Motion sensor (accelerometer & compass)\n- Temperature sensor\n- Light sensor\n- Bluetooth & USB connectivity\n- Speaker & microphone\n- 3V output, 3 GPIO pins\n\n**Programming options:**\n- MakeCode (block-based, great for beginners)\n- Python (MicroPython)\n- JavaScript\n\n**Fun project:** Make a step counter using the accelerometer!",
+            'what is micro:bit' => "**micro:bit** is a pocket-sized computer designed to make learning to code easy and fun!\n\n**micro:bit v2 features:**\n- 25 red LEDs (5x5 display)\n- 2 programmable buttons\n- Motion sensor (accelerometer & compass)\n- Temperature sensor\n- Light sensor\n- Bluetooth & USB connectivity\n- Speaker & microphone\n\n**Programming options:**\n- MakeCode (block-based, great for beginners)\n- Python (MicroPython)\n- JavaScript\n\n**Fun project:** Make a step counter using the accelerometer!",
         ];
 
         $greetings = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'howdy'];
@@ -195,7 +154,7 @@ class ChatController extends Controller
 
         foreach ($thanks as $t) {
             if (str_contains($lower, $t)) {
-                return "You're welcome! 😊 I'm always here to help. Feel free to ask if you have more questions about IoT, robotics, programming, or any other STEM topics!";
+                return "You're welcome! I'm always here to help. Feel free to ask if you have more questions about IoT, robotics, programming, or any other STEM topics!";
             }
         }
 
@@ -232,18 +191,18 @@ class ChatController extends Controller
         $codingKeywords = ['code', 'program', 'function', 'loop', 'variable', 'array', 'class', 'debug', 'error', 'syntax'];
         foreach ($codingKeywords as $kw) {
             if (str_contains($lower, $kw)) {
-                return "**I'd love to help with coding!** 💻\n\nHere are some programming topics I can explain:\n\n- **Python basics** – variables, loops, functions\n- **Arduino programming** – C++ for microcontrollers\n- **JavaScript** – web development\n- **Debugging tips** – common errors and fixes\n\nTry asking:\n- \"What is Python?\"\n- \"How does Arduino work?\"\n- \"Explain a for loop\"";
+                return "**I'd love to help with coding!**\n\nHere are some programming topics I can explain:\n\n- **Python basics** – variables, loops, functions\n- **Arduino programming** – C++ for microcontrollers\n- **JavaScript** – web development\n- **Debugging tips** – common errors and fixes\n\nTry asking:\n- \"What is Python?\"\n- \"How does Arduino work?\"\n- \"Explain a for loop\"";
             }
         }
 
         if ($chatType === 'coding') {
-            return "**Coding Assistant** 💻\n\nI can help you with programming questions! Here are some areas I can assist with:\n\n- **Python** – syntax, libraries, data structures\n- **Arduino/C++** – embedded programming\n- **JavaScript** – web development\n- **Debugging** – finding and fixing errors\n\nPlease paste your code or describe your coding problem, and I'll do my best to help!";
+            return "**Coding Assistant**\n\nI can help you with programming questions! Here are some areas I can assist with:\n\n- **Python** – syntax, libraries, data structures\n- **Arduino/C++** – embedded programming\n- **JavaScript** – web development\n- **Debugging** – finding and fixing errors\n\nPlease paste your code or describe your coding problem, and I'll do my best to help!";
         }
 
         if ($chatType === 'quiz') {
-            return "**Quiz Generator** 📝\n\nI can help you prepare for quizzes! Tell me a topic and I'll provide:\n- Key concepts to review\n- Practice questions\n- Study tips\n\nTry: *\"Generate quiz on IoT basics\"* or *\"Test me on Python\"*\n\nFor full quiz generation, visit the **AI Quiz Generator** page from the navigation menu!";
+            return "**Quiz Generator**\n\nI can help you prepare for quizzes! Tell me a topic and I'll provide:\n- Key concepts to review\n- Practice questions\n- Study tips\n\nTry: *\"Generate quiz on IoT basics\"* or *\"Test me on Python\"*\n\nFor full quiz generation, visit the **AI Quiz Generator** page from the navigation menu!";
         }
 
-        return "Thanks for your message! 🤖\n\nI'm your **NanoSpark AI Tutor**, and I can help you with:\n\n- **IoT** – Internet of Things, sensors, connectivity\n- **Arduino** – Hardware, coding, projects\n- **Python** – Programming fundamentals\n- **Robotics** – Building and programming robots\n- **Machine Learning** – AI concepts\n\nTry asking me about one of these topics, for example:\n- \"What is IoT?\"\n- \"Tell me about Python\"\n- \"How does Arduino work?\"\n- \"What is machine learning?\"";
+        return "Thanks for your message!\n\nI'm your **NanoSpark AI Tutor**, and I can help you with:\n\n- **IoT** – Internet of Things, sensors, connectivity\n- **Arduino** – Hardware, coding, projects\n- **Python** – Programming fundamentals\n- **Robotics** – Building and programming robots\n- **Machine Learning** – AI concepts\n\nTry asking me about one of these topics, for example:\n- \"What is IoT?\"\n- \"Tell me about Python\"\n- \"How does Arduino work?\"\n- \"What is machine learning?\"";
     }
 }

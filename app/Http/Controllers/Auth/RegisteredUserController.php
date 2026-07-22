@@ -46,6 +46,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        $user->sendWelcomeNotification();
+
         return redirect(RouteServiceProvider::HOME);
     }
 }

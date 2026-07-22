@@ -177,10 +177,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 datasets: [{
                     label: 'Enrollments',
                     data: {!! json_encode($chartData ?? [12, 19, 8, 15, 22, 30]) !!},
-                    borderColor: '#FFD400',
-                    backgroundColor: 'rgba(255, 212, 0, 0.08)',
+                    borderColor: '#FFC107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.08)',
                     fill: true, tension: 0.4,
-                    pointRadius: 4, pointBackgroundColor: '#FFD400'
+                    pointRadius: 4, pointBackgroundColor: '#FFC107'
                 }]
             },
             options: {
