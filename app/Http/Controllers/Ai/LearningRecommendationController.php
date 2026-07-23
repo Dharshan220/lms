@@ -90,7 +90,7 @@ class LearningRecommendationController extends Controller
         try {
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1/models/gemini-3.5-flash-lite:generateContent?key={$apiKey}", [
+            ])->post("https://generativelanguage.googleapis.com/v1/models/" . config('services.gemini.model') . ":generateContent?key={$apiKey}", [
                 'contents' => [
                     ['parts' => [['text' => $prompt]]]
                 ],
