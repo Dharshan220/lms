@@ -73,7 +73,7 @@ Route::middleware(['auth', 'darkmode'])->group(function () {
         return match ($role) {
             'super_admin', 'school_admin' => redirect()->route('admin.dashboard'),
             'teacher' => redirect()->route('teacher.dashboard'),
-            'student' => redirect()->route('courses.my'),
+            'student' => redirect()->route('student.courses.my'),
             'parent' => redirect()->route('parent.dashboard'),
             default => redirect()->route('home'),
         };

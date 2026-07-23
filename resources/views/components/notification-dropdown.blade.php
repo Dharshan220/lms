@@ -15,12 +15,13 @@
     </div>
     <div class="ns-notification-list">
         @forelse($notifications as $notification)
-            <a href="{{ $notification->data['url'] ?? '#' }}" class="ns-notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}" style="text-decoration:none">
-                <div class="ns-notification-icon {{ $notification->data['type'] ?? 'info' }}">
-                    <i class="bi bi-{{ $notification->data['icon'] ?? 'bell' }}"></i>
+            @php $notifData = $notification->data ?? []; @endphp
+            <a href="{{ $notifData['url'] ?? '#' }}" class="ns-notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}" style="text-decoration:none">
+                <div class="ns-notification-icon {{ $notifData['type'] ?? 'info' }}">
+                    <i class="bi bi-{{ $notifData['icon'] ?? 'bell' }}"></i>
                 </div>
                 <div class="ns-notification-content">
-                    <div class="ns-notification-text">{!! $notification->data['message'] ?? 'New notification' !!}</div>
+                    <div class="ns-notification-text">{!! $notifData['message'] ?? 'New notification' !!}</div>
                     <div class="ns-notification-time">{{ $notification->created_at->diffForHumans() }}</div>
                 </div>
                 @if(is_null($notification->read_at))
