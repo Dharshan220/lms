@@ -119,6 +119,16 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Programming', 'slug' => 'programming', 'icon' => 'bi-code-slash', 'color' => '#3498DB'],
             ['name' => 'Electronics', 'slug' => 'electronics', 'icon' => 'bi-lightning', 'color' => '#F39C12'],
             ['name' => 'STEM Basics', 'slug' => 'stem-basics', 'icon' => 'bi-book', 'color' => '#2ECC71'],
+            ['name' => 'Web Development', 'slug' => 'web-development', 'icon' => 'bi-globe', 'color' => '#6610F2'],
+            ['name' => 'Mobile Apps', 'slug' => 'mobile-apps', 'icon' => 'bi-phone', 'color' => '#DC3545'],
+            ['name' => 'Data Science', 'slug' => 'data-science', 'icon' => 'bi-bar-chart', 'color' => '#20C997'],
+            ['name' => 'Cybersecurity', 'slug' => 'cybersecurity', 'icon' => 'bi-shield-check', 'color' => '#198754'],
+            ['name' => 'Cloud Computing', 'slug' => 'cloud-computing', 'icon' => 'bi-cloud', 'color' => '#0D6EFD'],
+            ['name' => 'Game Development', 'slug' => 'game-development', 'icon' => 'bi-controller', 'color' => '#E83E8C'],
+            ['name' => '3D Printing & CAD', 'slug' => '3d-printing-cad', 'icon' => 'bi-printer', 'color' => '#FD7E14'],
+            ['name' => 'Drone Technology', 'slug' => 'drone-technology', 'icon' => 'bi-airplane', 'color' => '#6F42C1'],
+            ['name' => 'Renewable Energy', 'slug' => 'renewable-energy', 'icon' => 'bi-sun', 'color' => '#FFC107'],
+            ['name' => 'AI & Machine Learning', 'slug' => 'ai-ml', 'icon' => 'bi-cpu', 'color' => '#9B59B6'],
         ];
 
         foreach ($categories as $cat) {
