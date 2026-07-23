@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -28,7 +29,14 @@ class AuthenticatedSessionController extends Controller
         if ($user->last_login_at) {
             $lastIp = $request->session()->previousUrl() ?? $request->ip();
             if ($user->last_login_ip !== $request->ip()) {
-                $user->sendNewDeviceLoginNotification($request->ip(), $request->userAgent());
+                try {
+                    $user->sendNewDeviceLoginNotification($request->ip(), $request->userAgent());
+                } catch (\Exception $e) {
+                    Log::error('New device login notification failed: ' . $e->getMessage(), [
+                        'user_id' => $user->id,
+                        'email' => $user->email,
+                    ]);
+                }
             }
         }
 
