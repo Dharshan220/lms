@@ -23,3 +23,6 @@ debug_chat.php
 check_active.php
 /storage/framework/sessions/*
 /composer.phar
+/vendor
+.claude/
+/bootstrap/cache/*.php

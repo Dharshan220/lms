@@ -113,22 +113,15 @@ class DatabaseSeeder extends Seeder
 
         // Create Categories
         $categories = [
-            ['name' => 'IoT & Embedded', 'slug' => 'iot-embedded', 'icon' => 'bi-cpu', 'color' => '#FF6B35'],
-            ['name' => 'Robotics', 'slug' => 'robotics', 'icon' => 'bi-robot', 'color' => '#4ECDC4'],
-            ['name' => 'Artificial Intelligence', 'slug' => 'ai', 'icon' => 'bi-brain', 'color' => '#9B59B6'],
-            ['name' => 'Programming', 'slug' => 'programming', 'icon' => 'bi-code-slash', 'color' => '#3498DB'],
-            ['name' => 'Electronics', 'slug' => 'electronics', 'icon' => 'bi-lightning', 'color' => '#F39C12'],
-            ['name' => 'STEM Basics', 'slug' => 'stem-basics', 'icon' => 'bi-book', 'color' => '#2ECC71'],
-            ['name' => 'Web Development', 'slug' => 'web-development', 'icon' => 'bi-globe', 'color' => '#6610F2'],
-            ['name' => 'Mobile Apps', 'slug' => 'mobile-apps', 'icon' => 'bi-phone', 'color' => '#DC3545'],
-            ['name' => 'Data Science', 'slug' => 'data-science', 'icon' => 'bi-bar-chart', 'color' => '#20C997'],
-            ['name' => 'Cybersecurity', 'slug' => 'cybersecurity', 'icon' => 'bi-shield-check', 'color' => '#198754'],
-            ['name' => 'Cloud Computing', 'slug' => 'cloud-computing', 'icon' => 'bi-cloud', 'color' => '#0D6EFD'],
-            ['name' => 'Game Development', 'slug' => 'game-development', 'icon' => 'bi-controller', 'color' => '#E83E8C'],
-            ['name' => '3D Printing & CAD', 'slug' => '3d-printing-cad', 'icon' => 'bi-printer', 'color' => '#FD7E14'],
-            ['name' => 'Drone Technology', 'slug' => 'drone-technology', 'icon' => 'bi-airplane', 'color' => '#6F42C1'],
-            ['name' => 'Renewable Energy', 'slug' => 'renewable-energy', 'icon' => 'bi-sun', 'color' => '#FFC107'],
-            ['name' => 'AI & Machine Learning', 'slug' => 'ai-ml', 'icon' => 'bi-cpu', 'color' => '#9B59B6'],
+            ['name' => 'Hardware & Electronics', 'slug' => 'hardware-electronics', 'icon' => 'bi-cpu', 'color' => '#FF6B35'],
+            ['name' => 'Software & Programming', 'slug' => 'software-programming', 'icon' => 'bi-code-slash', 'color' => '#3498DB'],
+            ['name' => 'IoT & Networking', 'slug' => 'iot-networking', 'icon' => 'bi-router', 'color' => '#4ECDC4'],
+            ['name' => 'AI & Machine Learning', 'slug' => 'ai-machine-learning', 'icon' => 'bi-brain', 'color' => '#9B59B6'],
+            ['name' => 'Robotics', 'slug' => 'robotics', 'icon' => 'bi-robot', 'color' => '#E74C3C'],
+            ['name' => 'Embedded Systems', 'slug' => 'embedded-systems', 'icon' => 'bi-motherboard', 'color' => '#2ECC71'],
+            ['name' => 'STEM & Projects', 'slug' => 'stem-projects', 'icon' => 'bi-tools', 'color' => '#F39C12'],
+            ['name' => 'PCB & Hardware Design', 'slug' => 'pcb-hardware-design', 'icon' => 'bi-pencil', 'color' => '#6610F2'],
+            ['name' => 'Cloud & Technology', 'slug' => 'cloud-technology', 'icon' => 'bi-cloud', 'color' => '#0D6EFD'],
         ];
 
         foreach ($categories as $cat) {
@@ -140,16 +133,16 @@ class DatabaseSeeder extends Seeder
 
         // Create Courses
         $courses = [
-            ['title' => 'Introduction to Electronics', 'slug' => 'intro-electronics', 'level' => 'beginner', 'category' => 'electronics', 'duration_hours' => 10],
-            ['title' => 'Arduino Basics', 'slug' => 'arduino-basics', 'level' => 'beginner', 'category' => 'iot-embedded', 'duration_hours' => 15],
-            ['title' => 'ESP8266 & IoT', 'slug' => 'esp8266-iot', 'level' => 'intermediate', 'category' => 'iot-embedded', 'duration_hours' => 20],
-            ['title' => 'Sensors & Actuators', 'slug' => 'sensors-actuators', 'level' => 'intermediate', 'category' => 'iot-embedded', 'duration_hours' => 18],
-            ['title' => 'ESP32 Programming', 'slug' => 'esp32-programming', 'level' => 'advanced', 'category' => 'iot-embedded', 'duration_hours' => 25],
+            ['title' => 'Introduction to Electronics', 'slug' => 'intro-electronics', 'level' => 'beginner', 'category' => 'hardware-electronics', 'duration_hours' => 10],
+            ['title' => 'Arduino Basics', 'slug' => 'arduino-basics', 'level' => 'beginner', 'category' => 'hardware-electronics', 'duration_hours' => 15],
+            ['title' => 'ESP8266 & IoT', 'slug' => 'esp8266-iot', 'level' => 'intermediate', 'category' => 'iot-networking', 'duration_hours' => 20],
+            ['title' => 'Sensors & Actuators', 'slug' => 'sensors-actuators', 'level' => 'intermediate', 'category' => 'embedded-systems', 'duration_hours' => 18],
+            ['title' => 'ESP32 Programming', 'slug' => 'esp32-programming', 'level' => 'advanced', 'category' => 'embedded-systems', 'duration_hours' => 25],
             ['title' => 'Robotics with Arduino', 'slug' => 'robotics-arduino', 'level' => 'intermediate', 'category' => 'robotics', 'duration_hours' => 22],
-            ['title' => 'Smart Home Automation', 'slug' => 'smart-home', 'level' => 'advanced', 'category' => 'iot-embedded', 'duration_hours' => 30],
-            ['title' => 'Python for Beginners', 'slug' => 'python-beginners', 'level' => 'beginner', 'category' => 'programming', 'duration_hours' => 12],
-            ['title' => 'AI & Machine Learning Basics', 'slug' => 'ai-ml-basics', 'level' => 'intermediate', 'category' => 'ai', 'duration_hours' => 20],
-            ['title' => 'Blynk & MQTT IoT', 'slug' => 'blynk-mqtt', 'level' => 'intermediate', 'category' => 'iot-embedded', 'duration_hours' => 16],
+            ['title' => 'Smart Home Automation', 'slug' => 'smart-home', 'level' => 'advanced', 'category' => 'iot-networking', 'duration_hours' => 30],
+            ['title' => 'Python for Beginners', 'slug' => 'python-beginners', 'level' => 'beginner', 'category' => 'software-programming', 'duration_hours' => 12],
+            ['title' => 'AI & Machine Learning Basics', 'slug' => 'ai-ml-basics', 'level' => 'intermediate', 'category' => 'ai-machine-learning', 'duration_hours' => 20],
+            ['title' => 'Blynk & MQTT IoT', 'slug' => 'blynk-mqtt', 'level' => 'intermediate', 'category' => 'iot-networking', 'duration_hours' => 16],
         ];
 
         $courseModels = [];
