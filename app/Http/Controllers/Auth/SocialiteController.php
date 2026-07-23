@@ -14,13 +14,25 @@ class SocialiteController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        $redirectUri = config('services.google.redirect');
+        if (!$redirectUri) {
+            $redirectUri = url('auth/google/callback');
+        }
+        return Socialite::driver('google')
+            ->redirectUrl($redirectUri)
+            ->redirect();
     }
 
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $redirectUri = config('services.google.redirect');
+            if (!$redirectUri) {
+                $redirectUri = url('auth/google/callback');
+            }
+            $googleUser = Socialite::driver('google')
+                ->redirectUrl($redirectUri)
+                ->user();
         } catch (\Exception $e) {
             return redirect()->route('login')->withErrors(['google' => 'Google login failed. Please try again.']);
         }
