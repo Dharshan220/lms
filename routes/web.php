@@ -65,7 +65,7 @@ require __DIR__.'/auth.php';
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'verified', 'darkmode'])->group(function () {
+Route::middleware(['auth', 'darkmode'])->group(function () {
 
     // Dashboard redirect based on role
     Route::get('/dashboard', function () {
@@ -73,7 +73,7 @@ Route::middleware(['auth', 'verified', 'darkmode'])->group(function () {
         return match ($role) {
             'super_admin', 'school_admin' => redirect()->route('admin.dashboard'),
             'teacher' => redirect()->route('teacher.dashboard'),
-            'student' => redirect()->route('student.dashboard'),
+            'student' => redirect()->route('courses.my'),
             'parent' => redirect()->route('parent.dashboard'),
             default => redirect()->route('home'),
         };
