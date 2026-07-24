@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\LessonProgress;
 use App\Models\QuizAttempt;
+use App\Services\GroqService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class LearningRecommendationController extends Controller
 {
@@ -37,12 +37,12 @@ class LearningRecommendationController extends Controller
             ->unique()
             ->values();
 
-        $apiKey = config('services.gemini.key', env('GEMINI_API_KEY'));
+        $groq = new GroqService();
 
         $recommendations = null;
 
-        if (!empty($apiKey) && $enrollments->isNotEmpty()) {
-            $recommendations = $this->getAiRecommendations($apiKey, $student, $enrollments, $quizAttempts, $completedLessons, $weakAreas, $strongAreas);
+        if ($groq->isConfigured() && $enrollments->isNotEmpty()) {
+            $recommendations = $this->getAiRecommendations($groq, $student, $enrollments, $quizAttempts, $completedLessons, $weakAreas, $strongAreas);
         }
 
         return view('ai.recommendations', compact(
@@ -55,7 +55,7 @@ class LearningRecommendationController extends Controller
         ));
     }
 
-    private function getAiRecommendations(string $apiKey, $student, $enrollments, $quizAttempts, $completedLessons, $weakAreas, $strongAreas): ?string
+    private function getAiRecommendations(GroqService $groq, $student, $enrollments, $quizAttempts, $completedLessons, $weakAreas, $strongAreas): ?string
     {
         $prompt = "Based on the following student learning profile, provide personalized learning recommendations:\n\n";
         $prompt .= "Student Level: {$student->level}\n";
@@ -87,28 +87,6 @@ class LearningRecommendationController extends Controller
         $prompt .= "5. **Motivation**: Based on their streak and achievements\n";
         $prompt .= "6. **Resources**: Suggested learning resources and methods\n";
 
-        try {
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1/models/" . config('services.gemini.model') . ":generateContent?key={$apiKey}", [
-                'contents' => [
-                    ['parts' => [['text' => $prompt]]]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.7,
-                    'maxOutputTokens' => 4096,
-                ],
-            ]);
-
-            if ($response->successful()) {
-                $result = $response->json();
-                return $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
-            }
-
-            return null;
-        } catch (\Exception $e) {
-            \Log::error('AI recommendation error: ' . $e->getMessage());
-            return null;
-        }
+        return $groq->chat('You are an AI learning advisor. Provide personalized, actionable recommendations.', $prompt, ['temperature' => 0.7, 'maxOutputTokens' => 4096]);
     }
 }

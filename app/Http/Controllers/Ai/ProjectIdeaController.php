@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Ai;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Services\GroqService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class ProjectIdeaController extends Controller
 {
@@ -32,41 +32,24 @@ class ProjectIdeaController extends Controller
 
         $course = Course::findOrFail($validated['course_id']);
 
-        $apiKey = config('services.gemini.key', env('GEMINI_API_KEY'));
-
-        if (empty($apiKey)) {
-            return back()->withInput()->with('error', 'AI API key is not configured. Please set GEMINI_API_KEY in your .env file.');
+        $groq = new GroqService();
+        if (!$groq->isConfigured()) {
+            return back()->withInput()->with('error', 'AI service is not configured. Please set GROQ_API_KEY.');
         }
 
         $prompt = $this->buildPrompt($validated, $course);
+        $systemPrompt = 'You are a project ideas generator for STEM education. Return ONLY valid JSON matching the requested format.';
 
-        try {
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1/models/" . config('services.gemini.model') . ":generateContent?key={$apiKey}", [
-                'contents' => [
-                    ['parts' => [['text' => $prompt]]]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.8,
-                    'maxOutputTokens' => 4096,
-                ],
-            ]);
+        $response = $groq->chat($systemPrompt, $prompt, ['temperature' => 0.8, 'maxOutputTokens' => 8192]);
 
-            if ($response->successful()) {
-                $result = $response->json();
-                $generatedContent = $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
-
-                if ($generatedContent) {
-                    return view('ai.project-ideas', compact('generatedContent', 'validated', 'course'));
-                }
+        if ($response) {
+            $projects = $this->parseProjects($response);
+            if (!empty($projects)) {
+                return view('ai.project-ideas', compact('projects', 'validated', 'course'));
             }
-
-            return back()->withInput()->with('error', 'AI service returned an error. Please try again.');
-
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Failed to connect to AI service: ' . $e->getMessage());
         }
+
+        return back()->withInput()->with('error', 'Failed to generate project ideas. Please try again.');
     }
 
     private function buildPrompt(array $data, Course $course): string
@@ -89,16 +72,40 @@ class ProjectIdeaController extends Controller
             $prompt .= "Available Tools/Tech: {$data['tools']}\n";
         }
 
-        $prompt .= "\nFor each project idea, please provide:\n";
-        $prompt .= "1. Project Title\n";
-        $prompt .= "2. Brief Description\n";
-        $prompt .= "3. Learning Objectives\n";
-        $prompt .= "4. Key Features/Requirements\n";
-        $prompt .= "5. Suggested Technologies/Tools\n";
-        $prompt .= "6. Step-by-step Implementation Plan\n";
-        $prompt .= "7. Expected Outcome\n";
-        $prompt .= "8. Extension Ideas (for advanced students)\n";
+        $prompt .= "\nReturn ONLY a JSON array of project objects with this exact structure:\n";
+        $prompt .= "[\n";
+        $prompt .= "  {\n";
+        $prompt .= "    \"title\": \"Project Title\",\n";
+        $prompt .= "    \"category\": \"Project Category\",\n";
+        $prompt .= "    \"description\": \"Brief description\",\n";
+        $prompt .= "    \"components\": [\"Component1\", \"Component2\"],\n";
+        $prompt .= "    \"difficulty\": \"beginner|intermediate|advanced\",\n";
+        $prompt .= "    \"estimated_time\": \"2-3 hours\",\n";
+        $prompt .= "    \"learning_outcomes\": [\"Outcome1\", \"Outcome2\"]\n";
+        $prompt .= "  }\n";
+        $prompt .= "]\n\n";
+        $prompt .= "No markdown code blocks, no additional text.";
 
         return $prompt;
+    }
+
+    private function parseProjects(string $content): array
+    {
+        $content = trim($content);
+        $content = preg_replace('/```json\s*/', '', $content);
+        $content = preg_replace('/```\s*$/', '', $content);
+        $content = trim($content);
+
+        $projects = json_decode($content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            \Log::warning('ProjectIdea: Failed to parse JSON', [
+                'error' => json_last_error_msg(),
+                'snippet' => substr($content, 0, 300),
+            ]);
+            return [];
+        }
+
+        return $projects;
     }
 }

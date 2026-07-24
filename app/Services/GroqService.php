@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class GeminiService
+class GroqService
 {
     private string $apiKey;
     private string $model;
@@ -23,10 +23,20 @@ class GeminiService
         return !empty($this->apiKey);
     }
 
+    public function chat(string $systemPrompt, string $userMessage, array $config = []): ?string
+    {
+        $messages = [
+            ['role' => 'system', 'content' => $systemPrompt],
+            ['role' => 'user', 'content' => $userMessage],
+        ];
+
+        return $this->generateResponse($messages, $config);
+    }
+
     public function generateResponse(array $messages, array $config = []): ?string
     {
         if (empty($this->apiKey)) {
-            Log::warning('GeminiService: API key not configured');
+            Log::warning('GroqService: API key not configured');
             return null;
         }
 
@@ -36,7 +46,7 @@ class GeminiService
         $groqMessages = $this->buildMessages($messages);
 
         try {
-            $response = Http::timeout(45)
+            $response = Http::timeout(60)
                 ->withHeaders([
                     'Authorization' => 'Bearer ' . $this->apiKey,
                     'Content-Type' => 'application/json',
@@ -53,7 +63,7 @@ class GeminiService
                 $text = $result['choices'][0]['message']['content'] ?? null;
 
                 if ($text === null) {
-                    Log::error('GeminiService: Empty response - unexpected format', [
+                    Log::error('GroqService: Empty response - unexpected format', [
                         'response_structure' => $result,
                     ]);
                 }
@@ -65,24 +75,14 @@ class GeminiService
             $body = $response->json();
             $errorMsg = $body['error']['message'] ?? 'Unknown error';
 
-            Log::error("GeminiService: API error [{$status}]", [
+            Log::error("GroqService: API error [{$status}]", [
                 'error' => $errorMsg,
                 'status' => $status,
             ]);
 
-            if ($status === 429) {
-                Log::warning('GeminiService: Rate limit hit');
-            } elseif ($status === 403 || $status === 401) {
-                Log::error('GeminiService: Authentication failed - check API key');
-            } elseif ($status === 400) {
-                Log::error('GeminiService: Bad request', [
-                    'error' => $errorMsg,
-                ]);
-            }
-
             return null;
         } catch (\Exception $e) {
-            Log::error('GeminiService: HTTP request failed', [
+            Log::error('GroqService: HTTP request failed', [
                 'error' => $e->getMessage(),
                 'class' => get_class($e),
             ]);
@@ -98,22 +98,10 @@ class GeminiService
             $role = $msg['role'] ?? 'user';
             $content = $msg['content'] ?? '';
 
-            if ($role === 'system') {
-                $groqMessages[] = [
-                    'role' => 'system',
-                    'content' => $content,
-                ];
-            } elseif ($role === 'assistant') {
-                $groqMessages[] = [
-                    'role' => 'assistant',
-                    'content' => $content,
-                ];
-            } else {
-                $groqMessages[] = [
-                    'role' => 'user',
-                    'content' => $content,
-                ];
-            }
+            $groqMessages[] = [
+                'role' => $role === 'assistant' ? 'assistant' : ($role === 'system' ? 'system' : 'user'),
+                'content' => $content,
+            ];
         }
 
         return $groqMessages;

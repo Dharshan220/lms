@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ai;
 
 use App\Http\Controllers\Controller;
 use App\Models\AiChatHistory;
-use App\Services\GeminiService;
+use App\Services\GroqService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -78,10 +78,10 @@ class ChatController extends Controller
         $messages[] = ['role' => 'user', 'content' => $validated['message']];
 
         $responseText = null;
-        $gemini = new GeminiService();
+        $groq = new GroqService();
 
-        if ($gemini->isConfigured()) {
-            $responseText = $gemini->generateResponse($messages);
+        if ($groq->isConfigured()) {
+            $responseText = $groq->generateResponse($messages);
         }
 
         if ($responseText === null) {

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Services\GroqService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class AiLessonPlannerController extends Controller
 {
@@ -30,43 +30,21 @@ class AiLessonPlannerController extends Controller
         $course = Course::findOrFail($validated['course_id']);
         abort_unless($course->teacher_id === $request->user()->id, 403);
 
-        $apiKey = config('services.gemini.key', env('GEMINI_API_KEY'));
-
-        if (empty($apiKey)) {
-            return back()->withInput()->with('error', 'AI API key is not configured. Please set GEMINI_API_KEY in your .env file.');
+        $groq = new GroqService();
+        if (!$groq->isConfigured()) {
+            return back()->withInput()->with('error', 'AI service is not configured. Please set GROQ_API_KEY.');
         }
 
         $prompt = $this->buildPrompt($validated, $course);
+        $systemPrompt = 'You are an expert lesson planner for educators. Create detailed, engaging lesson plans that follow best practices in pedagogy.';
 
-        try {
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1/models/" . config('services.gemini.model') . ":generateContent?key={$apiKey}", [
-                'contents' => [
-                    [
-                        'parts' => [
-                            ['text' => $prompt]
-                        ]
-                    ]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.7,
-                    'maxOutputTokens' => 4096,
-                ]
-            ]);
+        $lessonPlan = $groq->chat($systemPrompt, $prompt, ['temperature' => 0.7, 'maxOutputTokens' => 8192]);
 
-            if ($response->successful()) {
-                $result = $response->json();
-                $lessonPlan = $result['candidates'][0]['content']['parts'][0]['text'] ?? 'No response generated.';
-
-                return view('teacher.ai-lesson-planner.index', compact('lessonPlan', 'validated', 'course', 'courses'));
-            }
-
-            return back()->withInput()->with('error', 'AI service returned an error. Please try again.');
-
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Failed to connect to AI service: ' . $e->getMessage());
+        if ($lessonPlan) {
+            return view('teacher.ai-lesson-planner.index', compact('lessonPlan', 'validated', 'course', 'courses'));
         }
+
+        return back()->withInput()->with('error', 'AI service returned an error. Please try again.');
     }
 
     private function buildPrompt(array $data, Course $course): string
