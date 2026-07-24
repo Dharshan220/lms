@@ -13,9 +13,9 @@ class GeminiService
 
     public function __construct()
     {
-        $this->apiKey = config('services.gemini.key', env('GEMINI_API_KEY'));
-        $this->model = config('services.gemini.model', 'gemini-2.0-flash');
-        $this->apiUrl = "https://generativelanguage.googleapis.com/v1/models/{$this->model}:generateContent";
+        $this->apiKey = config('services.groq.key', env('GROQ_API_KEY'));
+        $this->model = config('services.groq.model', 'llama-3.3-70b-versatile');
+        $this->apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
     }
 
     public function isConfigured(): bool
@@ -33,16 +33,24 @@ class GeminiService
         $temperature = $config['temperature'] ?? 0.7;
         $maxTokens = $config['maxOutputTokens'] ?? 4096;
 
-        $payload = $this->buildPayload($messages, $temperature, $maxTokens);
+        $groqMessages = $this->buildMessages($messages);
 
         try {
             $response = Http::timeout(45)
-                ->withHeaders(['Content-Type' => 'application/json'])
-                ->post("{$this->apiUrl}?key={$this->apiKey}", $payload);
+                ->withHeaders([
+                    'Authorization' => 'Bearer ' . $this->apiKey,
+                    'Content-Type' => 'application/json',
+                ])
+                ->post($this->apiUrl, [
+                    'model' => $this->model,
+                    'messages' => $groqMessages,
+                    'temperature' => $temperature,
+                    'max_tokens' => $maxTokens,
+                ]);
 
             if ($response->successful()) {
                 $result = $response->json();
-                $text = $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
+                $text = $result['choices'][0]['message']['content'] ?? null;
 
                 if ($text === null) {
                     Log::error('GeminiService: Empty response - unexpected format', [
@@ -66,8 +74,6 @@ class GeminiService
                 Log::warning('GeminiService: Rate limit hit');
             } elseif ($status === 403 || $status === 401) {
                 Log::error('GeminiService: Authentication failed - check API key');
-            } elseif ($status === 404) {
-                Log::error('GeminiService: Model not found - check model name');
             } elseif ($status === 400) {
                 Log::error('GeminiService: Bad request', [
                     'error' => $errorMsg,
@@ -84,41 +90,32 @@ class GeminiService
         }
     }
 
-    private function buildPayload(array $messages, float $temperature, int $maxTokens): array
+    private function buildMessages(array $messages): array
     {
-        $systemInstruction = '';
-        $contents = [];
+        $groqMessages = [];
 
         foreach ($messages as $msg) {
             $role = $msg['role'] ?? 'user';
             $content = $msg['content'] ?? '';
 
             if ($role === 'system') {
-                $systemInstruction = $content;
-                continue;
+                $groqMessages[] = [
+                    'role' => 'system',
+                    'content' => $content,
+                ];
+            } elseif ($role === 'assistant') {
+                $groqMessages[] = [
+                    'role' => 'assistant',
+                    'content' => $content,
+                ];
+            } else {
+                $groqMessages[] = [
+                    'role' => 'user',
+                    'content' => $content,
+                ];
             }
-
-            $geminiRole = $role === 'assistant' ? 'model' : 'user';
-            $contents[] = [
-                'role' => $geminiRole,
-                'parts' => [['text' => $content]],
-            ];
         }
 
-        $payload = [
-            'contents' => $contents,
-            'generationConfig' => [
-                'temperature' => $temperature,
-                'maxOutputTokens' => $maxTokens,
-            ],
-        ];
-
-        if (!empty($systemInstruction)) {
-            $payload['system_instruction'] = [
-                'parts' => [['text' => $systemInstruction]],
-            ];
-        }
-
-        return $payload;
+        return $groqMessages;
     }
 }
