@@ -297,6 +297,7 @@
             background: #121212;
             border-top: 1px solid #1a1a1a;
             padding: 18px 24px;
+            padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
             flex-shrink: 0;
         }
 
@@ -475,12 +476,12 @@
                         <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7.001 7.001 0 0 1 7.07 19H6a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M9.5 14a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></svg>
                     </div>
                     <h2>Welcome to Nano AI Tutor</h2>
-                    <p>Your personal AI learning assistant. Ask me anything about programming, science, math, or any topic you need help with.</p>
+                    <p>I can help you with programming, electronics, IoT, robotics, AI, math, science, engineering, and much more. Ask me anything you're learning!</p>
                     <div class="welcome-suggestions">
-                        <button @click="sendSuggestion('Explain Python list comprehension')">Python Lists</button>
-                        <button @click="sendSuggestion('What is a binary search tree?')">Data Structures</button>
-                        <button @click="sendSuggestion('Help me understand CSS Flexbox')">CSS Flexbox</button>
-                        <button @click="sendSuggestion('Explain the CAP theorem')">Databases</button>
+                        <button @click="sendSuggestion('What is IoT?')">What is IoT?</button>
+                        <button @click="sendSuggestion('Explain photosynthesis')">Photosynthesis</button>
+                        <button @click="sendSuggestion('Write a C program to reverse a number')">C Program</button>
+                        <button @click="sendSuggestion('Difference between RAM and ROM')">RAM vs ROM</button>
                     </div>
                 </div>
             </template>

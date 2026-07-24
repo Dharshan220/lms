@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->call(CategorySeeder::class);
+
         if (User::count() > 0) {
             $this->command->info('Database already seeded. Skipping...');
             return;

@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <div class="ns-chat-messages" x-ref="chatMessages">
-                    <div class="ns-chat-bubble bot">Hi! I'm your AI tutor. Ask me anything about IoT, robotics, AI, or your courses!</div>
+                    <div class="ns-chat-bubble bot">Hi! I'm your NanoSpark AI Tutor. Ask me anything you're learning — from programming and electronics to IoT, robotics, AI, math, science, and engineering!</div>
                     <template x-for="(msg, i) in messages" :key="i">
                         <div class="ns-chat-bubble" :class="msg.role" x-text="msg.text"></div>
                     </template>
@@ -198,13 +198,13 @@
                     .then(r => r.json())
                     .then(data => {
                         this.loading = false;
-                        const response = data.response || data.message || 'Sorry, I could not process your request.';
+                        const response = data.response || data.message || 'AI Tutor is temporarily unavailable. Please try again in a moment.';
                         this.messages.push({ role: 'bot', text: response });
                         this.$nextTick(() => { this.$refs.chatMessages.scrollTop = this.$refs.chatMessages.scrollHeight; });
                     })
                     .catch(() => {
                         this.loading = false;
-                        this.messages.push({ role: 'bot', text: 'Sorry, something went wrong. Please try again.' });
+                        this.messages.push({ role: 'bot', text: 'Unable to reach the AI service. Please check your connection and try again.' });
                         this.$nextTick(() => { this.$refs.chatMessages.scrollTop = this.$refs.chatMessages.scrollHeight; });
                     });
                 }

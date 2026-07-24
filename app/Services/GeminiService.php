@@ -14,7 +14,7 @@ class GeminiService
     public function __construct()
     {
         $this->apiKey = config('services.gemini.key', env('GEMINI_API_KEY'));
-        $this->model = config('services.gemini.model');
+        $this->model = config('services.gemini.model', 'gemini-2.0-flash');
         $this->apiUrl = "https://generativelanguage.googleapis.com/v1/models/{$this->model}:generateContent";
     }
 
@@ -31,20 +31,14 @@ class GeminiService
         }
 
         $temperature = $config['temperature'] ?? 0.7;
-        $maxTokens = $config['maxOutputTokens'] ?? 2048;
+        $maxTokens = $config['maxOutputTokens'] ?? 4096;
 
-        $contents = $this->buildContents($messages);
+        $payload = $this->buildPayload($messages, $temperature, $maxTokens);
 
         try {
-            $response = Http::timeout(30)
+            $response = Http::timeout(45)
                 ->withHeaders(['Content-Type' => 'application/json'])
-                ->post("{$this->apiUrl}?key={$this->apiKey}", [
-                    'contents' => $contents,
-                    'generationConfig' => [
-                        'temperature' => $temperature,
-                        'maxOutputTokens' => $maxTokens,
-                    ],
-                ]);
+                ->post("{$this->apiUrl}?key={$this->apiKey}", $payload);
 
             if ($response->successful()) {
                 $result = $response->json();
@@ -52,7 +46,7 @@ class GeminiService
 
                 if ($text === null) {
                     Log::error('GeminiService: Empty response - unexpected format', [
-                        'response_structure' => array_keys($result),
+                        'response_structure' => $result,
                     ]);
                 }
 
@@ -72,6 +66,8 @@ class GeminiService
                 Log::warning('GeminiService: Rate limit hit');
             } elseif ($status === 403 || $status === 401) {
                 Log::error('GeminiService: Authentication failed - check API key');
+            } elseif ($status === 404) {
+                Log::error('GeminiService: Model not found - check model name');
             } elseif ($status === 400) {
                 Log::error('GeminiService: Bad request', [
                     'error' => $errorMsg,
@@ -88,10 +84,10 @@ class GeminiService
         }
     }
 
-    private function buildContents(array $messages): array
+    private function buildPayload(array $messages, float $temperature, int $maxTokens): array
     {
-        $contents = [];
         $systemInstruction = '';
+        $contents = [];
 
         foreach ($messages as $msg) {
             $role = $msg['role'] ?? 'user';
@@ -109,10 +105,20 @@ class GeminiService
             ];
         }
 
-        if (!empty($systemInstruction) && !empty($contents)) {
-            $contents[0]['parts'][0]['text'] = "{$systemInstruction}\n\nUser: {$contents[0]['parts'][0]['text']}";
+        $payload = [
+            'contents' => $contents,
+            'generationConfig' => [
+                'temperature' => $temperature,
+                'maxOutputTokens' => $maxTokens,
+            ],
+        ];
+
+        if (!empty($systemInstruction)) {
+            $payload['system_instruction'] = [
+                'parts' => [['text' => $systemInstruction]],
+            ];
         }
 
-        return $contents;
+        return $payload;
     }
 }
