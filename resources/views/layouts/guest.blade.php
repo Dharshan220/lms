@@ -194,6 +194,7 @@
                         <a href="mailto:{{ config('nanospark.email') }}" title="Email"><i class="bi bi-envelope-fill"></i></a>
                         <a href="{{ config('nanospark.social.linkedin') }}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
                         <a href="{{ config('nanospark.social.youtube') }}" target="_blank" rel="noopener noreferrer" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="{{ config('nanospark.social.instagram') }}" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="bi bi-instagram"></i></a>
                         <a href="{{ config('nanospark.social.facebook') }}" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="bi bi-facebook"></i></a>
                     </div>
                 </div>

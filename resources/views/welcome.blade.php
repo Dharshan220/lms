@@ -739,6 +739,9 @@
             <a href="{{ config('nanospark.social.youtube') }}" target="_blank" rel="noopener noreferrer" class="ns-social-link" title="YouTube">
                 <i class="bi bi-youtube"></i>
             </a>
+            <a href="{{ config('nanospark.social.instagram') }}" target="_blank" rel="noopener noreferrer" class="ns-social-link" title="Instagram">
+                <i class="bi bi-instagram"></i>
+            </a>
             <a href="{{ config('nanospark.social.facebook') }}" target="_blank" rel="noopener noreferrer" class="ns-social-link" title="Facebook">
                 <i class="bi bi-facebook"></i>
             </a>

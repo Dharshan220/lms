@@ -14,6 +14,7 @@ return [
     | NANOSPARK_LINKEDIN=https://linkedin.com/company/nanospark
     | NANOSPARK_YOUTUBE=https://youtube.com/@nanospark
     | NANOSPARK_FACEBOOK=https://facebook.com/nanospark
+    | NANOSPARK_INSTAGRAM=https://instagram.com/nanospark
     |
     */
 
@@ -23,6 +24,7 @@ return [
         'linkedin' => env('NANOSPARK_LINKEDIN', 'https://linkedin.com/company/nanospark'),
         'youtube' => env('NANOSPARK_YOUTUBE', 'https://youtube.com/@nanospark'),
         'facebook' => env('NANOSPARK_FACEBOOK', 'https://facebook.com/nanospark'),
+        'instagram' => env('NANOSPARK_INSTAGRAM', 'https://instagram.com/nanospark'),
     ],
 
 ];
