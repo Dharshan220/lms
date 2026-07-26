@@ -367,8 +367,9 @@
 
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    .ns-fade-up { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
-    .ns-fade-up.visible { opacity: 1; transform: translateY(0); }
+    .ns-fade-up { transform: translateY(24px); transition: transform 0.6s ease; }
+    .ns-fade-up.visible { transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .ns-fade-up { transform: none; } }
 
     @media (max-width: 1024px) {
         .ns-courses-grid { grid-template-columns: repeat(2, 1fr); }
@@ -779,6 +780,7 @@
         });
     }, { threshold: 0.1 });
     fadeEls.forEach(el => observer.observe(el));
+    setTimeout(() => fadeEls.forEach(el => el.classList.add('visible')), 3000);
 
     const counters = document.querySelectorAll('.ns-stat-item h3[data-target]');
     const counterObserver = new IntersectionObserver((entries) => {
