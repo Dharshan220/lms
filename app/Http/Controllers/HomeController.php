@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Enrollment;
+use App\Models\StemKit;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -34,10 +37,19 @@ class HomeController extends Controller
             ->take(12)
             ->get();
 
+        $totalStudents = User::where('role', 'student')->count();
+        $totalCourses = Course::where('is_published', true)->count();
+        $projectsCompleted = Enrollment::where('is_completed', true)->count();
+        $avgRating = Course::where('is_published', true)->where('rating', '>', 0)->avg('rating');
+        $satisfaction = $avgRating ? round(($avgRating / 5) * 100) : 98;
+
         $stats = [
-            'total_courses' => Course::where('is_published', true)->count(),
-            'total_students' => \App\Models\User::where('role', 'student')->count(),
-            'total_teachers' => \App\Models\User::where('role', 'teacher')->count(),
+            'total_courses' => $totalCourses,
+            'total_students' => $totalStudents,
+            'total_teachers' => User::where('role', 'teacher')->count(),
+            'active_students' => $totalStudents,
+            'projects_completed' => $projectsCompleted,
+            'satisfaction' => $satisfaction,
         ];
 
         return view('welcome', compact('featuredCourses', 'latestCourses', 'popularCourses', 'categories', 'stats'));
@@ -46,6 +58,12 @@ class HomeController extends Controller
     public function about()
     {
         return view('about');
+    }
+
+    public function stemKits()
+    {
+        $kits = StemKit::where('is_available', true)->latest()->paginate(12);
+        return view('stem-kits-public', compact('kits'));
     }
 
     public function courses(Request $request)

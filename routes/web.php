@@ -49,6 +49,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/courses', [HomeController::class, 'courses'])->name('courses.public');
+Route::get('/stem-kits', [HomeController::class, 'stemKits'])->name('stem-kits.public');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 /*

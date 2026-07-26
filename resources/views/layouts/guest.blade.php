@@ -191,17 +191,17 @@
                         Empowering the next generation with AI-powered IoT, Robotics, and STEM education. Building future-ready innovators.
                     </p>
                     <div class="footer-social">
-                        <a href="#" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" title="GitHub"><i class="bi bi-github"></i></a>
-                        <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
-                        <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="mailto:{{ config('nanospark.email') }}" title="Email"><i class="bi bi-envelope-fill"></i></a>
+                        <a href="{{ config('nanospark.social.linkedin') }}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="{{ config('nanospark.social.youtube') }}" target="_blank" rel="noopener noreferrer" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="{{ config('nanospark.social.facebook') }}" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="bi bi-facebook"></i></a>
                     </div>
                 </div>
                 <div>
                     <div class="footer-heading">Platform</div>
                     <ul class="footer-links">
                         <li><a href="{{ url('/courses') }}">Browse Courses</a></li>
-                        <li><a href="#">STEM Kits</a></li>
+                        <li><a href="{{ route('stem-kits.public') }}">STEM Kits</a></li>
                         <li><a href="#">AI Tutor</a></li>
                         <li><a href="#">Live Classes</a></li>
                     </ul>
@@ -226,6 +226,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
+                <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:8px">
+                    <a href="{{ url('/about') }}" style="color:#888888;font-size:13px;text-decoration:none;transition:color 0.2s">About Us</a>
+                    <a href="mailto:{{ config('nanospark.email') }}" style="color:#888888;font-size:13px;text-decoration:none;transition:color 0.2s">Contact Us</a>
+                    <a href="#" style="color:#888888;font-size:13px;text-decoration:none;transition:color 0.2s">Privacy Policy</a>
+                    <a href="#" style="color:#888888;font-size:13px;text-decoration:none;transition:color 0.2s">Terms of Service</a>
+                </div>
                 &copy; {{ date('Y') }} Nano Spark LMS. All rights reserved.
             </div>
         </div>

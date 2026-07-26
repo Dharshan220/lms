@@ -94,16 +94,6 @@
         color: #FFC107; transform: translateY(-3px);
     }
 
-    .ns-hero-visuals {
-        display: flex; justify-content: center; gap: 48px;
-        margin-top: 72px; animation: fadeInUp 1.4s ease;
-    }
-    .ns-hero-stat-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 32px; font-weight: 700; color: #FFC107;
-    }
-    .ns-hero-stat-label { font-size: 13px; color: #888888; margin-top: 4px; }
-
     .ns-section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
     .ns-section-header { text-align: center; margin-bottom: 64px; }
     .ns-section-header h2 {
@@ -257,19 +247,154 @@
     }
     .ns-cta-box p { font-size: 16px; color: #888888; margin-bottom: 32px; }
 
+    .ns-split-section {
+        padding: 120px 24px; max-width: 1200px; margin: 0 auto;
+        position: relative; z-index: 10;
+    }
+    .ns-split-grid {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 80px; align-items: center;
+    }
+    .ns-split-grid.reversed .ns-split-image { order: 2; }
+    .ns-split-grid.reversed .ns-split-content { order: 1; }
+    .ns-split-image img {
+        width: 100%; border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        transition: transform 0.4s;
+    }
+    .ns-split-image img:hover { transform: scale(1.02); }
+    .ns-split-content h2 {
+        font-family: 'Poppins', 'Inter', sans-serif;
+        font-size: 34px; font-weight: 700; color: #FFFFFF;
+        margin-bottom: 20px; letter-spacing: -0.5px;
+    }
+    .ns-split-content h2 .highlight { color: #FFC107; }
+    .ns-split-content p {
+        font-size: 15px; color: #888888; line-height: 1.8; margin-bottom: 28px;
+    }
+    .ns-split-features {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .ns-split-feature {
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px; font-size: 14px; color: #CFCFCF;
+        transition: all 0.3s;
+    }
+    .ns-split-feature:hover {
+        border-color: rgba(255, 193, 7, 0.15);
+        background: rgba(255, 193, 7, 0.03);
+    }
+    .ns-split-feature i {
+        color: #FFC107; font-size: 18px; flex-shrink: 0;
+    }
+
+    .ns-stem-section {
+        padding: 120px 24px; max-width: 1200px; margin: 0 auto;
+        position: relative; z-index: 10;
+    }
+
+    .ns-founder-section {
+        padding: 120px 24px; max-width: 900px; margin: 0 auto;
+        position: relative; z-index: 10;
+    }
+    .ns-founder-card {
+        display: grid; grid-template-columns: 300px 1fr;
+        gap: 48px; align-items: center;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px; padding: 48px;
+        backdrop-filter: blur(10px);
+    }
+    .ns-founder-image img {
+        width: 100%; border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .ns-founder-content h2 {
+        font-family: 'Poppins', 'Inter', sans-serif;
+        font-size: 28px; font-weight: 700; color: #FFFFFF;
+        margin-bottom: 4px;
+    }
+    .ns-founder-content .ns-founder-title {
+        font-size: 14px; color: #FFC107; font-weight: 600;
+        margin-bottom: 16px;
+    }
+    .ns-founder-content p {
+        font-size: 15px; color: #888888; line-height: 1.8;
+    }
+    .ns-founder-divider {
+        width: 48px; height: 2px; background: #FFC107;
+        margin-bottom: 16px;
+    }
+
+    .ns-social-section {
+        padding: 80px 24px 0; max-width: 600px; margin: 0 auto;
+        text-align: center; position: relative; z-index: 10;
+    }
+    .ns-social-section h2 {
+        font-family: 'Poppins', 'Inter', sans-serif;
+        font-size: 28px; font-weight: 700; color: #FFFFFF;
+        margin-bottom: 8px;
+    }
+    .ns-social-section p { font-size: 15px; color: #888888; margin-bottom: 32px; }
+    .ns-social-links {
+        display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    }
+    .ns-social-link {
+        width: 56px; height: 56px; border-radius: 16px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 24px; text-decoration: none;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #888888; transition: all 0.3s;
+    }
+    .ns-social-link:hover {
+        transform: translateY(-4px);
+        background: rgba(255, 193, 7, 0.08);
+        border-color: rgba(255, 193, 7, 0.2);
+        color: #FFC107;
+    }
+    .ns-social-link.email-link {
+        padding: 16px 28px; width: auto; border-radius: 14px;
+        font-size: 15px; font-weight: 600; gap: 8px;
+        color: #CFCFCF;
+    }
+    .ns-social-link.email-link i { font-size: 20px; }
+
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     .ns-fade-up { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
     .ns-fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    @media (max-width: 1024px) { .ns-courses-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1024px) {
+        .ns-courses-grid { grid-template-columns: repeat(2, 1fr); }
+        .ns-split-grid { gap: 48px; }
+        .ns-founder-card { grid-template-columns: 240px 1fr; gap: 32px; padding: 36px; }
+    }
     @media (max-width: 768px) {
         .ns-features-grid, .ns-paths-grid, .ns-testimonials-grid { grid-template-columns: 1fr; }
         .ns-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-        .ns-hero-visuals { gap: 20px; flex-wrap: wrap; }
         .ns-section { padding: 72px 16px; }
         .ns-courses-grid { grid-template-columns: 1fr; }
         .ns-hero { padding: 100px 16px 60px; }
+        .ns-split-section { padding: 72px 16px; }
+        .ns-split-grid { grid-template-columns: 1fr; gap: 40px; }
+        .ns-split-grid.reversed .ns-split-image { order: 1; }
+        .ns-split-grid.reversed .ns-split-content { order: 2; }
+        .ns-split-features { grid-template-columns: 1fr; }
+        .ns-split-content h2 { font-size: 26px; }
+        .ns-stem-section { padding: 72px 16px; }
+        .ns-founder-section { padding: 72px 16px; }
+        .ns-founder-card { grid-template-columns: 1fr; padding: 28px; text-align: center; }
+        .ns-founder-image { max-width: 240px; margin: 0 auto; }
+        .ns-founder-divider { margin: 0 auto 16px; }
+        .ns-social-section { padding: 48px 16px 0; }
+        .ns-cta { padding: 72px 16px; }
+        .ns-cta-box { padding: 40px 24px; }
     }
 </style>
 
@@ -283,7 +408,7 @@
         <p>Master IoT, Robotics, Embedded Systems and Artificial Intelligence through practical, hands-on learning experiences designed for the next generation.</p>
         <div class="ns-hero-buttons">
             @auth
-                <a href="{{ route('login') }}" class="ns-hero-btn-primary">
+                <a href="{{ route('dashboard') }}" class="ns-hero-btn-primary">
                     <i class="bi bi-play-fill"></i> Go to Dashboard
                 </a>
             @else
@@ -291,27 +416,30 @@
                     <i class="bi bi-play-fill"></i> Start Learning
                 </a>
             @endauth
-            <a href="#courses" class="ns-hero-btn-secondary">
+            <a href="{{ route('courses.public') }}" class="ns-hero-btn-secondary">
                 <i class="bi bi-compass"></i> Explore Courses
             </a>
         </div>
-        <div class="ns-hero-visuals">
-            <div>
-                <div class="ns-hero-stat-value" data-target="500">0</div>
-                <div class="ns-hero-stat-label">Active Students</div>
-            </div>
-            <div>
-                <div class="ns-hero-stat-value" data-target="50">0</div>
-                <div class="ns-hero-stat-label">Expert Courses</div>
-            </div>
-            <div>
-                <div class="ns-hero-stat-value" data-target="200">0</div>
-                <div class="ns-hero-stat-label">Projects Built</div>
-            </div>
-            <div>
-                <div class="ns-hero-stat-value" data-target="95">0</div>
-                <div class="ns-hero-stat-label">% Satisfaction</div>
-            </div>
+    </div>
+</section>
+
+<section class="ns-stats-section">
+    <div class="ns-stats-grid">
+        <div class="ns-stat-item ns-fade-up">
+            <h3 data-target="{{ $stats['active_students'] }}">0</h3>
+            <p>Active Students</p>
+        </div>
+        <div class="ns-stat-item ns-fade-up">
+            <h3 data-target="{{ $stats['total_courses'] }}">0</h3>
+            <p>Expert Courses</p>
+        </div>
+        <div class="ns-stat-item ns-fade-up">
+            <h3 data-target="{{ $stats['projects_completed'] }}">0</h3>
+            <p>Projects Built</p>
+        </div>
+        <div class="ns-stat-item ns-fade-up">
+            <h3 data-target="{{ $stats['satisfaction'] }}">0</h3>
+            <p>% Satisfaction</p>
         </div>
     </div>
 </section>
@@ -368,23 +496,29 @@
     </div>
 </section>
 
-<section class="ns-stats-section">
-    <div class="ns-stats-grid">
-        <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="500">0</h3>
-            <p>Students Enrolled</p>
+<section class="ns-split-section">
+    <div class="ns-split-grid">
+        <div class="ns-split-image ns-fade-up">
+            <img src="{{ asset('images/home/student-learning.jpeg') }}" alt="Students learning at Nano Spark">
         </div>
-        <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="50">0</h3>
-            <p>Courses Available</p>
-        </div>
-        <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="200">0</h3>
-            <p>Projects Completed</p>
-        </div>
-        <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="100">0</h3>
-            <p>Certificates Issued</p>
+        <div class="ns-split-content ns-fade-up">
+            <div class="ns-tag" style="display:inline-block;padding:4px 14px;border-radius:100px;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:#FFC107;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Hands-On Learning</div>
+            <h2>Learn by Doing, <span class="highlight">Not Just Watching</span></h2>
+            <p>At Nano Spark, we believe the best way to learn technology is to build it. Our project-based curriculum takes students from theory to real-world application across every domain.</p>
+            <div class="ns-split-features">
+                <div class="ns-split-feature">
+                    <i class="bi bi-cpu"></i> IoT & Embedded Systems
+                </div>
+                <div class="ns-split-feature">
+                    <i class="bi bi-robot"></i> Robotics Engineering
+                </div>
+                <div class="ns-split-feature">
+                    <i class="bi bi-braces-asterisk"></i> Artificial Intelligence
+                </div>
+                <div class="ns-split-feature">
+                    <i class="bi bi-tools"></i> Practical Projects
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -428,6 +562,36 @@
                 <span style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">Grades 10-12</span>
                 <span style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">20 Courses</span>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="ns-split-section">
+    <div class="ns-split-grid reversed">
+        <div class="ns-split-image ns-fade-up">
+            <img src="{{ asset('images/home/stem-kit.jpeg') }}" alt="Nano Spark STEM Kit">
+        </div>
+        <div class="ns-split-content ns-fade-up">
+            <div class="ns-tag" style="display:inline-block;padding:4px 14px;border-radius:100px;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:#FFC107;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Hardware Kits</div>
+            <h2>Learn by Building with <span class="highlight">Nano Spark STEM Kits</span></h2>
+            <p>Take your learning further with our curated STEM kits. Each kit includes quality components, step-by-step guides, and real-world project ideas to bring your code to life.</p>
+            <div class="ns-split-features">
+                <div class="ns-split-feature">
+                    <i class="bi bi-hand-index-thumb"></i> Hands-On Learning
+                </div>
+                <div class="ns-split-feature">
+                    <i class="bi bi-check-circle"></i> Quality Components
+                </div>
+                <div class="ns-split-feature">
+                    <i class="bi bi-emoji-smile"></i> Beginner Friendly
+                </div>
+                <div class="ns-split-feature">
+                    <i class="bi bi-globe2"></i> Real-World Projects
+                </div>
+            </div>
+            <a href="{{ route('stem-kits.public') }}" class="ns-hero-btn-primary" style="margin-top: 28px; display: inline-flex;">
+                <i class="bi bi-box-seam"></i> Explore STEM Kits
+            </a>
         </div>
     </div>
 </section>
@@ -547,12 +711,47 @@
     </div>
 </section>
 
+<section class="ns-founder-section">
+    <div class="ns-founder-card ns-fade-up">
+        <div class="ns-founder-image">
+            <img src="{{ asset('images/home/founder.jpeg') }}" alt="Dr. Arun Kumar - Founder of Nano Spark">
+        </div>
+        <div class="ns-founder-content">
+            <div class="ns-founder-divider"></div>
+            <h2>Dr. Arun Kumar</h2>
+            <div class="ns-founder-title">Founder of Nano Spark</div>
+            <p>Dr. Arun Kumar founded Nano Spark with a vision to make STEM education accessible, practical, and inspiring for every student. With a deep passion for IoT, robotics, and AI, he built Nano Spark to bridge the gap between classroom theory and real-world innovation. Under his leadership, Nano Spark has grown into a platform that empowers hundreds of students to build, create, and lead in the age of technology.</p>
+        </div>
+    </div>
+</section>
+
+<section class="ns-social-section">
+    <div class="ns-fade-up">
+        <h2>Connect with Nano Spark</h2>
+        <p>Follow us on social media or reach out via email. We'd love to hear from you.</p>
+        <div class="ns-social-links">
+            <a href="mailto:{{ config('nanospark.email') }}" class="ns-social-link email-link" title="Email">
+                <i class="bi bi-envelope-fill"></i> {{ config('nanospark.email') }}
+            </a>
+            <a href="{{ config('nanospark.social.linkedin') }}" target="_blank" rel="noopener noreferrer" class="ns-social-link" title="LinkedIn">
+                <i class="bi bi-linkedin"></i>
+            </a>
+            <a href="{{ config('nanospark.social.youtube') }}" target="_blank" rel="noopener noreferrer" class="ns-social-link" title="YouTube">
+                <i class="bi bi-youtube"></i>
+            </a>
+            <a href="{{ config('nanospark.social.facebook') }}" target="_blank" rel="noopener noreferrer" class="ns-social-link" title="Facebook">
+                <i class="bi bi-facebook"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
 <section class="ns-cta">
     <div class="ns-cta-box ns-fade-up">
         <h2>Ready to Start Your<br>Learning Journey?</h2>
         <p>Join hundreds of students already building the future. It's free to get started.</p>
         @auth
-            <a href="{{ route('login') }}" class="ns-hero-btn-primary">
+            <a href="{{ route('dashboard') }}" class="ns-hero-btn-primary">
                 <i class="bi bi-arrow-right"></i> Go to Dashboard
             </a>
         @else
@@ -589,7 +788,8 @@
                 const timer = setInterval(() => {
                     current += step;
                     if (current >= target) { current = target; clearInterval(timer); }
-                    el.textContent = current + '+';
+                    const suffix = el.closest('.ns-stat-item')?.querySelector('p')?.textContent?.includes('%') ? '%' : '+';
+                    el.textContent = current + suffix;
                 }, 30);
                 counterObserver.unobserve(el);
             }
