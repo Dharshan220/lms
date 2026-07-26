@@ -715,11 +715,11 @@
 <section class="ns-founder-section">
     <div class="ns-founder-card ns-fade-up">
         <div class="ns-founder-image">
-            <img src="{{ asset('images/home/founder.jpeg') }}" alt="Dr. Arun Kumar - Founder of Nano Spark">
+            <img src="{{ asset('images/home/founder.jpeg') }}" alt="Shanavas Sulaiman - Founder &amp; CEO of Nano Spark">
         </div>
         <div class="ns-founder-content">
             <div class="ns-founder-divider"></div>
-            <h2>Dr. Arun Kumar</h2>
+            <h2>Shanavas Sulaiman</h2>
             <div class="ns-founder-title">Founder of Nano Spark</div>
             <p>Nano Spark is focused on empowering the next generation through practical learning in IoT, Robotics, Embedded Systems and Artificial Intelligence.</p>
         </div>
