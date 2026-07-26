@@ -426,19 +426,19 @@
 <section class="ns-stats-section">
     <div class="ns-stats-grid">
         <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="{{ $stats['active_students'] }}">0</h3>
+            <h3 data-target="{{ $stats['active_students'] }}">{{ $stats['active_students'] }}+</h3>
             <p>Active Students</p>
         </div>
         <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="{{ $stats['total_courses'] }}">0</h3>
+            <h3 data-target="{{ $stats['total_courses'] }}">{{ $stats['total_courses'] }}+</h3>
             <p>Expert Courses</p>
         </div>
         <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="{{ $stats['projects_completed'] }}">0</h3>
+            <h3 data-target="{{ $stats['projects_completed'] }}">{{ $stats['projects_completed'] }}+</h3>
             <p>Projects Built</p>
         </div>
         <div class="ns-stat-item ns-fade-up">
-            <h3 data-target="{{ $stats['satisfaction'] }}">0</h3>
+            <h3 data-target="{{ $stats['satisfaction'] }}">{{ $stats['satisfaction'] }}%</h3>
             <p>% Satisfaction</p>
         </div>
     </div>
