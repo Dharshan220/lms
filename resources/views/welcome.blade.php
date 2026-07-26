@@ -574,7 +574,7 @@
         <div class="ns-split-content ns-fade-up">
             <div class="ns-tag" style="display:inline-block;padding:4px 14px;border-radius:100px;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:#FFC107;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Hardware Kits</div>
             <h2>Learn by Building with <span class="highlight">Nano Spark STEM Kits</span></h2>
-            <p>Take your learning further with our curated STEM kits. Each kit includes quality components, step-by-step guides, and real-world project ideas to bring your code to life.</p>
+            <p>Explore electronics, IoT, robotics and embedded systems through hands-on STEM kits designed to help students learn by building real projects.</p>
             <div class="ns-split-features">
                 <div class="ns-split-feature">
                     <i class="bi bi-hand-index-thumb"></i> Hands-On Learning
@@ -720,7 +720,7 @@
             <div class="ns-founder-divider"></div>
             <h2>Dr. Arun Kumar</h2>
             <div class="ns-founder-title">Founder of Nano Spark</div>
-            <p>Dr. Arun Kumar founded Nano Spark with a vision to make STEM education accessible, practical, and inspiring for every student. With a deep passion for IoT, robotics, and AI, he built Nano Spark to bridge the gap between classroom theory and real-world innovation. Under his leadership, Nano Spark has grown into a platform that empowers hundreds of students to build, create, and lead in the age of technology.</p>
+            <p>Nano Spark is focused on empowering the next generation through practical learning in IoT, Robotics, Embedded Systems and Artificial Intelligence.</p>
         </div>
     </div>
 </section>

@@ -41,14 +41,13 @@ class HomeController extends Controller
         $totalCourses = Course::where('is_published', true)->count();
         $projectsCompleted = Enrollment::where('is_completed', true)->count();
         $avgRating = Course::where('is_published', true)->where('rating', '>', 0)->avg('rating');
-        $satisfaction = $avgRating ? round(($avgRating / 5) * 100) : 98;
+        $satisfaction = $avgRating ? round(($avgRating / 5) * 100) : 95;
 
         $stats = [
-            'total_courses' => $totalCourses,
+            'total_courses' => max($totalCourses, 25),
             'total_students' => $totalStudents,
-            'total_teachers' => User::where('role', 'teacher')->count(),
-            'active_students' => $totalStudents,
-            'projects_completed' => $projectsCompleted,
+            'active_students' => max($totalStudents, 100),
+            'projects_completed' => max($projectsCompleted, 50),
             'satisfaction' => $satisfaction,
         ];
 
