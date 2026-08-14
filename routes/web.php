@@ -32,6 +32,8 @@ use App\Http\Controllers\Student\AssignmentController as StudentAssignmentContro
 use App\Http\Controllers\Student\CertificateController as StudentCertificateController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Parent\DashboardController as ParentDashboard;
+use App\Http\Controllers\Parent\ChildController as ParentChildController;
+use App\Http\Controllers\Parent\StemKitController as ParentStemKitController;
 use App\Http\Controllers\Ai\ChatController;
 use App\Http\Controllers\Ai\QuizGeneratorController;
 use App\Http\Controllers\Ai\AssignmentGeneratorController;
@@ -113,6 +115,8 @@ Route::middleware(['auth', 'darkmode'])->group(function () {
         Route::resource('courses', AdminCourseController::class);
         Route::resource('categories', CategoryController::class);
         Route::resource('stem-kits', StemKitController::class);
+        Route::post('/stem-kits/{stemKit}/publish', [StemKitController::class, 'publish'])->name('stem-kits.publish');
+        Route::post('/stem-kits/{stemKit}/unpublish', [StemKitController::class, 'unpublish'])->name('stem-kits.unpublish');
         Route::resource('announcements', AnnouncementController::class);
         Route::resource('certificates', AdminCertificateController::class)->only(['index', 'show', 'destroy']);
 
@@ -222,6 +226,16 @@ Route::middleware(['auth', 'darkmode'])->group(function () {
     Route::prefix('parent')->name('parent.')->middleware(['role:parent'])->group(function () {
         Route::get('/dashboard', [ParentDashboard::class, 'index'])->name('dashboard');
         Route::get('/child/{user}', [ParentDashboard::class, 'childProgress'])->name('child.progress');
+
+        Route::get('/children/create', [ParentChildController::class, 'create'])->name('children.create');
+        Route::post('/children', [ParentChildController::class, 'store'])->name('children.store');
+        Route::get('/children/{child}/edit', [ParentChildController::class, 'edit'])->name('children.edit');
+        Route::put('/children/{child}', [ParentChildController::class, 'update'])->name('children.update');
+        Route::delete('/children/{child}', [ParentChildController::class, 'destroy'])->name('children.destroy');
+
+        Route::get('/stem-kits', [ParentStemKitController::class, 'index'])->name('stem-kits.index');
+        Route::get('/stem-kits/{stemKit}', [ParentStemKitController::class, 'show'])->name('stem-kits.show');
+
         Route::get('/reports', function () {
             $parent = auth()->user();
             $children = $parent->children()->with('school')->get();

@@ -11,7 +11,7 @@
 
     {{-- Stat Cards --}}
     <div class="row g-3 mb-4">
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl-4">
             <div class="ns-stat-card info">
                 <div class="ns-stat-icon info"><i class="bi bi-people"></i></div>
                 <div class="ns-stat-value">{{ $totalStudents ?? 0 }}</div>
@@ -19,22 +19,36 @@
                 <div class="ns-stat-change up"><i class="bi bi-arrow-up"></i> Growing</div>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl-4">
             <div class="ns-stat-card primary">
-                <div class="ns-stat-icon primary"><i class="bi bi-book"></i></div>
+                <div class="ns-stat-icon primary"><i class="bi bi-person-video3"></i></div>
+                <div class="ns-stat-value">{{ $totalTeachers ?? 0 }}</div>
+                <div class="ns-stat-label">Total Teachers</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="ns-stat-card warning">
+                <div class="ns-stat-icon warning"><i class="bi bi-person-hearts"></i></div>
+                <div class="ns-stat-value">{{ $totalParents ?? 0 }}</div>
+                <div class="ns-stat-label">Total Parents</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="ns-stat-card success">
+                <div class="ns-stat-icon success"><i class="bi bi-book"></i></div>
                 <div class="ns-stat-value">{{ $activeCourses ?? 0 }}</div>
                 <div class="ns-stat-label">Active Courses</div>
                 <div class="ns-stat-change up"><i class="bi bi-arrow-up"></i> Active</div>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="ns-stat-card success">
-                <div class="ns-stat-icon success"><i class="bi bi-person-check"></i></div>
+        <div class="col-md-6 col-xl-4">
+            <div class="ns-stat-card primary">
+                <div class="ns-stat-icon primary"><i class="bi bi-person-check"></i></div>
                 <div class="ns-stat-value">{{ $totalEnrollments ?? 0 }}</div>
                 <div class="ns-stat-label">Total Enrollments</div>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl-4">
             <div class="ns-stat-card warning">
                 <div class="ns-stat-icon warning"><i class="bi bi-currency-dollar"></i></div>
                 <div class="ns-stat-value">${{ number_format($totalRevenue ?? 0, 2) }}</div>

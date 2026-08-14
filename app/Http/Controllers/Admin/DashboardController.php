@@ -9,6 +9,7 @@ use App\Models\LessonProgress;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,6 +19,7 @@ class DashboardController extends Controller
 
         $totalStudents = User::where('role', 'student')->count();
         $totalTeachers = User::where('role', 'teacher')->count();
+        $totalParents = User::where('role', 'parent')->count();
         $totalCourses = Course::count();
         $totalEnrollments = Enrollment::count();
         $totalSchools = School::count();
@@ -50,7 +52,11 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        $monthlyEnrollments = Enrollment::selectRaw('EXTRACT(MONTH FROM created_at) as month, COUNT(*) as count')
+        $monthExpr = DB::connection()->getDriverName() === 'sqlite'
+            ? "strftime('%m', created_at) as month"
+            : 'EXTRACT(MONTH FROM created_at) as month';
+
+        $monthlyEnrollments = Enrollment::selectRaw($monthExpr . ', COUNT(*) as count')
             ->whereYear('created_at', now()->year)
             ->groupBy('month')
             ->orderBy('month')
@@ -79,6 +85,7 @@ class DashboardController extends Controller
         return view('admin.dashboard', compact(
             'totalStudents',
             'totalTeachers',
+            'totalParents',
             'totalCourses',
             'totalEnrollments',
             'totalSchools',

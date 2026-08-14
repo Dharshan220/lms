@@ -127,10 +127,13 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($categories as $cat) {
-            Category::create(array_merge($cat, [
-                'description' => 'Learn about ' . $cat['name'],
-                'is_active' => true,
-            ]));
+            Category::firstOrCreate(
+                ['slug' => $cat['slug']],
+                array_merge($cat, [
+                    'description' => 'Learn about ' . $cat['name'],
+                    'is_active' => true,
+                ])
+            );
         }
 
         // Create Courses
@@ -215,6 +218,7 @@ class DatabaseSeeder extends Seeder
             StemKit::create(array_merge($kit, [
                 'description' => 'Complete ' . $kit['name'] . ' for hands-on learning.',
                 'is_available' => true,
+                'status' => 'published',
                 'stock_quantity' => rand(10, 50),
             ]));
         }

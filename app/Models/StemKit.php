@@ -17,6 +17,7 @@ class StemKit extends Model
         'image',
         'components',
         'is_available',
+        'status',
         'stock_quantity',
     ];
 

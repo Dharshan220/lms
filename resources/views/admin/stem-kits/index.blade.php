@@ -46,14 +46,34 @@
                             </div>
                             <div class="mt-2">
                                 <span class="badge bg-secondary">{{ $kit->category ?? 'General' }}</span>
+                                @if($kit->status === 'published')
+                                    <span class="badge bg-success">Published</span>
+                                @else
+                                    <span class="badge bg-warning text-dark">Draft</span>
+                                @endif
                                 @if($kit->is_available)
-                                    <span class="badge bg-success">Available</span>
+                                    <span class="badge bg-info">Available</span>
                                 @else
                                     <span class="badge bg-danger">Unavailable</span>
                                 @endif
                             </div>
                         </div>
                         <div class="card-footer bg-white border-top d-flex justify-content-end gap-1">
+                            @if($kit->status === 'published')
+                                <form action="{{ route('admin.stem-kits.unpublish', $kit) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-outline-warning" title="Hide from parents">
+                                        <i class="bi bi-eye-slash me-1"></i> Unpublish
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('admin.stem-kits.publish', $kit) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success" title="Show to parents">
+                                        <i class="bi bi-eye me-1"></i> Publish
+                                    </button>
+                                </form>
+                            @endif
                             <a href="{{ route('admin.stem-kits.edit', $kit) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-pencil me-1"></i> Edit
                             </a>

@@ -469,6 +469,24 @@
         border-color: var(--pd-border-light);
     }
 
+    .pd-btn-danger {
+        background: rgba(255, 77, 79, 0.1);
+        color: #ff6b6b;
+        border: 1px solid rgba(255, 77, 79, 0.3);
+    }
+
+    .pd-btn-danger:hover {
+        background: rgba(255, 77, 79, 0.18);
+        color: #ff8080;
+        border-color: rgba(255, 77, 79, 0.5);
+    }
+
+    .pd-btn-sm {
+        padding: 7px 12px;
+        font-size: 12px;
+        flex: 0 0 auto;
+    }
+
     .pd-actions-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -615,10 +633,15 @@
 
     {{-- Children Progress --}}
     <div class="pd-section-header">
-        <h2 class="pd-section-title"><i class="bi bi-people-fill"></i> Children Progress</h2>
-        @if(isset($children) && $children->count())
-            <span style="font-family:var(--pd-font-mono);font-size:12px;color:var(--pd-text-muted);">{{ $children->count() }} {{ Str::plural('child', $children->count()) }}</span>
-        @endif
+        <h2 class="pd-section-title"><i class="bi bi-people-fill"></i> My Children</h2>
+        <div style="display:flex;align-items:center;gap:10px;">
+            @if(isset($children) && $children->count())
+                <span style="font-family:var(--pd-font-mono);font-size:12px;color:var(--pd-text-muted);">{{ $children->count() }} {{ Str::plural('child', $children->count()) }}</span>
+            @endif
+            <a href="{{ route('parent.children.create') }}" class="pd-btn pd-btn-accent" style="flex:0 0 auto;padding:9px 16px;">
+                <i class="bi bi-person-plus-fill"></i> Add Child
+            </a>
+        </div>
     </div>
 
     @if(isset($children) && $children->count())
@@ -727,11 +750,18 @@
                     {{-- Actions --}}
                     <div class="pd-child-actions">
                         <a href="{{ route('parent.child.progress', $child->id) }}" class="pd-btn pd-btn-accent">
-                            <i class="bi bi-eye"></i> View Progress
+                            <i class="bi bi-eye"></i> View Child
                         </a>
-                        <a href="{{ route('parent.reports') }}" class="pd-btn pd-btn-ghost">
-                            <i class="bi bi-bar-chart-line"></i> Reports
+                        <a href="{{ route('parent.children.edit', $child->id) }}" class="pd-btn pd-btn-ghost">
+                            <i class="bi bi-pencil"></i> Edit
                         </a>
+                        <form action="{{ route('parent.children.destroy', $child->id) }}" method="POST" onsubmit="return confirm('Remove {{ addslashes($child->name) }} from your account?')" style="flex:1;display:flex;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="pd-btn pd-btn-danger">
+                                <i class="bi bi-person-dash"></i> Remove
+                            </button>
+                        </form>
                     </div>
                 </div>
             @endforeach
@@ -739,8 +769,11 @@
     @else
         <div class="pd-empty-state">
             <i class="bi bi-people"></i>
-            <h5>No Children Linked</h5>
-            <p>No children are linked to your account yet. Contact the administrator to link your children.</p>
+            <h5>No Children Yet</h5>
+            <p>Add your child to start monitoring their learning progress and achievements.</p>
+            <a href="{{ route('parent.children.create') }}" class="pd-btn pd-btn-accent" style="margin-top:18px;max-width:220px;margin-left:auto;margin-right:auto;">
+                <i class="bi bi-person-plus-fill"></i> Add Child
+            </a>
         </div>
     @endif
 
@@ -757,6 +790,16 @@
             <div>
                 <div class="pd-action-title">View Reports</div>
                 <div class="pd-action-desc">Detailed academic progress</div>
+            </div>
+        </a>
+
+        <a href="{{ route('parent.stem-kits.index') }}" class="pd-action-card">
+            <div class="pd-action-icon" style="background:var(--pd-accent-dim);color:var(--pd-accent);">
+                <i class="bi bi-cpu"></i>
+            </div>
+            <div>
+                <div class="pd-action-title">STEM Kits</div>
+                <div class="pd-action-desc">Explore kits for hands-on learning</div>
             </div>
         </a>
 

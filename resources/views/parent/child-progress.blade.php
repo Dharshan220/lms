@@ -23,6 +23,21 @@
         <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
     </a>
 
+    {{-- Child Switcher --}}
+    @if(isset($children) && $children->count() > 1)
+        <div class="mb-3 d-flex align-items-center gap-2 flex-wrap">
+            <span class="badge rounded-pill" style="background: rgba(255,212,0,0.15); color: var(--ns-accent); border: 1px solid rgba(255,212,0,0.35);">
+                <i class="bi bi-arrow-left-right me-1"></i> Switch Child
+            </span>
+            @foreach($children as $c)
+                <a href="{{ route('parent.child.progress', $c->id) }}"
+                   class="btn btn-sm rounded-pill {{ $c->id === $child->id ? 'btn-warning text-dark fw-bold' : 'btn-outline-secondary' }}">
+                    {{ $c->name }}
+                </a>
+            @endforeach
+        </div>
+    @endif
+
     {{-- Child Profile Header --}}
     <div class="profile-header rounded-4 p-4 p-md-5 mb-4 text-white shadow-lg">
         <div class="row align-items-center">
@@ -36,7 +51,11 @@
                 @endif
             </div>
             <div class="col-md-10">
-                <h2 class="fw-bold mb-1">{{ $child->name }}</h2>
+                <h2 class="fw-bold mb-1">{{ $child->name }}
+                    <span class="badge rounded-pill align-middle" style="background:#FFD400; color:#050505; font-size:12px; margin-left:8px;">
+                        <i class="bi bi-eye-fill me-1"></i> Selected Child
+                    </span>
+                </h2>
                 <div class="d-flex gap-2 flex-wrap mb-2">
                     <span class="badge bg-white text-primary fs-6"><i class="bi bi-mortarboard me-1"></i>{{ $child->grade ?? 'N/A' }}</span>
                     <span class="badge bg-white text-dark fs-6"><i class="bi bi-building me-1"></i>{{ $child->school ?? 'N/A' }}</span>
@@ -45,6 +64,9 @@
                     <span class="badge bg-light text-dark fs-6"><i class="bi bi-star-fill text-warning me-1"></i> Level {{ $child->level ?? 1 }}</span>
                     <span class="badge bg-light text-dark fs-6"><i class="bi bi-lightning-fill text-success me-1"></i> {{ number_format($child->xp_points ?? 0) }} XP</span>
                     <span class="badge bg-light text-dark fs-6"><i class="bi bi-fire text-danger me-1"></i> {{ $child->daily_streak ?? 0 }} Day Streak</span>
+                    <a href="{{ route('parent.children.edit', $child->id) }}" class="badge rounded-pill text-decoration-none" style="background:#FFD400; color:#050505; font-size:12px;">
+                        <i class="bi bi-pencil-fill me-1"></i> Edit Child
+                    </a>
                 </div>
             </div>
         </div>

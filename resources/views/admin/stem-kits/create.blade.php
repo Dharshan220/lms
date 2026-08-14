@@ -56,7 +56,7 @@
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Components</label>
                                 <div id="components-container">
-                                    @php $components = old('components', ['']); @endphp
+                                    @php $components = (array) old('components', ['']); @endphp
                                     @foreach($components as $comp)
                                         <div class="input-group mb-2 component-row">
                                             <input type="text" name="components[]" class="form-control" placeholder="Component name" value="{{ $comp }}">
@@ -126,6 +126,18 @@
                                 <input type="file" name="image" id="image"
                                        class="form-control @error('image') is-invalid @enderror" accept="image/*">
                                 @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status" class="form-label fw-semibold">Status</label>
+                                <select name="status" id="status"
+                                        class="form-select @error('status') is-invalid @enderror">
+                                    <option value="draft" {{ old('status', 'draft') === 'draft' ? 'selected' : '' }}>Draft (hidden from parents)</option>
+                                    <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published (visible to parents)</option>
+                                </select>
+                                @error('status')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

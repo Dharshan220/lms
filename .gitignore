@@ -26,3 +26,6 @@ check_active.php
 /vendor
 .claude/
 /bootstrap/cache/*.php
+
+# Local dev server logs
+php_server*.log

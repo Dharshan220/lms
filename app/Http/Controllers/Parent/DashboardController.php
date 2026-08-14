@@ -69,7 +69,9 @@ class DashboardController extends Controller
     {
         $parent = $request->user();
 
-        $child = $parent->children()->where('id', $childId)->firstOrFail();
+        $child = $parent->children()->where('users.id', $childId)->firstOrFail();
+
+        $children = $parent->children()->get();
 
         $enrollments = Enrollment::where('user_id', $child->id)
             ->with(['course.category', 'course.teacher'])
@@ -111,6 +113,7 @@ class DashboardController extends Controller
 
         return view('parent.child-progress', compact(
             'child',
+            'children',
             'enrollments',
             'quizAttempts',
             'badges',

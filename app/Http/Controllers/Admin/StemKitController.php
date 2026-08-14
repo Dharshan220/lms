@@ -51,6 +51,7 @@ class StemKitController extends Controller
             'components' => 'nullable|array',
             'components.*' => 'string|max:255',
             'is_available' => 'boolean',
+            'status' => 'nullable|in:draft,published',
             'stock_quantity' => 'required|integer|min:0',
         ]);
 
@@ -61,6 +62,7 @@ class StemKitController extends Controller
         }
 
         $validated['is_available'] = $request->boolean('is_available', true);
+        $validated['status'] = $validated['status'] ?? 'draft';
 
         StemKit::create($validated);
 
@@ -92,6 +94,7 @@ class StemKitController extends Controller
             'components' => 'nullable|array',
             'components.*' => 'string|max:255',
             'is_available' => 'boolean',
+            'status' => 'nullable|in:draft,published',
             'stock_quantity' => 'required|integer|min:0',
         ]);
 
@@ -105,10 +108,30 @@ class StemKitController extends Controller
 
         $validated['is_available'] = $request->boolean('is_available');
 
+        if (!isset($validated['status'])) {
+            unset($validated['status']);
+        }
+
         $stemKit->update($validated);
 
         return redirect()->route('admin.stem-kits.show', $stemKit)
             ->with('success', 'STEM Kit updated successfully.');
+    }
+
+    public function publish(StemKit $stemKit)
+    {
+        $stemKit->update(['status' => 'published']);
+
+        return redirect()->route('admin.stem-kits.index')
+            ->with('success', "'{$stemKit->name}' is now published and visible to parents.");
+    }
+
+    public function unpublish(StemKit $stemKit)
+    {
+        $stemKit->update(['status' => 'draft']);
+
+        return redirect()->route('admin.stem-kits.index')
+            ->with('success', "'{$stemKit->name}' has been unpublished and is no longer visible to parents.");
     }
 
     public function destroy(StemKit $stemKit)

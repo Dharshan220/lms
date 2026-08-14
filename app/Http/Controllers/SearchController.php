@@ -46,7 +46,8 @@ class SearchController extends Controller
                 break;
 
             case 'stemkits':
-                $results = StemKit::where(function ($q) use ($searchQuery) {
+                $results = StemKit::where('status', 'published')
+                    ->where(function ($q) use ($searchQuery) {
                         $q->where('name', 'like', $searchQuery)
                           ->orWhere('description', 'like', $searchQuery);
                     })
@@ -80,7 +81,8 @@ class SearchController extends Controller
                     ->take(5)
                     ->get();
 
-                $stemKits = StemKit::where(function ($q) use ($searchQuery) {
+                $stemKits = StemKit::where('status', 'published')
+                    ->where(function ($q) use ($searchQuery) {
                         $q->where('name', 'like', $searchQuery)
                           ->orWhere('description', 'like', $searchQuery);
                     })

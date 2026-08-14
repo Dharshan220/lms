@@ -194,6 +194,14 @@
                     <i class="bi bi-people-fill"></i>
                     <span class="nav-label">My Children</span>
                 </a>
+                <a href="{{ route('parent.stem-kits.index') }}" class="ns-nav-item {{ str_starts_with($currentRoute, 'parent.stem-kits') ? 'active' : '' }}">
+                    <i class="bi bi-cpu"></i>
+                    <span class="nav-label">STEM Kits</span>
+                </a>
+                <a href="{{ route('parent.reports') }}" class="ns-nav-item {{ $currentRoute === 'parent.reports' ? 'active' : '' }}">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                    <span class="nav-label">Reports</span>
+                </a>
             </div>
         @else
             <div class="ns-nav-section">

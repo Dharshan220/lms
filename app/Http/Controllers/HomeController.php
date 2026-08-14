@@ -61,7 +61,7 @@ class HomeController extends Controller
 
     public function stemKits()
     {
-        $kits = StemKit::where('is_available', true)->latest()->paginate(12);
+        $kits = StemKit::where('status', 'published')->latest()->paginate(12);
         return view('stem-kits-public', compact('kits'));
     }
 
