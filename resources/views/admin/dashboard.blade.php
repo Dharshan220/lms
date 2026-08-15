@@ -50,8 +50,8 @@
         </div>
         <div class="col-md-6 col-xl-4">
             <div class="ns-stat-card warning">
-                <div class="ns-stat-icon warning"><i class="bi bi-currency-dollar"></i></div>
-                <div class="ns-stat-value">${{ number_format($totalRevenue ?? 0, 2) }}</div>
+                <div class="ns-stat-icon warning"><i class="bi bi-currency-rupee"></i></div>
+                <div class="ns-stat-value">₹{{ number_format($totalRevenue ?? 0, 2) }}</div>
                 <div class="ns-stat-label">Revenue</div>
             </div>
         </div>

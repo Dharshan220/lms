@@ -21,7 +21,7 @@
     }
 
     .pks-header h1 {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 22px;
         font-weight: 700;
         color: var(--text-primary);
@@ -42,7 +42,7 @@
 
     .pks-hero {
         height: 260px;
-        background: linear-gradient(135deg, #1a1a0a 0%, #161616 60%, #101018 100%);
+        background: linear-gradient(135deg, #FFF8E1 0%, #F7F7F5 60%, #F7F7F5 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -74,14 +74,14 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         background: rgba(0, 0, 0, 0.8);
-        border: 1px solid rgba(255, 212, 0, 0.4);
+        border: 1px solid rgba(255, 193, 7, 0.4);
         color: var(--ns-accent);
     }
 
     .pks-body { padding: 28px; }
 
     .pks-title {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 20px;
         font-weight: 700;
         color: var(--text-primary);
@@ -180,21 +180,21 @@
     }
 
     .pks-btn-accent {
-        background: var(--ns-accent);
-        color: #050505;
+        background: #111111;
+        color: #FFFFFF;
         border: none;
     }
 
     .pks-btn-accent:hover {
-        background: #ffdf4d;
-        color: #050505;
-        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+        background: #FFC107;
+        color: #111111;
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
     }
 
     .pks-btn-ghost {
-        background: var(--border-subtle);
+        background: #FFFFFF;
         color: var(--text-secondary);
-        border: 1px solid var(--border-strong);
+        border: 1px solid #D0D5DD;
     }
 
     .pks-btn-ghost:hover {
@@ -203,15 +203,32 @@
     }
 
     .pks-btn-buy {
-        background: #ffffff;
-        color: #050505;
+        background: var(--ns-accent);
+        color: #111111;
         border: none;
     }
 
     .pks-btn-buy:hover {
-        background: var(--ns-accent);
-        color: #050505;
-        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+        background: var(--ns-accent-hover);
+        color: #111111;
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+    }
+
+    .ns-fade-up {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .ns-fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .ns-fade-up {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
     }
 </style>
 @endpush
@@ -226,8 +243,8 @@
         </a>
     </div>
 
-    <div class="pks-card">
-        <div class="pks-hero">
+    <div class="pks-card ns-fade-up">
+        <div class="pks-hero ns-fade-up">
             @if($stemKit->image)
                 <img src="{{ asset('storage/' . $stemKit->image) }}" alt="{{ $stemKit->name }}">
             @else
@@ -235,7 +252,7 @@
             @endif
             <span class="pks-level">{{ ucfirst($stemKit->difficulty_level) }}</span>
         </div>
-        <div class="pks-body">
+        <div class="pks-body ns-fade-up">
             <div class="pks-title">{{ $stemKit->name }}</div>
             <div class="pks-category"><i class="bi bi-tag me-1"></i>{{ $stemKit->category }}</div>
             <div class="pks-desc">{{ $stemKit->description }}</div>
@@ -270,7 +287,7 @@
                 </div>
             @endif
 
-            <div class="pks-actions">
+            <div class="pks-actions ns-fade-up">
                 <a href="https://steamkit.vercel.app/" target="_blank" rel="noopener noreferrer" class="pks-btn pks-btn-buy">
                     <i class="bi bi-cart3"></i> Buy Now
                 </a>
@@ -284,4 +301,20 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    const fadeEls = document.querySelectorAll('.ns-fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+    setTimeout(() => fadeEls.forEach(el => el.classList.add('visible')), 3000);
+</script>
+@endpush
 @endsection

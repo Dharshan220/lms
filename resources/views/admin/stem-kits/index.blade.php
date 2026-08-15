@@ -39,7 +39,7 @@
                             </div>
                             <p class="text-muted small">{{ Str::limit($kit->description, 100) }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-success fs-5">${{ number_format($kit->price ?? 0, 2) }}</span>
+                                <span class="fw-bold text-success fs-5">₹{{ number_format($kit->price ?? 0, 2) }}</span>
                                 <span class="text-muted small">
                                     <i class="bi bi-box-seam me-1"></i>{{ $kit->stock_quantity ?? 0 }} in stock
                                 </span>

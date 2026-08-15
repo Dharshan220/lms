@@ -99,7 +99,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="price" class="form-label fw-semibold">Price ($)</label>
+                                <label for="price" class="form-label fw-semibold">Price (₹)</label>
                                 <input type="number" name="price" id="price"
                                        class="form-control @error('price') is-invalid @enderror"
                                        value="{{ old('price', $stemKit->price) }}" step="0.01" min="0">

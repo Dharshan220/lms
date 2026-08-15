@@ -60,8 +60,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center p-3 bg-light rounded">
-                                    <i class="bi bi-currency-dollar text-success" style="font-size: 1.5rem;"></i>
-                                    <div class="fw-bold mt-1">${{ number_format($course->price ?? 0, 2) }}</div>
+                                    <i class="bi bi-currency-rupee text-success" style="font-size: 1.5rem;"></i>
+                                    <div class="fw-bold mt-1">₹{{ number_format($course->price ?? 0, 2) }}</div>
                                     <small class="text-muted">Price</small>
                                 </div>
                             </div>

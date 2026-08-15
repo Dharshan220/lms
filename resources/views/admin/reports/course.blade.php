@@ -83,7 +83,7 @@
                                         <small class="text-muted">{{ $stat['completion_rate'] ?? 0 }}%</small>
                                     </td>
                                     <td><span class="text-warning"><i class="bi bi-star-fill"></i></span> {{ $stat['rating'] ?? '0.0' }}</td>
-                                    <td class="fw-semibold">${{ number_format($stat['revenue'] ?? 0, 2) }}</td>
+                                    <td class="fw-semibold">₹{{ number_format($stat['revenue'] ?? 0, 2) }}</td>
                                 </tr>
                             @empty
                                 <tr>

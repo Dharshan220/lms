@@ -51,7 +51,7 @@
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between border-bottom py-2">
                         <span class="text-muted">Price</span>
-                        <span class="fw-bold text-success">${{ number_format($stemKit->price ?? 0, 2) }}</span>
+                        <span class="fw-bold text-success">₹{{ number_format($stemKit->price ?? 0, 2) }}</span>
                     </div>
                     <div class="d-flex justify-content-between border-bottom py-2">
                         <span class="text-muted">Stock</span>

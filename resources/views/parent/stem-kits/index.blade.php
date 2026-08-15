@@ -19,7 +19,7 @@
     }
 
     .pkit-header h1 {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 22px;
         font-weight: 700;
         color: var(--text-primary);
@@ -55,7 +55,7 @@
 
     .pkit-btn {
         background: var(--ns-accent);
-        color: #050505;
+        color: #111111;
         border: none;
         border-radius: 10px;
         font-weight: 600;
@@ -63,7 +63,7 @@
         font-size: 13px;
     }
 
-    .pkit-btn:hover { background: #e6bf00; color: #050505; }
+    .pkit-btn:hover { background: #F7B500; color: #111111; }
 
     .pkit-grid {
         display: grid;
@@ -83,13 +83,13 @@
 
     .pkit-card:hover {
         transform: translateY(-4px);
-        border-color: rgba(255, 212, 0, 0.35);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+        border-color: rgba(255, 193, 7, 0.35);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
     }
 
     .pkit-image {
         height: 170px;
-        background: linear-gradient(135deg, #1a1a0a 0%, #161616 60%, #101018 100%);
+        background: linear-gradient(135deg, #FFF8E1 0%, #F7F7F5 60%, #F7F7F5 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -121,7 +121,7 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         background: rgba(0, 0, 0, 0.75);
-        border: 1px solid rgba(255, 212, 0, 0.4);
+        border: 1px solid rgba(255, 193, 7, 0.4);
         color: var(--ns-accent);
     }
 
@@ -133,7 +133,7 @@
     }
 
     .pkit-title {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 15px;
         font-weight: 700;
         color: var(--text-primary);
@@ -212,9 +212,9 @@
     }
 
     .pkit-status.low {
-        background: rgba(255, 152, 0, 0.12);
+        background: rgba(255, 193, 7, 0.12);
         color: #ff9800;
-        border: 1px solid rgba(255, 152, 0, 0.3);
+        border: 1px solid rgba(255, 193, 7, 0.3);
     }
 
     .pkit-actions {
@@ -225,11 +225,11 @@
     }
 
     .pkit-btn-buy {
-        background: #ffffff;
-        color: #050505;
+        background: var(--ns-accent);
+        color: #111111;
         border: none;
         border-radius: 10px;
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 12px;
         font-weight: 700;
         padding: 9px 16px;
@@ -242,17 +242,17 @@
     }
 
     .pkit-btn-buy:hover {
-        background: var(--ns-accent);
-        color: #050505;
-        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+        background: var(--ns-accent-hover);
+        color: #111111;
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
     }
 
     .pkit-btn-view {
-        background: var(--ns-accent);
-        color: #050505;
+        background: #111111;
+        color: #FFFFFF;
         border: none;
         border-radius: 10px;
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 12px;
         font-weight: 700;
         padding: 9px 18px;
@@ -264,9 +264,9 @@
     }
 
     .pkit-btn-view:hover {
-        background: #ffdf4d;
-        color: #050505;
-        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+        background: #FFC107;
+        color: #111111;
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
     }
 
     .pkit-empty {
@@ -282,6 +282,23 @@
 
     @media (max-width: 768px) {
         .pkit-grid { grid-template-columns: 1fr; }
+    }
+
+    .ns-fade-up {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .ns-fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .ns-fade-up {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
     }
 </style>
 @endpush
@@ -314,7 +331,7 @@
     @if($kits->count())
         <div class="pkit-grid">
             @foreach($kits as $kit)
-                <div class="pkit-card">
+                <div class="pkit-card ns-fade-up">
                     <div class="pkit-image">
                         @if($kit->image)
                             <img src="{{ asset('storage/' . $kit->image) }}" alt="{{ $kit->name }}">
@@ -371,9 +388,25 @@
     @else
         <div class="pkit-empty">
             <i class="bi bi-box-seam"></i>
-            <h5 style="color:var(--text-secondary);font-family:'Space Mono',monospace;">No STEM Kits are currently available.</h5>
+            <h5 style="color:var(--text-secondary);font-family:'Baloo 2','Inter',sans-serif;">No STEM Kits are currently available.</h5>
             <p style="font-size:13px;">Please check back soon.</p>
         </div>
     @endif
 </div>
+
+@push('scripts')
+<script>
+    const fadeEls = document.querySelectorAll('.ns-fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+    setTimeout(() => fadeEls.forEach(el => el.classList.add('visible')), 3000);
+</script>
+@endpush
 @endsection
