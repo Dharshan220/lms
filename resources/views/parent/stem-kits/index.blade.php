@@ -217,6 +217,36 @@
         border: 1px solid rgba(255, 152, 0, 0.3);
     }
 
+    .pkit-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .pkit-btn-buy {
+        background: #ffffff;
+        color: #050505;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 9px 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        transition: all .25s ease;
+    }
+
+    .pkit-btn-buy:hover {
+        background: var(--ns-accent);
+        color: #050505;
+        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+    }
+
     .pkit-btn-view {
         background: var(--ns-accent);
         color: #050505;
@@ -314,16 +344,21 @@
                                 <span class="pkit-price-value">₹{{ number_format($kit->price, 2) }}</span>
                                 <span class="pkit-price-sub">One-time kit</span>
                             </div>
-                            @if($kit->stock_quantity > 10)
-                                <span class="pkit-status available">In Stock</span>
-                            @elseif($kit->stock_quantity > 0)
-                                <span class="pkit-status low">Only {{ $kit->stock_quantity }} left</span>
-                            @else
-                                <span class="pkit-status low">Out of Stock</span>
-                            @endif
-                            <a href="{{ route('parent.stem-kits.show', $kit) }}" class="pkit-btn-view">
-                                View Kit <i class="bi bi-arrow-right-short"></i>
-                            </a>
+                            <div class="pkit-actions">
+                                @if($kit->stock_quantity > 10)
+                                    <span class="pkit-status available">In Stock</span>
+                                @elseif($kit->stock_quantity > 0)
+                                    <span class="pkit-status low">Only {{ $kit->stock_quantity }} left</span>
+                                @else
+                                    <span class="pkit-status low">Out of Stock</span>
+                                @endif
+                                <a href="https://steamkit.vercel.app/" target="_blank" rel="noopener noreferrer" class="pkit-btn-buy">
+                                    Buy Now <i class="bi bi-cart3"></i>
+                                </a>
+                                <a href="{{ route('parent.stem-kits.show', $kit) }}" class="pkit-btn-view">
+                                    View Kit <i class="bi bi-arrow-right-short"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

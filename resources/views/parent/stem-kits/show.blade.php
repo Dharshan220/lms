@@ -201,6 +201,18 @@
         background: var(--elevated-bg);
         color: var(--text-primary);
     }
+
+    .pks-btn-buy {
+        background: #ffffff;
+        color: #050505;
+        border: none;
+    }
+
+    .pks-btn-buy:hover {
+        background: var(--ns-accent);
+        color: #050505;
+        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+    }
 </style>
 @endpush
 
@@ -259,6 +271,9 @@
             @endif
 
             <div class="pks-actions">
+                <a href="https://steamkit.vercel.app/" target="_blank" rel="noopener noreferrer" class="pks-btn pks-btn-buy">
+                    <i class="bi bi-cart3"></i> Buy Now
+                </a>
                 <a href="{{ route('parent.dashboard') }}" class="pks-btn pks-btn-accent">
                     <i class="bi bi-people-fill"></i> My Children
                 </a>
