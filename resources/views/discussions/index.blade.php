@@ -5,20 +5,20 @@
 @section('content')
 <style>
     :root {
-        --ns-bg: #050505;
-        --ns-card: #121212;
-        --ns-elevated: #181818;
-        --ns-accent: #FFD400;
-        --ns-success: #00D26A;
-        --ns-warning: #FF9800;
-        --ns-danger: #FF4D4F;
-        --ns-info: #3B82F6;
-        --ns-text: #FFFFFF;
-        --ns-text-secondary: #A0A0A0;
-        --ns-text-muted: #666666;
-        --ns-border: rgba(255,255,255,0.06);
-        --ns-hover: rgba(255,212,0,0.05);
-        --font-heading: 'Space Mono', monospace;
+        --ns-bg: #F7F7F5;
+        --ns-card: #FFFFFF;
+        --ns-elevated: #F7F7F5;
+        --ns-accent: #FFC107;
+        --ns-success: #059669;
+        --ns-warning: #B45309;
+        --ns-danger: #D92D20;
+        --ns-info: #2563EB;
+        --ns-text: #111111;
+        --ns-text-secondary: #4B5563;
+        --ns-text-muted: #9CA3AF;
+        --ns-border: #EDEDEA;
+        --ns-hover: rgba(245,184,0,0.05);
+        --font-heading: 'Baloo 2', 'Inter', sans-serif;
         --font-body: 'IBM Plex Sans', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
     }
@@ -40,8 +40,8 @@
         width: 52px;
         height: 52px;
         border-radius: 14px;
-        background: rgba(255,212,0,0.1);
-        border: 1px solid rgba(255,212,0,0.15);
+        background: rgba(245,184,0,0.1);
+        border: 1px solid rgba(245,184,0,0.25);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -67,8 +67,8 @@
         gap: 8px;
         padding: 12px 24px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #FFD400, #FF9800);
-        color: #050505;
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
+        color: #111111;
         font-family: var(--font-body);
         font-size: 14px;
         font-weight: 700;
@@ -76,12 +76,12 @@
         cursor: pointer;
         transition: all 0.3s;
         text-decoration: none;
-        box-shadow: 0 2px 12px rgba(255,212,0,0.25);
+        box-shadow: 0 2px 12px rgba(245,184,0,0.25);
     }
     .ns-btn-new:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(255,212,0,0.4);
-        color: #050505;
+        box-shadow: 0 6px 24px rgba(245,184,0,0.4);
+        color: #111111;
     }
 
     .ns-filter-bar {
@@ -122,13 +122,13 @@
         transition: all 0.2s;
     }
     .ns-filter-pill:hover {
-        border-color: rgba(255,212,0,0.3);
-        color: var(--ns-accent);
+        border-color: rgba(245,184,0,0.3);
+        color: #B45309;
     }
     .ns-filter-pill.active {
-        background: rgba(255,212,0,0.12);
-        border-color: rgba(255,212,0,0.3);
-        color: var(--ns-accent);
+        background: rgba(245,184,0,0.12);
+        border-color: rgba(245,184,0,0.3);
+        color: #B45309;
     }
 
     .ns-discussions-grid {
@@ -157,9 +157,9 @@
         transition: opacity 0.3s;
     }
     .ns-discussion-card:hover {
-        border-color: rgba(255,212,0,0.15);
+        border-color: rgba(245,184,0,0.4);
         transform: translateY(-4px);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        box-shadow: 0 12px 32px rgba(16,24,40,0.1);
     }
     .ns-discussion-card:hover::before {
         opacity: 1;
@@ -185,7 +185,7 @@
         justify-content: center;
         font-weight: 700;
         font-size: 14px;
-        color: #050505;
+        color: #111111;
         flex-shrink: 0;
     }
     .ns-discussion-author-name {
@@ -210,9 +210,9 @@
         white-space: nowrap;
     }
     .ns-status-badge.open {
-        background: rgba(255,152,0,0.12);
+        background: rgba(245,184,0,0.12);
         color: var(--ns-warning);
-        border: 1px solid rgba(255,152,0,0.2);
+        border: 1px solid rgba(245,184,0,0.25);
     }
     .ns-status-badge.resolved {
         background: rgba(0,210,106,0.12);
@@ -233,7 +233,7 @@
         transition: color 0.2s;
     }
     .ns-discussion-title a:hover {
-        color: var(--ns-accent);
+        color: #B45309;
     }
     .ns-discussion-excerpt {
         font-size: 13px;
@@ -266,8 +266,8 @@
         border-radius: 6px;
         font-size: 11px;
         font-weight: 600;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.06);
+        background: #F7F7F5;
+        border: 1px solid #EDEDEA;
         color: var(--ns-text-secondary);
     }
     .ns-tag.course-tag {
@@ -297,8 +297,8 @@
         width: 88px;
         height: 88px;
         border-radius: 50%;
-        background: rgba(255,212,0,0.06);
-        border: 1px solid rgba(255,212,0,0.1);
+        background: rgba(245,184,0,0.06);
+        border: 1px solid rgba(245,184,0,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -321,7 +321,7 @@
     .ns-modal-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.7);
+        background: rgba(16,24,40,0.5);
         backdrop-filter: blur(8px);
         z-index: 2000;
         display: flex;
@@ -401,8 +401,8 @@
         width: 100%;
         padding: 12px 16px;
         border-radius: 12px;
-        border: 1px solid var(--ns-border);
-        background: var(--ns-elevated);
+        border: 1px solid #D0D5DD;
+        background: #FFFFFF;
         color: var(--ns-text);
         font-family: var(--font-body);
         font-size: 14px;
@@ -412,7 +412,8 @@
     .ns-form-input:focus,
     .ns-form-select:focus,
     .ns-form-textarea:focus {
-        border-color: rgba(255,212,0,0.4);
+        border-color: #FFC107;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
     }
     .ns-form-input::placeholder,
     .ns-form-textarea::placeholder {
@@ -445,11 +446,11 @@
         text-decoration: none;
     }
     .ns-btn-primary {
-        background: linear-gradient(135deg, #FFD400, #FF9800);
-        color: #050505;
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
+        color: #111111;
     }
     .ns-btn-primary:hover {
-        box-shadow: 0 4px 16px rgba(255,212,0,0.3);
+        box-shadow: 0 4px 16px rgba(245,184,0,0.3);
         transform: translateY(-1px);
     }
     .ns-btn-ghost {
@@ -458,7 +459,7 @@
         color: var(--ns-text-secondary);
     }
     .ns-btn-ghost:hover {
-        border-color: rgba(255,255,255,0.15);
+        border-color: rgba(245,184,0,0.4);
         color: var(--ns-text);
     }
 
@@ -487,13 +488,13 @@
         color: var(--ns-text-secondary);
     }
     .ns-pagination a:hover {
-        border-color: rgba(255,212,0,0.3);
-        color: var(--ns-accent);
+        border-color: rgba(245,184,0,0.3);
+        color: #B45309;
     }
     .ns-pagination span.active {
-        background: rgba(255,212,0,0.12);
-        border: 1px solid rgba(255,212,0,0.3);
-        color: var(--ns-accent);
+        background: rgba(245,184,0,0.12);
+        border: 1px solid rgba(245,184,0,0.3);
+        color: #B45309;
     }
     .ns-pagination .disabled {
         opacity: 0.3;
@@ -511,6 +512,14 @@
         .ns-filter-bar {
             flex-direction: column;
             align-items: flex-start;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
         }
     }
 </style>
@@ -547,7 +556,7 @@
         <div class="ns-discussions-grid" id="discussionsList">
             @foreach($discussions as $discussion)
                 @php
-                    $colors = ['#FFD400', '#00D26A', '#3B82F6', '#FF9800', '#FF4D4F'];
+                    $colors = ['#FFC107', '#059669', '#2563EB', '#F7B500', '#D92D20'];
                     $color = $colors[$loop->index % count($colors)];
                 @endphp
                 <div class="ns-discussion-card discussion-item" data-course="course-{{ $discussion->course_id ?? '0' }}">

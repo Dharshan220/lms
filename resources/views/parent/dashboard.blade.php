@@ -6,28 +6,28 @@
 @push('styles')
 <style>
     :root {
-        --pd-bg: #050505;
-        --pd-card: #121212;
-        --pd-card-hover: #1a1a1a;
-        --pd-border: #1e1e1e;
-        --pd-border-light: #2a2a2a;
-        --pd-accent: #FFD400;
-        --pd-accent-dim: rgba(255, 212, 0, 0.12);
-        --pd-accent-glow: rgba(255, 212, 0, 0.25);
-        --pd-text: #f0f0f0;
-        --pd-text-secondary: #a0a0a0;
-        --pd-text-muted: #666666;
-        --pd-success: #00e676;
-        --pd-success-dim: rgba(0, 230, 118, 0.12);
-        --pd-info: #40c4ff;
-        --pd-info-dim: rgba(64, 196, 255, 0.12);
-        --pd-warning: #ff9100;
-        --pd-warning-dim: rgba(255, 145, 0, 0.12);
-        --pd-purple: #b388ff;
-        --pd-purple-dim: rgba(179, 136, 255, 0.12);
+        --pd-bg: #F7F7F5;
+        --pd-card: #FFFFFF;
+        --pd-card-hover: #FFFFFF;
+        --pd-border: #EDEDEA;
+        --pd-border-light: #D0D5DD;
+        --pd-accent: #FFC107;
+        --pd-accent-dim: rgba(255, 193, 7, 0.12);
+        --pd-accent-glow: rgba(255, 193, 7, 0.25);
+        --pd-text: #111111;
+        --pd-text-secondary: #4B5563;
+        --pd-text-muted: #9CA3AF;
+        --pd-success: #16A34A;
+        --pd-success-dim: rgba(22, 163, 74, 0.12);
+        --pd-info: #0EA5E9;
+        --pd-info-dim: rgba(14, 165, 233, 0.12);
+        --pd-warning: #F59E0B;
+        --pd-warning-dim: rgba(245, 158, 11, 0.12);
+        --pd-purple: #7C3AED;
+        --pd-purple-dim: rgba(124, 58, 237, 0.12);
         --pd-radius: 14px;
         --pd-radius-sm: 10px;
-        --pd-font-heading: 'Space Mono', monospace;
+        --pd-font-heading: 'Baloo 2', 'Inter', sans-serif;
         --pd-font-body: 'IBM Plex Sans', sans-serif;
         --pd-font-mono: 'JetBrains Mono', monospace;
     }
@@ -41,8 +41,8 @@
     }
 
     .pd-welcome {
-        background: linear-gradient(135deg, #1a1a0a 0%, #121212 50%, #0a0a12 100%);
-        border: 1px solid var(--pd-border-light);
+        background: linear-gradient(135deg, #FFF8E1 0%, #FFFFFF 50%, #F7F7F5 100%);
+        border: 1px solid var(--pd-border);
         border-radius: var(--pd-radius);
         padding: 36px 40px;
         margin-bottom: 28px;
@@ -141,7 +141,7 @@
     .pd-stat-card:hover {
         transform: translateY(-3px);
         border-color: var(--pd-border-light);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
     .pd-stat-card::after {
@@ -240,7 +240,7 @@
     .pd-child-card:hover {
         transform: translateY(-3px);
         border-color: var(--pd-border-light);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
     .pd-child-header {
@@ -261,7 +261,7 @@
         font-size: 20px;
         font-weight: 700;
         flex-shrink: 0;
-        color: #050505;
+        color: #111111;
     }
 
     .pd-child-avatar img {
@@ -448,13 +448,13 @@
 
     .pd-btn-accent {
         background: var(--pd-accent);
-        color: #050505;
+        color: #111111;
     }
 
     .pd-btn-accent:hover {
-        background: #e6bf00;
+        background: #F7B500;
         box-shadow: 0 4px 16px var(--pd-accent-glow);
-        color: #050505;
+        color: #111111;
     }
 
     .pd-btn-ghost {
@@ -509,7 +509,7 @@
     .pd-action-card:hover {
         transform: translateY(-2px);
         border-color: var(--pd-accent);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.2);
     }
 
     .pd-action-icon {
@@ -648,7 +648,7 @@
         <div class="pd-children-grid">
             @php
                 $palette = [
-                    ['bg' => '#FFD400', 'fill' => 'accent'],
+                    ['bg' => '#FFC107', 'fill' => 'accent'],
                     ['bg' => '#00e676', 'fill' => 'success'],
                     ['bg' => '#40c4ff', 'fill' => 'info'],
                     ['bg' => '#b388ff', 'fill' => 'purple'],
@@ -665,7 +665,7 @@
                 <div class="pd-child-card">
                     {{-- Header --}}
                     <div class="pd-child-header">
-                        <div class="pd-child-avatar" style="background:{{ $colorSet['bg'] }}; color:#050505;">
+                        <div class="pd-child-avatar" style="background:{{ $colorSet['bg'] }}; color:#111111;">
                             @if($child->avatar)
                                 <img src="{{ asset('storage/' . $child->avatar) }}" alt="{{ $child->name }}">
                             @else

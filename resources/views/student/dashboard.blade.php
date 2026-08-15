@@ -32,7 +32,7 @@
                         @if(Auth::user()->avatar)
                             <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
                         @else
-                            <span style="font-size:18px;font-weight:700;color:#0D0D0D;font-family:var(--font-display)">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                            <span style="font-size:18px;font-weight:700;color:#111111;font-family:var(--font-display)">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         @endif
                     </div>
                     <div style="text-align:left">

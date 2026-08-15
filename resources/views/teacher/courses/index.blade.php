@@ -50,7 +50,7 @@
                         @if($course->thumbnail)
                             <img src="{{ asset('storage/' . $course->thumbnail) }}" style="width:100%;height:160px;object-fit:cover;border-radius:12px 12px 0 0;" alt="{{ $course->title }}">
                         @else
-                            <div style="height:160px;background:linear-gradient(135deg,rgba(255,212,0,0.15),rgba(59,130,246,0.15));display:flex;align-items:center;justify-content:center;border-radius:12px 12px 0 0;">
+                            <div style="height:160px;background:linear-gradient(135deg,rgba(255,193,7,0.15),rgba(59,130,246,0.15));display:flex;align-items:center;justify-content:center;border-radius:12px 12px 0 0;">
                                 <i class="bi bi-book" style="font-size:2.5rem;color:var(--accent-primary)"></i>
                             </div>
                         @endif
@@ -95,7 +95,7 @@
     @else
         <div class="ns-card">
             <div class="text-center" style="padding:60px 20px">
-                <div style="width:80px;height:80px;border-radius:50%;background:rgba(255,212,0,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+                <div style="width:80px;height:80px;border-radius:50%;background:rgba(255,193,7,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
                     <i class="bi bi-book" style="font-size:2.5rem;color:var(--accent-primary)"></i>
                 </div>
                 <h5 style="font-family:var(--font-heading);color:var(--text-primary);margin-bottom:8px">No courses found</h5>
@@ -122,7 +122,7 @@
     background: var(--bg-elevated); color: var(--text-primary); font-family: var(--font-body);
     font-size: 14px; outline: none; transition: border-color 0.2s;
 }
-.ns-input:focus, .ns-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(255,212,0,0.1); }
-.ns-select option { background: #121212; color: var(--text-primary); }
+.ns-input:focus, .ns-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(255,193,7,0.1); }
+.ns-select option { background: #FFFFFF; color: var(--text-primary); }
 </style>
 @endsection

@@ -74,7 +74,7 @@
                                     @if($course->thumbnail)
                                         <img src="{{ asset('storage/' . $course->thumbnail) }}" alt="" style="width:48px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border-subtle)">
                                     @else
-                                        <div style="width:48px;height:36px;border-radius:6px;background:linear-gradient(135deg,rgba(255,212,0,0.12),rgba(59,130,246,0.12));display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                        <div style="width:48px;height:36px;border-radius:6px;background:linear-gradient(135deg,rgba(255,193,7,0.12),rgba(59,130,246,0.12));display:flex;align-items:center;justify-content:center;flex-shrink:0">
                                             <i class="bi bi-book" style="font-size:14px;color:var(--accent-primary)"></i>
                                         </div>
                                     @endif
@@ -132,7 +132,7 @@
                     @empty
                         <tr>
                             <td colspan="7" class="text-center" style="padding:60px 20px">
-                                <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,212,0,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                                <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,193,7,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
                                     <i class="bi bi-book" style="font-size:2rem;color:var(--accent-primary)"></i>
                                 </div>
                                 <h6 style="font-family:var(--font-heading);color:var(--text-primary);margin-bottom:6px">No courses found</h6>
@@ -159,9 +159,9 @@
     background: var(--bg-elevated); color: var(--text-primary); font-family: var(--font-body);
     font-size: 14px; outline: none; transition: border-color 0.2s;
 }
-.ns-input:focus, .ns-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(255,212,0,0.1); }
+.ns-input:focus, .ns-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(255,193,7,0.1); }
 .ns-input::placeholder { color: var(--text-muted); opacity: 0.6; }
-.ns-select option { background: #121212; color: var(--text-primary); }
+.ns-select option { background: #FFFFFF; color: var(--text-primary); }
 .ns-input-icon { position: relative; }
 .ns-input-icon i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; }
 .ns-input-icon .ns-input { padding-left: 36px; }

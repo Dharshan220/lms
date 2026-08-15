@@ -5,19 +5,19 @@
 @section('content')
 <style>
     :root {
-        --ns-bg: #050505;
-        --ns-card: #121212;
-        --ns-elevated: #181818;
-        --ns-accent: #FFD400;
-        --ns-success: #00D26A;
-        --ns-warning: #FF9800;
-        --ns-danger: #FF4D4F;
-        --ns-info: #3B82F6;
-        --ns-text: #FFFFFF;
-        --ns-text-secondary: #A0A0A0;
-        --ns-text-muted: #666666;
-        --ns-border: rgba(255,255,255,0.06);
-        --font-heading: 'Space Mono', monospace;
+        --ns-bg: #F7F7F5;
+        --ns-card: #FFFFFF;
+        --ns-elevated: #F7F7F5;
+        --ns-accent: #FFC107;
+        --ns-success: #059669;
+        --ns-warning: #B45309;
+        --ns-danger: #D92D20;
+        --ns-info: #2563EB;
+        --ns-text: #111111;
+        --ns-text-secondary: #4B5563;
+        --ns-text-muted: #9CA3AF;
+        --ns-border: #EDEDEA;
+        --font-heading: 'Baloo 2', 'Inter', sans-serif;
         --font-body: 'IBM Plex Sans', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
     }
@@ -32,13 +32,13 @@
         width: 52px;
         height: 52px;
         border-radius: 14px;
-        background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(147,51,234,0.15));
-        border: 1px solid rgba(59,130,246,0.2);
+        background: linear-gradient(135deg, rgba(245,184,0,0.1), rgba(245,184,0,0.1));
+        border: 1px solid rgba(245,184,0,0.25);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 22px;
-        color: var(--ns-info);
+        color: var(--ns-accent);
         flex-shrink: 0;
     }
     .ns-page-header h1 {
@@ -115,8 +115,8 @@
         width: 100%;
         padding: 12px 16px;
         border-radius: 12px;
-        border: 1px solid var(--ns-border);
-        background: var(--ns-elevated);
+        border: 1px solid #D0D5DD;
+        background: #FFFFFF;
         color: var(--ns-text);
         font-family: var(--font-body);
         font-size: 14px;
@@ -126,7 +126,8 @@
     .ns-form-input:focus,
     .ns-form-select:focus,
     .ns-form-textarea:focus {
-        border-color: rgba(59,130,246,0.4);
+        border-color: #FFC107;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
     }
     .ns-form-input::placeholder {
         color: var(--ns-text-muted);
@@ -150,8 +151,8 @@
         padding: 14px 24px;
         border-radius: 14px;
         border: none;
-        background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-        color: #FFFFFF;
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
+        color: #111111;
         font-family: var(--font-heading);
         font-size: 15px;
         font-weight: 700;
@@ -161,12 +162,12 @@
         justify-content: center;
         gap: 10px;
         transition: all 0.3s;
-        box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
         margin-top: 8px;
     }
     .ns-btn-generate:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 28px rgba(59,130,246,0.45);
+        box-shadow: 0 8px 28px rgba(255, 193, 7, 0.45);
     }
     .ns-btn-generate:disabled {
         opacity: 0.6;
@@ -189,7 +190,7 @@
         border-left: 4px solid;
     }
     .ns-question-card:hover {
-        border-color: rgba(255,255,255,0.1);
+        border-color: rgba(245,184,0,0.4);
         border-left-color: inherit;
     }
     .ns-question-header {
@@ -213,7 +214,7 @@
         font-family: var(--font-mono);
         font-size: 13px;
         font-weight: 700;
-        color: #fff;
+        color: #111111;
     }
     .ns-q-type {
         padding: 4px 10px;
@@ -222,7 +223,7 @@
         font-weight: 700;
         font-family: var(--font-mono);
         text-transform: uppercase;
-        background: rgba(255,255,255,0.06);
+        background: #F7F7F5;
         color: var(--ns-text-secondary);
     }
     .ns-question-remove {
@@ -265,7 +266,7 @@
         padding: 10px 14px;
         border-radius: 10px;
         border: 1px solid var(--ns-border);
-        background: rgba(255,255,255,0.02);
+        background: #FFFFFF;
         font-size: 13px;
         color: var(--ns-text-secondary);
         transition: all 0.2s;
@@ -369,6 +370,14 @@
             grid-template-columns: 1fr;
         }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 </style>
 
 <div style="padding: 24px; max-width: 1200px; margin: 0 auto;" x-data="quizGenerator()">
@@ -441,7 +450,7 @@
                             <span><i class="bi bi-stars"></i> Generate Quiz</span>
                         </template>
                         <template x-if="loading">
-                            <span><span class="ns-spinner" style="width:20px;height:20px;border-width:2px;margin:0;"></span> Generating...</span>
+                            <span><span class="ns-spinner" style="width:20px;height:20px;border-width:2px;margin:0;border-top-color:#111111;"></span> Generating...</span>
                         </template>
                     </button>
                 </form>
@@ -464,7 +473,7 @@
                         <div class="ns-questions-list">
                             @foreach($questions as $index => $question)
                                 @php
-                                    $colors = ['#FFD400', '#00D26A', '#3B82F6', '#FF9800', '#FF4D4F'];
+                                    $colors = ['#FFC107', '#059669', '#2563EB', '#F7B500', '#D92D20'];
                                     $color = $colors[$index % count($colors)];
                                     $options = $question['options'] ?? [];
                                     if (empty($options)) {

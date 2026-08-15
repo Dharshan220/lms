@@ -5,19 +5,19 @@
 @section('guest-content')
 <style>
     :root {
-        --ns-bg: #050505;
-        --ns-card: #121212;
-        --ns-elevated: #181818;
-        --ns-accent: #FFD400;
+        --ns-bg: #F7F7F5;
+        --ns-card: #FFFFFF;
+        --ns-elevated: #FFFFFF;
+        --ns-accent: #FFC107;
         --ns-success: #00D26A;
-        --ns-warning: #FF9800;
+        --ns-warning: #F7B500;
         --ns-danger: #FF4D4F;
         --ns-info: #3B82F6;
-        --ns-text: #FFFFFF;
-        --ns-text-secondary: #A0A0A0;
-        --ns-text-muted: #666666;
-        --ns-border: rgba(255,255,255,0.06);
-        --font-heading: 'Space Mono', monospace;
+        --ns-text: #111111;
+        --ns-text-secondary: #4B5563;
+        --ns-text-muted: #9CA3AF;
+        --ns-border: #EDEDEA;
+        --font-heading: 'Baloo 2', 'Inter', sans-serif;
         --font-body: 'IBM Plex Sans', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
     }
@@ -37,7 +37,7 @@
         width: 600px;
         height: 600px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255,212,0,0.06) 0%, transparent 60%);
+        background: radial-gradient(circle, rgba(245,184,0,0.06) 0%, transparent 60%);
         pointer-events: none;
     }
     .ns-courses-hero h1 {
@@ -49,7 +49,7 @@
         position: relative;
     }
     .ns-courses-hero h1 .gradient-text {
-        background: linear-gradient(135deg, #FFD400, #FF9800);
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -106,7 +106,8 @@
         color: var(--ns-text-muted);
     }
     .ns-search-bar input:focus {
-        border-color: rgba(255,212,0,0.4);
+        border-color: #FFC107;
+        box-shadow: 0 0 0 3px rgba(245,184,0,0.15);
     }
 
     .ns-filter-tabs {
@@ -128,12 +129,12 @@
         transition: all 0.2s;
     }
     .ns-filter-tab:hover {
-        border-color: rgba(255,212,0,0.3);
+        border-color: rgba(245,184,0,0.4);
         color: var(--ns-text);
     }
     .ns-filter-tab.active {
-        background: rgba(255,212,0,0.12);
-        border-color: rgba(255,212,0,0.3);
+        background: rgba(245,184,0,0.1);
+        border-color: rgba(245,184,0,0.3);
         color: var(--ns-accent);
     }
 
@@ -151,9 +152,9 @@
         position: relative;
     }
     .ns-course-card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(255,212,0,0.15);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+        transform: translateY(-4px);
+        border-color: rgba(245,184,0,0.4);
+        box-shadow: 0 12px 32px rgba(16,24,40,0.1);
     }
     .ns-course-thumb {
         height: 180px;
@@ -174,9 +175,10 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        background: rgba(0,0,0,0.5);
+        background: rgba(245,184,0,0.1);
         backdrop-filter: blur(8px);
-        color: #fff;
+        border: 1px solid rgba(245,184,0,0.3);
+        color: #B45309;
     }
     .ns-course-level {
         position: absolute;
@@ -237,8 +239,8 @@
     .ns-course-enroll {
         padding: 7px 18px;
         border-radius: 10px;
-        background: rgba(255,212,0,0.1);
-        border: 1px solid rgba(255,212,0,0.25);
+        background: rgba(245,184,0,0.1);
+        border: 1px solid rgba(245,184,0,0.25);
         color: var(--ns-accent);
         font-family: var(--font-body);
         font-size: 13px;
@@ -248,8 +250,8 @@
     }
     .ns-course-enroll:hover {
         background: var(--ns-accent);
-        color: #050505;
-        box-shadow: 0 4px 16px rgba(255,212,0,0.3);
+        color: #111111;
+        box-shadow: 0 4px 16px rgba(245,184,0,0.3);
     }
 
     .ns-empty-state {
@@ -309,12 +311,12 @@
         color: var(--ns-text-secondary);
     }
     .ns-pagination a:hover {
-        border-color: rgba(255,212,0,0.3);
+        border-color: rgba(245,184,0,0.4);
         color: var(--ns-accent);
     }
     .ns-pagination span.active {
-        background: rgba(255,212,0,0.12);
-        border: 1px solid rgba(255,212,0,0.3);
+        background: rgba(245,184,0,0.1);
+        border: 1px solid rgba(245,184,0,0.3);
         color: var(--ns-accent);
     }
 
@@ -326,6 +328,14 @@
         .ns-courses-hero { padding: 120px 16px 32px; }
         .ns-courses-section { padding: 0 16px 60px; }
         .ns-search-filter { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
     }
 </style>
 
@@ -356,7 +366,7 @@
             @foreach($courses as $course)
                 @php
                     $gradients = [
-                        'iot' => ['#FFD400, #FF9800', 'var(--ns-warning)'],
+                        'iot' => ['#FFC107, #F7B500', 'var(--ns-warning)'],
                         'robotics' => ['#00D26A, #00B894', 'var(--ns-success)'],
                         'ai' => ['#3B82F6, #2563EB', 'var(--ns-info)'],
                         'coding' => ['#FF4D4F, #E74C3C', 'var(--ns-danger)'],
@@ -366,7 +376,7 @@
                     $gradient = $gradients[$cat] ?? $gradients['electronics'];
                     $levelColors = [
                         'Beginner' => ['rgba(0,210,106,0.15)', 'var(--ns-success)'],
-                        'Intermediate' => ['rgba(255,152,0,0.15)', 'var(--ns-warning)'],
+                        'Intermediate' => ['rgba(245,184,0,0.1)', 'var(--ns-warning)'],
                         'Advanced' => ['rgba(255,77,79,0.15)', 'var(--ns-danger)'],
                     ];
                     $level = $course->difficulty ?? $course->level ?? 'Beginner';
@@ -421,7 +431,7 @@
                     ['title' => 'Computer Vision Basics', 'desc' => 'Explore image recognition and object detection using ML models.', 'cat' => 'ai', 'icon' => 'bi-camera', 'level' => 'Advanced', 'lessons' => 12, 'students' => 65, 'badge' => ''],
                 ];
                 $gradients = [
-                    'iot' => ['#FFD400, #FF9800', 'var(--ns-warning)'],
+                    'iot' => ['#FFC107, #F7B500', 'var(--ns-warning)'],
                     'robotics' => ['#00D26A, #00B894', 'var(--ns-success)'],
                     'ai' => ['#3B82F6, #2563EB', 'var(--ns-info)'],
                     'coding' => ['#FF4D4F, #E74C3C', 'var(--ns-danger)'],
@@ -429,7 +439,7 @@
                 ];
                 $levelColors = [
                     'Beginner' => ['rgba(0,210,106,0.15)', 'var(--ns-success)'],
-                    'Intermediate' => ['rgba(255,152,0,0.15)', 'var(--ns-warning)'],
+                    'Intermediate' => ['rgba(245,184,0,0.1)', 'var(--ns-warning)'],
                     'Advanced' => ['rgba(255,77,79,0.15)', 'var(--ns-danger)'],
                 ];
             @endphp

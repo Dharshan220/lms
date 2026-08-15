@@ -38,7 +38,7 @@
     .ns-auth-logo span {
         font-size: 24px;
         font-weight: 800;
-        background: linear-gradient(135deg, #FF8F65, #4ECDC4);
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -48,7 +48,7 @@
         width: 72px;
         height: 72px;
         border-radius: 50%;
-        background: rgba(251, 191, 36, 0.1);
+        background: rgba(255, 193, 7, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -57,19 +57,19 @@
 
     .ns-auth-icon i {
         font-size: 32px;
-        color: #FBBF24;
+        color: #FFC107;
     }
 
     .ns-auth-card h2 {
         font-size: 26px;
         font-weight: 800;
-        color: #F9FAFB;
+        color: #111111;
         margin-bottom: 12px;
     }
 
     .ns-auth-card .ns-subtitle {
         font-size: 15px;
-        color: #6B7280;
+        color: #4B5563;
         margin-bottom: 32px;
         line-height: 1.7;
     }
@@ -79,7 +79,7 @@
         border-radius: 8px;
         background: rgba(52, 211, 153, 0.1);
         border: 1px solid rgba(52, 211, 153, 0.25);
-        color: #6EE7B7;
+        color: #059669;
         font-size: 14px;
         margin-bottom: 24px;
         text-align: left;
@@ -90,25 +90,25 @@
         padding: 13px 24px;
         font-size: 15px;
         font-weight: 700;
-        color: #fff;
-        background: linear-gradient(135deg, #FF6B35, #E55A24);
+        color: #111111;
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
         transition: all 0.3s;
     }
 
     .ns-btn-gradient:hover {
         transform: translateY(-1px);
-        box-shadow: 0 6px 24px rgba(255, 107, 53, 0.45);
+        box-shadow: 0 6px 24px rgba(255, 193, 7, 0.45);
     }
 
     .ns-auth-divider {
         display: flex;
         align-items: center;
         margin: 20px 0;
-        color: #4B5563;
+        color: #9CA3AF;
         font-size: 13px;
     }
 
@@ -117,7 +117,7 @@
         content: '';
         flex: 1;
         height: 1px;
-        background: rgba(255, 255, 255, 0.08);
+        background: #EDEDEA;
     }
 
     .ns-auth-divider span {
@@ -143,7 +143,15 @@
         padding: 8px 16px;
     }
 
-    .ns-auth-back button:hover { color: #FF6B35; }
+    .ns-auth-back button:hover { color: #F7B500; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 </style>
 
 <div class="ns-auth-wrapper">

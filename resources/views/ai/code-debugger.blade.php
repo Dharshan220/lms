@@ -5,19 +5,19 @@
 @section('content')
 <style>
     :root {
-        --ns-bg: #050505;
-        --ns-card: #121212;
-        --ns-elevated: #181818;
-        --ns-accent: #FFD400;
-        --ns-success: #00D26A;
-        --ns-warning: #FF9800;
-        --ns-danger: #FF4D4F;
-        --ns-info: #3B82F6;
-        --ns-text: #FFFFFF;
-        --ns-text-secondary: #A0A0A0;
-        --ns-text-muted: #666666;
-        --ns-border: rgba(255,255,255,0.06);
-        --font-heading: 'Space Mono', monospace;
+        --ns-bg: #F7F7F5;
+        --ns-card: #FFFFFF;
+        --ns-elevated: #F7F7F5;
+        --ns-accent: #FFC107;
+        --ns-success: #059669;
+        --ns-warning: #B45309;
+        --ns-danger: #D92D20;
+        --ns-info: #2563EB;
+        --ns-text: #111111;
+        --ns-text-secondary: #4B5563;
+        --ns-text-muted: #9CA3AF;
+        --ns-border: #EDEDEA;
+        --font-heading: 'Baloo 2', 'Inter', sans-serif;
         --font-body: 'IBM Plex Sans', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
     }
@@ -32,8 +32,8 @@
         width: 52px;
         height: 52px;
         border-radius: 14px;
-        background: linear-gradient(135deg, rgba(255,77,79,0.15), rgba(255,152,0,0.15));
-        border: 1px solid rgba(255,77,79,0.2);
+        background: linear-gradient(135deg, rgba(245,184,0,0.1), rgba(245,184,0,0.1));
+        border: 1px solid rgba(245,184,0,0.25);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -92,8 +92,8 @@
         min-height: 420px;
         padding: 20px;
         border-radius: 14px;
-        border: 1px solid var(--ns-border);
-        background: var(--ns-elevated);
+        border: 1px solid #333333;
+        background: #1E1E1E;
         color: #CDD6F4;
         font-family: var(--font-mono);
         font-size: 13px;
@@ -104,9 +104,10 @@
         transition: border-color 0.2s;
     }
     .ns-code-textarea:focus {
-        border-color: rgba(255,77,79,0.4);
+        border-color: #FFC107;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
     }
-    .ns-code-textarea::placeholder { color: var(--ns-text-muted); }
+    .ns-code-textarea::placeholder { color: #8A94A6; }
 
     .ns-form-group { margin-bottom: 20px; }
     .ns-form-label {
@@ -120,28 +121,28 @@
         width: 100%;
         padding: 12px 16px;
         border-radius: 12px;
-        border: 1px solid var(--ns-border);
-        background: var(--ns-elevated);
+        border: 1px solid #D0D5DD;
+        background: #FFFFFF;
         color: var(--ns-text);
         font-family: var(--font-body);
         font-size: 14px;
         outline: none;
         transition: border-color 0.2s;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23667085' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 14px center;
         padding-right: 36px;
     }
-    .ns-form-select:focus { border-color: rgba(255,77,79,0.4); }
+    .ns-form-select:focus { border-color: #FFC107; box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15); }
 
     .ns-btn-debug {
         width: 100%;
         padding: 14px 24px;
         border-radius: 14px;
         border: none;
-        background: linear-gradient(135deg, #FF4D4F, #FF9800);
-        color: #FFFFFF;
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
+        color: #111111;
         font-family: var(--font-heading);
         font-size: 15px;
         font-weight: 700;
@@ -151,11 +152,11 @@
         justify-content: center;
         gap: 10px;
         transition: all 0.3s;
-        box-shadow: 0 4px 16px rgba(255,77,79,0.3);
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
     }
     .ns-btn-debug:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 28px rgba(255,77,79,0.45);
+        box-shadow: 0 8px 28px rgba(255, 193, 7, 0.45);
     }
     .ns-btn-debug:disabled {
         opacity: 0.6;
@@ -207,7 +208,7 @@
         margin-bottom: 6px;
     }
     .ns-error-line.error { background: rgba(255,77,79,0.12); color: var(--ns-danger); }
-    .ns-error-line.warning { background: rgba(255,152,0,0.12); color: var(--ns-warning); }
+    .ns-error-line.warning { background: rgba(245,184,0,0.12); color: var(--ns-warning); }
     .ns-error-msg {
         font-size: 14px;
         color: var(--ns-text);
@@ -229,11 +230,11 @@
         margin-top: 16px;
     }
     .ns-fixed-code pre {
-        background: var(--ns-elevated);
-        border: 1px solid var(--ns-border);
+        background: #1E1E1E;
+        border: 1px solid #333333;
         border-radius: 14px;
         padding: 20px;
-        color: var(--ns-success);
+        color: #4ADE80;
         font-family: var(--font-mono);
         font-size: 13px;
         line-height: 1.7;
@@ -283,7 +284,7 @@
         font-size: 11px;
         padding: 2px 8px;
         border-radius: 100px;
-        background: rgba(255,255,255,0.06);
+        background: #F7F7F5;
         color: var(--ns-text-secondary);
     }
 
@@ -356,6 +357,14 @@
     @media (max-width: 1024px) {
         .ns-layout-split { grid-template-columns: 1fr; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 </style>
 
 <div style="padding: 24px; max-width: 1400px; margin: 0 auto;" x-data="codeDebugger()">
@@ -397,7 +406,7 @@
                                 <span><i class="bi bi-bug"></i> Debug Code</span>
                             </template>
                             <template x-if="loading">
-                                <span><span class="ns-spinner" style="width:20px;height:20px;border-width:2px;margin:0;border-top-color:#fff;"></span> Analyzing...</span>
+                                <span><span class="ns-spinner" style="width:20px;height:20px;border-width:2px;margin:0;border-top-color:#111111;"></span> Analyzing...</span>
                             </template>
                         </button>
                         <button type="button" class="ns-btn-clear" @click="form.code = ''" title="Clear code">
@@ -589,6 +598,7 @@ function nsToast(message, type) {
     setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 3000);
 }
 </script>
-<style>@keyframes nsToastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }</style>
+<style>@keyframes nsToastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }</style>
 @endpush
 @endsection

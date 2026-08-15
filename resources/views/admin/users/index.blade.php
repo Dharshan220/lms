@@ -89,7 +89,7 @@
                                 @elseif($user->role == 'teacher')
                                     <span class="ns-badge" style="background:rgba(59,130,246,0.12);color:#3B82F6"><i class="bi bi-person-video3 me-1"></i>Teacher</span>
                                 @else
-                                    <span class="ns-badge" style="background:rgba(255,212,0,0.12);color:#FFD400"><i class="bi bi-mortarboard me-1"></i>Student</span>
+                                    <span class="ns-badge" style="background:rgba(255,193,7,0.12);color:#FFC107"><i class="bi bi-mortarboard me-1"></i>Student</span>
                                 @endif
                             </td>
                             <td>
@@ -153,9 +153,9 @@
     background: var(--bg-elevated); color: var(--text-primary); font-family: var(--font-body);
     font-size: 14px; outline: none; transition: border-color 0.2s;
 }
-.ns-input:focus, .ns-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(255,212,0,0.1); }
+.ns-input:focus, .ns-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(255,193,7,0.1); }
 .ns-input::placeholder { color: var(--text-muted); opacity: 0.6; }
-.ns-select option { background: #121212; color: var(--text-primary); }
+.ns-select option { background: #FFFFFF; color: var(--text-primary); }
 .ns-input-icon { position: relative; }
 .ns-input-icon i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; }
 .ns-input-icon .ns-input { padding-left: 36px; }

@@ -12,11 +12,11 @@
     <div class="row g-4">
         <div class="col-lg-4">
             <div class="ns-card text-center">
-                <div style="width:100px;height:100px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,var(--accent-primary),#FF9800);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(255,212,0,0.2)">
+                <div style="width:100px;height:100px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,var(--accent-primary),#FF9800);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(255,193,7,0.2)">
                     @if(Auth::user()->avatar)
                         <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar" style="width:100px;height:100px;border-radius:50%;object-fit:cover">
                     @else
-                        <span style="font-size:36px;font-weight:700;color:#050505;font-family:var(--font-heading)">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        <span style="font-size:36px;font-weight:700;color:#111111;font-family:var(--font-heading)">{{ substr(Auth::user()->name, 0, 1) }}</span>
                     @endif
                 </div>
                 <h3 style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--text-primary)">{{ Auth::user()->name }}</h3>

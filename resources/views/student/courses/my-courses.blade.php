@@ -58,7 +58,7 @@
 
     .ns-my-tab.active {
         background: var(--accent-primary);
-        color: #050505;
+        color: #111111;
     }
 
     .ns-my-tab .ns-tab-count {
@@ -91,7 +91,7 @@
 
     .ns-enroll-card:hover {
         transform: translateY(-4px);
-        border-color: rgba(255,212,0,0.15);
+        border-color: rgba(255,193,7,0.15);
         box-shadow: 0 16px 32px rgba(0,0,0,0.25);
     }
 
@@ -140,9 +140,9 @@
     }
 
     .ns-enroll-status.in-progress {
-        background: rgba(255,212,0,0.15);
-        color: #FFD400;
-        border: 1px solid rgba(255,212,0,0.2);
+        background: rgba(255,193,7,0.15);
+        color: #FFC107;
+        border: 1px solid rgba(255,193,7,0.2);
     }
 
     .ns-enroll-body {
@@ -192,7 +192,7 @@
         width: 22px;
         height: 22px;
         border-radius: 50%;
-        background: rgba(255,212,0,0.1);
+        background: rgba(255,193,7,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -278,12 +278,12 @@
 
     .ns-enroll-action.continue {
         background: var(--accent-primary);
-        color: #050505;
+        color: #111111;
     }
 
     .ns-enroll-action.continue:hover {
         background: #FFC000;
-        box-shadow: 0 4px 16px rgba(255,212,0,0.3);
+        box-shadow: 0 4px 16px rgba(255,193,7,0.3);
     }
 
     .ns-enroll-action.review {
@@ -365,12 +365,12 @@
     .ns-pagination a:hover {
         border-color: var(--accent-primary);
         color: var(--accent-primary);
-        background: rgba(255,212,0,0.05);
+        background: rgba(255,193,7,0.05);
     }
 
     .ns-pagination .active {
         background: var(--accent-primary);
-        color: #050505;
+        color: #111111;
         border: 1px solid var(--accent-primary);
     }
 
@@ -427,14 +427,14 @@
                         @php
                             $course = $enrollment->course;
                             $categoryColors = [
-                                'iot' => 'linear-gradient(135deg, #FFD400, #F59E0B)',
+                                'iot' => 'linear-gradient(135deg, #FFC107, #F59E0B)',
                                 'robotics' => 'linear-gradient(135deg, #00D26A, #059669)',
                                 'ai' => 'linear-gradient(135deg, #818CF8, #6366F1)',
                                 'coding' => 'linear-gradient(135deg, #F472B6, #EC4899)',
                                 'electronics' => 'linear-gradient(135deg, #FB923C, #EA580C)',
                             ];
                             $catSlug = strtolower($course->category->name ?? 'general');
-                            $thumbGradient = $categoryColors[$catSlug] ?? 'linear-gradient(135deg, #FFD400, #FF9800)';
+                            $thumbGradient = $categoryColors[$catSlug] ?? 'linear-gradient(135deg, #FFC107, #FF9800)';
                             $catIcons = [
                                 'iot' => 'bi-wifi',
                                 'robotics' => 'bi-robot',

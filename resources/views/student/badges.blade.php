@@ -5,19 +5,19 @@
 @section('content')
 <style>
     :root {
-        --ns-bg: #050505;
-        --ns-card: #121212;
-        --ns-elevated: #181818;
-        --ns-accent: #FFD400;
-        --ns-success: #00D26A;
-        --ns-warning: #FF9800;
-        --ns-danger: #FF4D4F;
-        --ns-info: #3B82F6;
-        --ns-text: #FFFFFF;
-        --ns-text-secondary: #A0A0A0;
-        --ns-text-muted: #666666;
-        --ns-border: rgba(255,255,255,0.06);
-        --font-heading: 'Space Mono', monospace;
+        --ns-bg: #F7F7F5;
+        --ns-card: #FFFFFF;
+        --ns-elevated: #F7F7F5;
+        --ns-accent: #FFC107;
+        --ns-success: #16A34A;
+        --ns-warning: #B45309;
+        --ns-danger: #D92D20;
+        --ns-info: #2563EB;
+        --ns-text: #111111;
+        --ns-text-secondary: #4B5563;
+        --ns-text-muted: #9CA3AF;
+        --ns-border: #EDEDEA;
+        --font-heading: 'Baloo 2', 'Inter', sans-serif;
         --font-body: 'IBM Plex Sans', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
     }
@@ -32,8 +32,8 @@
         width: 52px;
         height: 52px;
         border-radius: 14px;
-        background: rgba(255,212,0,0.1);
-        border: 1px solid rgba(255,212,0,0.15);
+        background: rgba(255,193,7,0.1);
+        border: 1px solid rgba(255,193,7,0.15);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -125,7 +125,7 @@
         box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
     .ns-badge-card.earned {
-        border-color: rgba(255,212,0,0.15);
+        border-color: rgba(255,193,7,0.15);
     }
     .ns-badge-card.earned::before {
         content: '';
@@ -194,7 +194,7 @@
         margin-bottom: 12px;
     }
     .ns-badge-card.earned .ns-badge-xp {
-        background: rgba(255,212,0,0.12);
+        background: rgba(255,193,7,0.12);
         color: var(--ns-accent);
     }
     .ns-badge-card.locked .ns-badge-xp {
@@ -236,8 +236,8 @@
         width: 88px;
         height: 88px;
         border-radius: 50%;
-        background: rgba(255,212,0,0.06);
-        border: 1px solid rgba(255,212,0,0.1);
+        background: rgba(255,193,7,0.06);
+        border: 1px solid rgba(255,193,7,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -287,7 +287,7 @@
 
     <div class="ns-badge-stats">
         <div class="ns-badge-stat">
-            <div class="ns-badge-stat-icon" style="background:rgba(255,212,0,0.1); color:var(--ns-accent);">
+            <div class="ns-badge-stat-icon" style="background:rgba(255,193,7,0.1); color:var(--ns-accent);">
                 <i class="bi bi-patch-check-fill"></i>
             </div>
             <div>
@@ -321,7 +321,7 @@
             <div class="ns-section-title"><i class="bi bi-check-circle-fill" style="color:var(--ns-success); margin-right:6px;"></i> Earned ({{ $earnedList->count() }})</div>
             <div class="ns-badges-grid" style="margin-bottom: 40px;">
                 @foreach($earnedList as $badge)
-                    @php $color = $badge->color ?? '#FFD400'; @endphp
+                    @php $color = $badge->color ?? '#FFC107'; @endphp
                     <div class="ns-badge-card earned">
                         <div class="ns-badge-icon-wrap" style="background: {{ $color }}15; border-color: {{ $color }};">
                             <i class="bi {{ $badge->icon ?? 'bi-trophy' }}" style="color: {{ $color }};"></i>
@@ -345,7 +345,7 @@
             <div class="ns-section-title"><i class="bi bi-lock-fill" style="color:var(--ns-text-muted); margin-right:6px;"></i> Locked ({{ $lockedList->count() }})</div>
             <div class="ns-badges-grid">
                 @foreach($lockedList as $badge)
-                    @php $color = $badge->color ?? '#FFD400'; @endphp
+                    @php $color = $badge->color ?? '#FFC107'; @endphp
                     <div class="ns-badge-card locked">
                         <div class="ns-badge-icon-wrap" style="background: {{ $color }}15; border-color: {{ $color }};">
                             <i class="bi {{ $badge->icon ?? 'bi-trophy' }}" style="color: {{ $color }};"></i>

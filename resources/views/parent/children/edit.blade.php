@@ -21,7 +21,7 @@
     }
 
     .pc-header h1 {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 22px;
         font-weight: 700;
         color: var(--text-primary);
@@ -47,7 +47,7 @@
     }
 
     .pc-card-title {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 14px;
         font-weight: 700;
         color: var(--text-primary);
@@ -61,15 +61,15 @@
 
     .pc-btn-accent {
         background: var(--ns-accent);
-        color: #050505;
+        color: #111111;
         border: none;
         font-weight: 600;
     }
 
     .pc-btn-accent:hover {
-        background: #e6bf00;
-        color: #050505;
-        box-shadow: 0 4px 16px rgba(255, 212, 0, 0.25);
+        background: #F7B500;
+        color: #111111;
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.25);
     }
 
     .pc-btn-ghost {
@@ -101,8 +101,8 @@
         align-items: flex-start;
         font-size: 12px;
         color: var(--text-muted);
-        background: rgba(255, 212, 0, 0.06);
-        border: 1px dashed rgba(255, 212, 0, 0.25);
+        background: rgba(255, 193, 7, 0.06);
+        border: 1px dashed rgba(255, 193, 7, 0.25);
         border-radius: 10px;
         padding: 12px 14px;
         margin-top: 20px;

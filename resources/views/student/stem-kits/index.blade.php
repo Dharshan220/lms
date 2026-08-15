@@ -6,28 +6,28 @@
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
     :root {
-        --bg: #050505;
-        --card: #121212;
-        --elevated: #181818;
-        --accent: #FFD400;
-        --success: #00D26A;
-        --warning: #FF9800;
-        --danger: #FF4D4F;
-        --info: #3B82F6;
+        --bg: #F7F7F5;
+        --card: #FFFFFF;
+        --elevated: #F7F7F5;
+        --accent: #FFC107;
+        --success: #16A34A;
+        --warning: #B45309;
+        --danger: #D92D20;
+        --info: #2563EB;
     }
 
     .stem-kits-page {
         background: var(--bg);
         min-height: 100vh;
         font-family: 'IBM Plex Sans', sans-serif;
-        color: #E0E0E0;
+        color: #111111;
         padding: 2rem 0;
     }
 
     .stem-kits-page h1,
     .stem-kits-page h2,
     .stem-kits-page h3 {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
     }
 
     .stem-kits-page .mono-num {
@@ -41,7 +41,7 @@
     .page-header h1 {
         font-size: 2rem;
         font-weight: 700;
-        color: #FFFFFF;
+        color: #111111;
         margin-bottom: 0.5rem;
     }
 
@@ -50,7 +50,7 @@
     }
 
     .page-header p {
-        color: #888;
+        color: #9CA3AF;
         font-size: 0.95rem;
     }
 
@@ -62,7 +62,7 @@
 
     .kit-card {
         background: var(--card);
-        border: 1px solid #1E1E1E;
+        border: 1px solid #EDEDEA;
         border-radius: 16px;
         overflow: hidden;
         transition: all 0.3s ease;
@@ -71,7 +71,7 @@
     }
 
     .kit-card:hover {
-        border-color: #333;
+        border-color: #EDEDEA;
         transform: translateY(-4px);
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
@@ -112,9 +112,9 @@
     }
 
     .kit-level-badge.level-2 {
-        background: rgba(255, 152, 0, 0.15);
+        background: rgba(255, 193, 7, 0.15);
         color: var(--warning);
-        border: 1px solid rgba(255, 152, 0, 0.3);
+        border: 1px solid rgba(255, 193, 7, 0.3);
     }
 
     .kit-level-badge.level-3 {
@@ -133,7 +133,7 @@
     .kit-title {
         font-size: 1.1rem;
         font-weight: 700;
-        color: #FFFFFF;
+        color: #111111;
         margin-bottom: 0.5rem;
     }
 
@@ -166,9 +166,9 @@
 
     .component-tag {
         font-size: 0.72rem;
-        color: #999;
+        color: #9CA3AF;
         background: var(--elevated);
-        border: 1px solid #222;
+        border: 1px solid #EDEDEA;
         padding: 0.25rem 0.6rem;
         border-radius: 6px;
     }
@@ -179,7 +179,7 @@
         justify-content: space-between;
         margin-top: auto;
         padding-top: 1rem;
-        border-top: 1px solid #1A1A1A;
+        border-top: 1px solid #EDEDEA;
     }
 
     .kit-price {
@@ -214,11 +214,11 @@
 
     .kit-action-btn {
         background: var(--accent);
-        color: #050505;
+        color: #111111;
         border: none;
         padding: 0.55rem 1.3rem;
         border-radius: 10px;
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 0.78rem;
         font-weight: 700;
         cursor: pointer;
@@ -232,7 +232,7 @@
     .kit-action-btn:hover {
         background: #FFDF4D;
         transform: scale(1.04);
-        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.25);
     }
 
     .kit-action-btn.subscribed {

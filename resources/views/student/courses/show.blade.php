@@ -5,14 +5,14 @@
 @section('content')
 @php
     $categoryColors = [
-        'iot' => 'linear-gradient(135deg, #FFD400, #F59E0B)',
+        'iot' => 'linear-gradient(135deg, #FFC107, #F59E0B)',
         'robotics' => 'linear-gradient(135deg, #00D26A, #059669)',
         'ai' => 'linear-gradient(135deg, #818CF8, #6366F1)',
         'coding' => 'linear-gradient(135deg, #F472B6, #EC4899)',
         'electronics' => 'linear-gradient(135deg, #FB923C, #EA580C)',
     ];
     $catSlug = strtolower($course->category->name ?? 'general');
-    $thumbGradient = $categoryColors[$catSlug] ?? 'linear-gradient(135deg, #FFD400, #FF9800)';
+    $thumbGradient = $categoryColors[$catSlug] ?? 'linear-gradient(135deg, #FFC107, #FF9800)';
     $catIcons = [
         'iot' => 'bi-wifi',
         'robotics' => 'bi-robot',
@@ -29,7 +29,7 @@
     }
 
     .ns-detail-hero-inner {
-        background: linear-gradient(135deg, rgba(255,212,0,0.06) 0%, rgba(255,212,0,0.01) 100%);
+        background: linear-gradient(135deg, rgba(255,193,7,0.06) 0%, rgba(255,193,7,0.01) 100%);
         border: 1px solid var(--border-subtle);
         border-radius: 20px;
         overflow: hidden;
@@ -51,7 +51,7 @@
         right: -80px;
         width: 250px;
         height: 250px;
-        background: radial-gradient(circle, rgba(255,212,0,0.06) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255,193,7,0.06) 0%, transparent 70%);
         border-radius: 50%;
     }
 
@@ -62,7 +62,7 @@
         left: -40px;
         width: 150px;
         height: 150px;
-        background: radial-gradient(circle, rgba(255,212,0,0.04) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255,193,7,0.04) 0%, transparent 70%);
         border-radius: 50%;
     }
 
@@ -125,9 +125,9 @@
         font-family: var(--font-heading);
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        background: rgba(255,212,0,0.1);
+        background: rgba(255,193,7,0.1);
         color: var(--accent-primary);
-        border: 1px solid rgba(255,212,0,0.15);
+        border: 1px solid rgba(255,193,7,0.15);
         margin-bottom: 12px;
     }
 
@@ -164,7 +164,7 @@
         justify-content: center;
         font-size: 14px;
         font-weight: 700;
-        color: #050505;
+        color: #111111;
         font-family: var(--font-heading);
     }
 
@@ -283,17 +283,17 @@
 
     .ns-sidebar-enroll-btn.primary {
         background: var(--accent-primary);
-        color: #050505;
+        color: #111111;
     }
 
     .ns-sidebar-enroll-btn.primary:hover {
         background: #FFC000;
-        box-shadow: 0 6px 20px rgba(255,212,0,0.3);
+        box-shadow: 0 6px 20px rgba(255,193,7,0.3);
     }
 
     .ns-sidebar-enroll-btn.success {
         background: var(--success);
-        color: #050505;
+        color: #111111;
     }
 
     .ns-sidebar-enroll-btn.success:hover {
@@ -745,7 +745,7 @@
                             @foreach($course->stemKits as $kit)
                                 <div class="ns-detail-card">
                                     <div class="ns-detail-card-body" style="display: flex; align-items: center; gap: 14px;">
-                                        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(255,212,0,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(255,193,7,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                             <i class="bi bi-box-seam" style="color: var(--accent-primary); font-size: 18px;"></i>
                                         </div>
                                         <div>

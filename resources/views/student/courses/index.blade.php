@@ -11,8 +11,8 @@
     }
 
     .ns-browse-hero-inner {
-        background: linear-gradient(135deg, rgba(255,212,0,0.08) 0%, rgba(255,212,0,0.02) 100%);
-        border: 1px solid rgba(255,212,0,0.1);
+        background: linear-gradient(135deg, rgba(255,193,7,0.08) 0%, rgba(255,193,7,0.02) 100%);
+        border: 1px solid rgba(255,193,7,0.1);
         border-radius: 20px;
         padding: 40px;
         position: relative;
@@ -26,7 +26,7 @@
         right: -60px;
         width: 200px;
         height: 200px;
-        background: radial-gradient(circle, rgba(255,212,0,0.08) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255,193,7,0.08) 0%, transparent 70%);
         border-radius: 50%;
     }
 
@@ -91,7 +91,7 @@
 
     .ns-search-field input:focus {
         border-color: var(--accent-primary);
-        box-shadow: 0 0 0 3px rgba(255,212,0,0.1);
+        box-shadow: 0 0 0 3px rgba(255,193,7,0.1);
     }
 
     .ns-filter-select {
@@ -140,8 +140,8 @@
 
     .ns-course-card:hover {
         transform: translateY(-6px);
-        border-color: rgba(255,212,0,0.2);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,212,0,0.1);
+        border-color: rgba(255,193,7,0.2);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,193,7,0.1);
     }
 
     .ns-course-thumb {
@@ -209,8 +209,8 @@
         right: 12px;
         width: 28px;
         height: 28px;
-        background: rgba(255,212,0,0.2);
-        border: 1px solid rgba(255,212,0,0.3);
+        background: rgba(255,193,7,0.2);
+        border: 1px solid rgba(255,193,7,0.3);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -285,7 +285,7 @@
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        background: rgba(255,212,0,0.1);
+        background: rgba(255,193,7,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -397,12 +397,12 @@
     .ns-pagination a:hover {
         border-color: var(--accent-primary);
         color: var(--accent-primary);
-        background: rgba(255,212,0,0.05);
+        background: rgba(255,193,7,0.05);
     }
 
     .ns-pagination .active {
         background: var(--accent-primary);
-        color: #050505;
+        color: #111111;
         border: 1px solid var(--accent-primary);
     }
 
@@ -481,14 +481,14 @@
                     @foreach($courses as $course)
                         @php
                             $categoryColors = [
-                                'iot' => 'linear-gradient(135deg, #FFD400, #F59E0B)',
+                                'iot' => 'linear-gradient(135deg, #FFC107, #F59E0B)',
                                 'robotics' => 'linear-gradient(135deg, #00D26A, #059669)',
                                 'ai' => 'linear-gradient(135deg, #818CF8, #6366F1)',
                                 'coding' => 'linear-gradient(135deg, #F472B6, #EC4899)',
                                 'electronics' => 'linear-gradient(135deg, #FB923C, #EA580C)',
                             ];
                             $catSlug = strtolower($course->category->name ?? 'general');
-                            $thumbGradient = $categoryColors[$catSlug] ?? 'linear-gradient(135deg, #FFD400, #FF9800)';
+                            $thumbGradient = $categoryColors[$catSlug] ?? 'linear-gradient(135deg, #FFC107, #FF9800)';
                             $catIcons = [
                                 'iot' => 'bi-wifi',
                                 'robotics' => 'bi-robot',

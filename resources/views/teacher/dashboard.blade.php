@@ -55,7 +55,7 @@
                             @if($course->thumbnail)
                                 <img src="{{ asset('storage/' . $course->thumbnail) }}" alt="{{ $course->title }}" style="width:80px;height:55px;border-radius:8px;object-fit:cover;">
                             @else
-                                <div style="width:80px;height:55px;border-radius:8px;background:rgba(255,212,0,0.1);display:flex;align-items:center;justify-content:center">
+                                <div style="width:80px;height:55px;border-radius:8px;background:rgba(255,193,7,0.1);display:flex;align-items:center;justify-content:center">
                                     <i class="bi bi-play-btn" style="color:var(--accent-primary)"></i>
                                 </div>
                             @endif

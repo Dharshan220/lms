@@ -8,17 +8,19 @@
         min-height: 100vh; display: flex; align-items: center;
         justify-content: center; text-align: center;
         padding: 120px 24px 80px; position: relative; overflow: hidden;
+        background-image: radial-gradient(rgba(17, 17, 17, 0.045) 1px, transparent 1px);
+        background-size: 22px 22px;
     }
     .ns-hero::before {
         content: ''; position: absolute; top: -200px; right: -200px;
         width: 700px; height: 700px; border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 193, 7, 0.08) 0%, transparent 60%);
+        background: radial-gradient(circle, rgba(255, 193, 7, 0.12) 0%, transparent 60%);
         pointer-events: none; animation: float 6s ease-in-out infinite;
     }
     .ns-hero::after {
         content: ''; position: absolute; bottom: -150px; left: -150px;
         width: 500px; height: 500px; border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 152, 0, 0.06) 0%, transparent 60%);
+        background: radial-gradient(circle, rgba(255, 193, 7, 0.09) 0%, transparent 60%);
         pointer-events: none; animation: float 8s ease-in-out infinite reverse;
     }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
@@ -28,23 +30,23 @@
     .ns-hero-badge {
         display: inline-flex; align-items: center; gap: 8px;
         padding: 8px 20px; border-radius: 100px;
-        background: rgba(255, 193, 7, 0.08);
-        border: 1px solid rgba(255, 193, 7, 0.2);
-        color: #FFC107; font-size: 13px; font-weight: 600;
+        background: rgba(255, 193, 7, 0.1);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        color: #B45309; font-size: 13px; font-weight: 600;
         margin-bottom: 32px;
         animation: fadeInDown 0.6s ease;
     }
 
     .ns-hero h1 {
-        font-family: 'Poppins', 'Inter', sans-serif;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: clamp(38px, 6vw, 72px);
         font-weight: 800; line-height: 1.05;
-        color: #FFFFFF; margin-bottom: 24px;
+        color: #111111; margin-bottom: 24px;
         animation: fadeInUp 0.8s ease;
         letter-spacing: -1px;
     }
     .ns-hero h1 .gradient-text {
-        background: linear-gradient(135deg, #FFC107, #FF9800, #FFC107);
+        background: linear-gradient(135deg, #FFC107, #F7B500, #FFC107);
         background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -54,7 +56,7 @@
     @keyframes gradientShift { 0%, 100% { background-position: 0% center; } 50% { background-position: 200% center; } }
 
     .ns-hero p {
-        font-size: 18px; color: #888888; max-width: 600px;
+        font-size: 18px; color: #9CA3AF; max-width: 600px;
         margin: 0 auto 40px; line-height: 1.8;
         animation: fadeInUp 1s ease;
     }
@@ -66,56 +68,57 @@
 
     .ns-hero-btn-primary {
         padding: 16px 36px; font-size: 16px; font-weight: 700;
-        font-family: 'Inter', 'Poppins', sans-serif;
-        color: #0D0D0D;
-        background: linear-gradient(135deg, #FFC107, #FF9800);
+        font-family: 'Inter', 'Baloo 2', sans-serif;
+        color: #111111;
+        background: #FFC107;
         border: none; border-radius: 14px; text-decoration: none;
         display: inline-flex; align-items: center; gap: 10px;
-        box-shadow: 0 4px 24px rgba(255, 193, 7, 0.35);
-        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+        transition: all 0.25s;
     }
     .ns-hero-btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 40px rgba(255, 193, 7, 0.5);
-        color: #0D0D0D;
+        background: #111111;
+        color: #FFFFFF;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
     }
     .ns-hero-btn-secondary {
         padding: 16px 36px; font-size: 16px; font-weight: 600;
-        font-family: 'Inter', 'Poppins', sans-serif;
-        color: #CFCFCF; background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-family: 'Inter', 'Baloo 2', sans-serif;
+        color: #111111; background: transparent;
+        border: 1.5px solid #111111;
         border-radius: 14px; text-decoration: none;
         display: inline-flex; align-items: center; gap: 10px;
-        transition: all 0.3s;
+        transition: all 0.25s;
     }
     .ns-hero-btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 193, 7, 0.2);
-        color: #FFC107; transform: translateY(-3px);
+        background: #FFC107;
+        border-color: #FFC107;
+        color: #111111; transform: translateY(-2px);
     }
 
     .ns-section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
     .ns-section-header { text-align: center; margin-bottom: 64px; }
     .ns-section-header h2 {
-        font-family: 'Poppins', 'Inter', sans-serif;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 38px; font-weight: 700;
-        color: #FFFFFF; margin-bottom: 12px;
+        color: #111111; margin-bottom: 12px;
         letter-spacing: -0.5px;
     }
-    .ns-section-header p { font-size: 16px; color: #888888; max-width: 520px; margin: 0 auto; }
+    .ns-section-header p { font-size: 16px; color: #9CA3AF; max-width: 520px; margin: 0 auto; }
     .ns-section-header .ns-tag {
         display: inline-block; padding: 4px 14px; border-radius: 100px;
-        background: rgba(255, 193, 7, 0.08);
-        border: 1px solid rgba(255, 193, 7, 0.2);
-        color: #FFC107; font-family: 'JetBrains Mono', monospace;
+        background: rgba(255, 193, 7, 0.1);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        color: #B45309; font-family: 'JetBrains Mono', monospace;
         font-size: 11px; font-weight: 700; text-transform: uppercase;
         letter-spacing: 2px; margin-bottom: 16px;
     }
 
     .ns-stats-section {
-        background: linear-gradient(135deg, rgba(255, 193, 7, 0.04), rgba(255, 152, 0, 0.04));
-        border-top: 1px solid rgba(255, 193, 7, 0.06);
-        border-bottom: 1px solid rgba(255, 193, 7, 0.06);
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.05), rgba(255, 193, 7, 0.04));
+        border-top: 1px solid rgba(255, 193, 7, 0.15);
+        border-bottom: 1px solid rgba(255, 193, 7, 0.15);
         padding: 72px 24px; position: relative; z-index: 10;
     }
     .ns-stats-grid {
@@ -127,15 +130,15 @@
         font-size: 44px; font-weight: 700; color: #FFC107;
         margin-bottom: 4px;
     }
-    .ns-stat-item p { font-size: 14px; color: #888888; font-weight: 500; }
+    .ns-stat-item p { font-size: 14px; color: #9CA3AF; font-weight: 500; }
 
     .ns-features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .ns-feature-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
         border-radius: 20px; padding: 36px 28px;
         transition: all 0.3s; position: relative; overflow: hidden;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .ns-feature-card::before {
         content: ''; position: absolute;
@@ -144,10 +147,10 @@
         opacity: 0; transition: opacity 0.3s;
     }
     .ns-feature-card:hover {
-        border-color: rgba(255, 193, 7, 0.15);
+        border-color: rgba(255, 193, 7, 0.4);
         transform: translateY(-6px);
-        background: rgba(255, 193, 7, 0.03);
-        box-shadow: 0 0 30px rgba(255, 193, 7, 0.05);
+        background: #FFFFFF;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
     }
     .ns-feature-card:hover::before { opacity: 1; }
     .ns-feature-icon {
@@ -156,42 +159,42 @@
         font-size: 24px; margin-bottom: 20px;
     }
     .ns-feature-card h3 {
-        font-family: 'Poppins', 'Inter', sans-serif;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 17px; font-weight: 700;
-        color: #FFFFFF; margin-bottom: 10px;
+        color: #111111; margin-bottom: 10px;
     }
-    .ns-feature-card p { font-size: 14px; color: #888888; line-height: 1.7; margin: 0; }
+    .ns-feature-card p { font-size: 14px; color: #9CA3AF; line-height: 1.7; margin: 0; }
 
     .ns-paths-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .ns-path-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
         border-radius: 20px; padding: 40px 28px;
         text-align: center; transition: all 0.3s;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
-    .ns-path-card:hover { transform: translateY(-6px); border-color: rgba(255, 193, 7, 0.15); }
+    .ns-path-card:hover { transform: translateY(-6px); border-color: rgba(255, 193, 7, 0.4); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1); }
     .ns-path-icon {
         width: 72px; height: 72px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
         font-size: 28px; margin: 0 auto 20px;
     }
     .ns-path-card h3 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 20px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 20px; font-weight: 700; color: #111111; margin-bottom: 8px;
     }
-    .ns-path-card p { font-size: 14px; color: #888888; line-height: 1.7; margin-bottom: 20px; }
+    .ns-path-card p { font-size: 14px; color: #9CA3AF; line-height: 1.7; margin-bottom: 20px; }
     .ns-path-levels { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
     .ns-path-levels span { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
 
     .ns-courses-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .ns-course-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
         border-radius: 20px; overflow: hidden; transition: all 0.3s;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
-    .ns-course-card:hover { transform: translateY(-6px); border-color: rgba(255, 193, 7, 0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .ns-course-card:hover { transform: translateY(-6px); border-color: rgba(255, 193, 7, 0.4); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1); }
     .ns-course-thumb {
         height: 160px; display: flex; align-items: center; justify-content: center;
         font-size: 40px; position: relative;
@@ -200,52 +203,52 @@
         position: absolute; top: 12px; right: 12px;
         padding: 4px 10px; border-radius: 100px;
         font-size: 11px; font-weight: 700;
-        background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); color: #fff;
+        background: rgba(255, 193, 7, 0.9); color: #111111;
     }
     .ns-course-body { padding: 20px; }
     .ns-course-body h4 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 15px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 15px; font-weight: 700; color: #111111; margin-bottom: 8px;
     }
-    .ns-course-body p { font-size: 13px; color: #888888; line-height: 1.5; margin-bottom: 16px; }
-    .ns-course-meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #888888; }
+    .ns-course-body p { font-size: 13px; color: #9CA3AF; line-height: 1.5; margin-bottom: 16px; }
+    .ns-course-meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #9CA3AF; }
     .ns-course-meta i { margin-right: 4px; }
 
     .ns-testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .ns-testimonial-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
         border-radius: 20px; padding: 32px; transition: all 0.3s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
-    .ns-testimonial-card:hover { border-color: rgba(255, 193, 7, 0.15); }
+    .ns-testimonial-card:hover { border-color: rgba(255, 193, 7, 0.4); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1); }
     .ns-testimonial-stars { color: #FFC107; font-size: 14px; margin-bottom: 16px; }
     .ns-testimonial-card blockquote {
-        font-size: 14px; color: #CFCFCF; line-height: 1.8;
+        font-size: 14px; color: #4B5563; line-height: 1.8;
         margin-bottom: 20px; font-style: italic;
     }
     .ns-testimonial-author { display: flex; align-items: center; gap: 12px; }
     .ns-testimonial-avatar {
         width: 40px; height: 40px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-weight: 700; font-size: 14px; color: #0D0D0D;
+        font-weight: 700; font-size: 14px; color: #111111;
     }
-    .ns-testimonial-name { font-size: 14px; font-weight: 700; color: #FFFFFF; }
-    .ns-testimonial-role { font-size: 12px; color: #888888; }
+    .ns-testimonial-name { font-size: 14px; font-weight: 700; color: #111111; }
+    .ns-testimonial-role { font-size: 12px; color: #9CA3AF; }
 
     .ns-cta { text-align: center; padding: 120px 24px; position: relative; z-index: 10; }
     .ns-cta-box {
         max-width: 700px; margin: 0 auto; padding: 64px 40px;
         border-radius: 24px;
-        background: linear-gradient(135deg, rgba(255, 193, 7, 0.06), rgba(255, 152, 0, 0.04));
-        border: 1px solid rgba(255, 193, 7, 0.1);
-        backdrop-filter: blur(20px);
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.08), rgba(255, 193, 7, 0.05));
+        border: 1px solid rgba(255, 193, 7, 0.25);
     }
     .ns-cta-box h2 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 34px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 34px; font-weight: 700; color: #111111; margin-bottom: 16px;
         letter-spacing: -0.5px;
     }
-    .ns-cta-box p { font-size: 16px; color: #888888; margin-bottom: 32px; }
+    .ns-cta-box p { font-size: 16px; color: #9CA3AF; margin-bottom: 32px; }
 
     .ns-split-section {
         padding: 120px 24px; max-width: 1200px; margin: 0 auto;
@@ -259,19 +262,19 @@
     .ns-split-grid.reversed .ns-split-content { order: 1; }
     .ns-split-image img {
         width: 100%; border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border: 1px solid #EDEDEA;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
         transition: transform 0.4s;
     }
     .ns-split-image img:hover { transform: scale(1.02); }
     .ns-split-content h2 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 34px; font-weight: 700; color: #FFFFFF;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 34px; font-weight: 700; color: #111111;
         margin-bottom: 20px; letter-spacing: -0.5px;
     }
     .ns-split-content h2 .highlight { color: #FFC107; }
     .ns-split-content p {
-        font-size: 15px; color: #888888; line-height: 1.8; margin-bottom: 28px;
+        font-size: 15px; color: #9CA3AF; line-height: 1.8; margin-bottom: 28px;
     }
     .ns-split-features {
         display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
@@ -279,14 +282,14 @@
     .ns-split-feature {
         display: flex; align-items: center; gap: 12px;
         padding: 12px 16px;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 12px; font-size: 14px; color: #CFCFCF;
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
+        border-radius: 12px; font-size: 14px; color: #4B5563;
         transition: all 0.3s;
     }
     .ns-split-feature:hover {
-        border-color: rgba(255, 193, 7, 0.15);
-        background: rgba(255, 193, 7, 0.03);
+        border-color: rgba(255, 193, 7, 0.4);
+        background: rgba(255, 193, 7, 0.04);
     }
     .ns-split-feature i {
         color: #FFC107; font-size: 18px; flex-shrink: 0;
@@ -304,27 +307,27 @@
     .ns-founder-card {
         display: grid; grid-template-columns: 300px 1fr;
         gap: 48px; align-items: center;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
         border-radius: 24px; padding: 48px;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .ns-founder-image img {
         width: 100%; border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border: 1px solid #EDEDEA;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
     }
     .ns-founder-content h2 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 28px; font-weight: 700; color: #FFFFFF;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 28px; font-weight: 700; color: #111111;
         margin-bottom: 4px;
     }
     .ns-founder-content .ns-founder-title {
-        font-size: 14px; color: #FFC107; font-weight: 600;
+        font-size: 14px; color: #F7B500; font-weight: 600;
         margin-bottom: 16px;
     }
     .ns-founder-content p {
-        font-size: 15px; color: #888888; line-height: 1.8;
+        font-size: 15px; color: #9CA3AF; line-height: 1.8;
     }
     .ns-founder-divider {
         width: 48px; height: 2px; background: #FFC107;
@@ -336,11 +339,11 @@
         text-align: center; position: relative; z-index: 10;
     }
     .ns-social-section h2 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 28px; font-weight: 700; color: #FFFFFF;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 28px; font-weight: 700; color: #111111;
         margin-bottom: 8px;
     }
-    .ns-social-section p { font-size: 15px; color: #888888; margin-bottom: 32px; }
+    .ns-social-section p { font-size: 15px; color: #9CA3AF; margin-bottom: 32px; }
     .ns-social-links {
         display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
     }
@@ -348,20 +351,20 @@
         width: 56px; height: 56px; border-radius: 16px;
         display: flex; align-items: center; justify-content: center;
         font-size: 24px; text-decoration: none;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        color: #888888; transition: all 0.3s;
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
+        color: #9CA3AF; transition: all 0.3s;
     }
     .ns-social-link:hover {
         transform: translateY(-4px);
         background: rgba(255, 193, 7, 0.08);
-        border-color: rgba(255, 193, 7, 0.2);
-        color: #FFC107;
+        border-color: rgba(255, 193, 7, 0.3);
+        color: #F7B500;
     }
     .ns-social-link.email-link {
         padding: 16px 28px; width: auto; border-radius: 14px;
         font-size: 15px; font-weight: 600; gap: 8px;
-        color: #CFCFCF;
+        color: #4B5563;
     }
     .ns-social-link.email-link i { font-size: 20px; }
 
@@ -460,7 +463,7 @@
             <p>Hands-on projects with Arduino, Raspberry Pi, and ESP32. Connect the physical world to the digital.</p>
         </div>
         <div class="ns-feature-card ns-fade-up" style="--accent: #FF9800">
-            <div class="ns-feature-icon" style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">
+            <div class="ns-feature-icon" style="background: rgba(255, 193, 7, 0.1); color: #FF9800;">
                 <i class="bi bi-robot"></i>
             </div>
             <h3>Robotics</h3>
@@ -554,14 +557,14 @@
             </div>
         </div>
         <div class="ns-path-card ns-fade-up">
-            <div class="ns-path-icon" style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">
+            <div class="ns-path-icon" style="background: rgba(255, 193, 7, 0.1); color: #FF9800;">
                 <i class="bi bi-trophy"></i>
             </div>
             <h3>Advanced</h3>
             <p>Master complex systems, lead team projects, and develop portfolio-ready prototypes.</p>
             <div class="ns-path-levels">
-                <span style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">Grades 10-12</span>
-                <span style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">20 Courses</span>
+                <span style="background: rgba(255, 193, 7, 0.1); color: #FF9800;">Grades 10-12</span>
+                <span style="background: rgba(255, 193, 7, 0.1); color: #FF9800;">20 Courses</span>
             </div>
         </div>
     </div>

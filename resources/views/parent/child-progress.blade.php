@@ -26,7 +26,7 @@
     {{-- Child Switcher --}}
     @if(isset($children) && $children->count() > 1)
         <div class="mb-3 d-flex align-items-center gap-2 flex-wrap">
-            <span class="badge rounded-pill" style="background: rgba(255,212,0,0.15); color: var(--ns-accent); border: 1px solid rgba(255,212,0,0.35);">
+            <span class="badge rounded-pill" style="background: rgba(255,193,7,0.15); color: var(--ns-accent); border: 1px solid rgba(255,193,7,0.35);">
                 <i class="bi bi-arrow-left-right me-1"></i> Switch Child
             </span>
             @foreach($children as $c)
@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-10">
                 <h2 class="fw-bold mb-1">{{ $child->name }}
-                    <span class="badge rounded-pill align-middle" style="background:#FFD400; color:#050505; font-size:12px; margin-left:8px;">
+                    <span class="badge rounded-pill align-middle" style="background:#FFC107; color:#111111; font-size:12px; margin-left:8px;">
                         <i class="bi bi-eye-fill me-1"></i> Selected Child
                     </span>
                 </h2>
@@ -64,7 +64,7 @@
                     <span class="badge bg-light text-dark fs-6"><i class="bi bi-star-fill text-warning me-1"></i> Level {{ $child->level ?? 1 }}</span>
                     <span class="badge bg-light text-dark fs-6"><i class="bi bi-lightning-fill text-success me-1"></i> {{ number_format($child->xp_points ?? 0) }} XP</span>
                     <span class="badge bg-light text-dark fs-6"><i class="bi bi-fire text-danger me-1"></i> {{ $child->daily_streak ?? 0 }} Day Streak</span>
-                    <a href="{{ route('parent.children.edit', $child->id) }}" class="badge rounded-pill text-decoration-none" style="background:#FFD400; color:#050505; font-size:12px;">
+                    <a href="{{ route('parent.children.edit', $child->id) }}" class="badge rounded-pill text-decoration-none" style="background:#FFC107; color:#111111; font-size:12px;">
                         <i class="bi bi-pencil-fill me-1"></i> Edit Child
                     </a>
                 </div>

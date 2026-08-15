@@ -9,27 +9,28 @@
         text-align: center; padding: 120px 24px 60px; position: relative;
     }
     .ns-sk-hero h1 {
-        font-family: 'Poppins', 'Inter', sans-serif;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: clamp(32px, 5vw, 52px); font-weight: 800;
-        color: #FFFFFF; margin-bottom: 16px; letter-spacing: -1px;
+        color: #111111; margin-bottom: 16px; letter-spacing: -1px;
     }
     .ns-sk-hero h1 span { color: #FFC107; }
-    .ns-sk-hero p { font-size: 18px; color: #888888; max-width: 600px; margin: 0 auto; line-height: 1.8; }
+    .ns-sk-hero p { font-size: 18px; color: #9CA3AF; max-width: 600px; margin: 0 auto; line-height: 1.8; }
     .ns-sk-section { padding: 80px 24px 120px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
 
     .ns-sk-grid {
         display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
     }
     .ns-sk-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #FFFFFF;
+        border: 1px solid #EDEDEA;
         border-radius: 20px; overflow: hidden;
+        box-shadow: 0 1px 3px rgba(16,24,40,0.05);
         transition: all 0.3s; backdrop-filter: blur(10px);
     }
     .ns-sk-card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(255, 193, 7, 0.15);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        transform: translateY(-4px);
+        border-color: rgba(245,184,0,0.4);
+        box-shadow: 0 12px 32px rgba(16,24,40,0.1);
     }
     .ns-sk-img {
         height: 200px; display: flex; align-items: center; justify-content: center;
@@ -37,17 +38,17 @@
     }
     .ns-sk-body { padding: 24px; }
     .ns-sk-body h3 {
-        font-family: 'Poppins', 'Inter', sans-serif;
-        font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
+        font-size: 18px; font-weight: 700; color: #111111; margin-bottom: 8px;
     }
-    .ns-sk-body p { font-size: 14px; color: #888888; line-height: 1.7; margin-bottom: 16px; }
+    .ns-sk-body p { font-size: 14px; color: #9CA3AF; line-height: 1.7; margin-bottom: 16px; }
     .ns-sk-tags { display: flex; gap: 8px; flex-wrap: wrap; }
     .ns-sk-tags span {
         padding: 4px 12px; border-radius: 100px;
         font-size: 12px; font-weight: 600;
     }
     .ns-sk-empty {
-        text-align: center; padding: 80px 24px; color: #888888;
+        text-align: center; padding: 80px 24px; color: #9CA3AF;
         grid-column: 1 / -1;
     }
     .ns-sk-empty i { font-size: 48px; color: #FFC107; margin-bottom: 16px; display: block; }
@@ -57,11 +58,19 @@
         .ns-sk-grid { grid-template-columns: 1fr; }
         .ns-sk-section { padding: 48px 16px 80px; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 </style>
 
 <section class="ns-sk-hero">
     <div>
-        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:#FFC107;font-size:13px;font-weight:600;margin-bottom:32px">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.3);color:#B45309;font-size:13px;font-weight:600;margin-bottom:32px">
             <i class="bi bi-box-seam"></i> Hardware Kits
         </div>
         <h1>Nano Spark <span>STEM Kits</span></h1>
@@ -74,7 +83,7 @@
         <div class="ns-sk-grid">
             @foreach($kits as $kit)
                 <div class="ns-sk-card">
-                    <div class="ns-sk-img" style="background: linear-gradient(135deg, #FFC107, #FF9800);">
+                    <div class="ns-sk-img" style="background: linear-gradient(135deg, #F7B500, #FFD54F);">
                         <i class="bi bi-box-seam" style="color: rgba(0,0,0,0.5)"></i>
                     </div>
                     <div class="ns-sk-body">
@@ -82,7 +91,7 @@
                         <p>{{ $kit->description ? Str::limit($kit->description, 120) : 'A premium STEM kit for hands-on learning and building real-world projects.' }}</p>
                         <div class="ns-sk-tags">
                             @if($kit->difficulty_level)
-                                <span style="background:rgba(255,193,7,0.1);color:#FFC107">{{ ucfirst($kit->difficulty_level) }}</span>
+                                <span style="background:rgba(245,184,0,0.1);color:#B45309">{{ ucfirst($kit->difficulty_level) }}</span>
                             @endif
                             @if($kit->category)
                                 <span style="background:rgba(59,130,246,0.1);color:#3B82F6">{{ $kit->category }}</span>
@@ -105,7 +114,7 @@
     @else
         <div class="ns-sk-empty">
             <i class="bi bi-box-seam"></i>
-            <h3 style="color:#CFCFCF;margin-bottom:8px">No STEM Kits Available Yet</h3>
+            <h3 style="color:#4B5563;margin-bottom:8px">No STEM Kits Available Yet</h3>
             <p>We are preparing our STEM kits. Check back soon!</p>
         </div>
     @endif

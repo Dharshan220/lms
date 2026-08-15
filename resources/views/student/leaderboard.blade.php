@@ -5,19 +5,19 @@
 @section('content')
 <style>
     :root {
-        --ns-bg: #050505;
-        --ns-card: #121212;
-        --ns-elevated: #181818;
-        --ns-accent: #FFD400;
-        --ns-success: #00D26A;
-        --ns-warning: #FF9800;
-        --ns-danger: #FF4D4F;
-        --ns-info: #3B82F6;
-        --ns-text: #FFFFFF;
-        --ns-text-secondary: #A0A0A0;
-        --ns-text-muted: #666666;
-        --ns-border: rgba(255,255,255,0.06);
-        --font-heading: 'Space Mono', monospace;
+        --ns-bg: #F7F7F5;
+        --ns-card: #FFFFFF;
+        --ns-elevated: #F7F7F5;
+        --ns-accent: #FFC107;
+        --ns-success: #16A34A;
+        --ns-warning: #B45309;
+        --ns-danger: #D92D20;
+        --ns-info: #2563EB;
+        --ns-text: #111111;
+        --ns-text-secondary: #4B5563;
+        --ns-text-muted: #9CA3AF;
+        --ns-border: #EDEDEA;
+        --font-heading: 'Baloo 2', 'Inter', sans-serif;
         --font-body: 'IBM Plex Sans', sans-serif;
         --font-mono: 'JetBrains Mono', monospace;
     }
@@ -32,8 +32,8 @@
         width: 52px;
         height: 52px;
         border-radius: 14px;
-        background: rgba(255,212,0,0.1);
-        border: 1px solid rgba(255,212,0,0.15);
+        background: rgba(255,193,7,0.1);
+        border: 1px solid rgba(255,193,7,0.15);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -75,8 +75,8 @@
         transform: translateY(-6px);
     }
     .ns-podium-card.gold {
-        background: linear-gradient(180deg, rgba(255,212,0,0.15) 0%, var(--ns-card) 100%);
-        border: 1px solid rgba(255,212,0,0.25);
+        background: linear-gradient(180deg, rgba(255,193,7,0.15) 0%, var(--ns-card) 100%);
+        border: 1px solid rgba(255,193,7,0.25);
     }
     .ns-podium-card.silver {
         background: linear-gradient(180deg, rgba(192,192,192,0.12) 0%, var(--ns-card) 100%);
@@ -87,18 +87,18 @@
         border: 1px solid rgba(205,127,50,0.2);
     }
     .ns-podium-card.gold .ns-podium-rank {
-        background: linear-gradient(135deg, #FFD400, #FF9800);
-        color: #050505;
-        box-shadow: 0 4px 20px rgba(255,212,0,0.4);
+        background: linear-gradient(135deg, #FFC107, #FF9800);
+        color: #111111;
+        box-shadow: 0 4px 20px rgba(255,193,7,0.4);
     }
     .ns-podium-card.silver .ns-podium-rank {
         background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
-        color: #050505;
+        color: #111111;
         box-shadow: 0 4px 20px rgba(192,192,192,0.3);
     }
     .ns-podium-card.bronze .ns-podium-rank {
         background: linear-gradient(135deg, #CD7F32, #B8690E);
-        color: #050505;
+        color: #111111;
         box-shadow: 0 4px 20px rgba(205,127,50,0.3);
     }
     .ns-podium-rank {
@@ -126,9 +126,9 @@
         margin: 16px auto 12px;
     }
     .ns-podium-card.gold .ns-podium-avatar {
-        background: linear-gradient(135deg, rgba(255,212,0,0.2), rgba(255,152,0,0.2));
+        background: linear-gradient(135deg, rgba(255,193,7,0.2), rgba(255,152,0,0.2));
         color: var(--ns-accent);
-        border: 2px solid rgba(255,212,0,0.3);
+        border: 2px solid rgba(255,193,7,0.3);
     }
     .ns-podium-card.silver .ns-podium-avatar {
         background: linear-gradient(135deg, rgba(192,192,192,0.15), rgba(160,160,160,0.15));
@@ -165,7 +165,7 @@
         height: 8px;
         border-radius: 8px 8px 0 0;
     }
-    .ns-podium-card.gold .ns-podium-bar { background: linear-gradient(90deg, #FFD400, #FF9800); height: 10px; }
+    .ns-podium-card.gold .ns-podium-bar { background: linear-gradient(90deg, #FFC107, #FF9800); height: 10px; }
     .ns-podium-card.silver .ns-podium-bar { background: linear-gradient(90deg, #C0C0C0, #A0A0A0); height: 8px; }
     .ns-podium-card.bronze .ns-podium-bar { background: linear-gradient(90deg, #CD7F32, #B8690E); height: 6px; }
 
@@ -201,10 +201,10 @@
         border-bottom: none;
     }
     .ns-leaderboard-row:hover {
-        background: rgba(255,212,0,0.03);
+        background: rgba(255,193,7,0.03);
     }
     .ns-leaderboard-row.is-current-user {
-        background: rgba(255,212,0,0.06);
+        background: rgba(255,193,7,0.06);
         border-left: 3px solid var(--ns-accent);
     }
     .ns-leaderboard-rank {
@@ -231,7 +231,7 @@
         justify-content: center;
         font-weight: 700;
         font-size: 14px;
-        color: #050505;
+        color: #111111;
         flex-shrink: 0;
     }
     .ns-leaderboard-student-name {
@@ -282,8 +282,8 @@
         width: 88px;
         height: 88px;
         border-radius: 50%;
-        background: rgba(255,212,0,0.06);
-        border: 1px solid rgba(255,212,0,0.1);
+        background: rgba(255,193,7,0.06);
+        border: 1px solid rgba(255,193,7,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -401,7 +401,7 @@
                         @endif
                     </div>
                     <div class="ns-leaderboard-student">
-                        <div class="ns-leaderboard-student-avatar" style="background: linear-gradient(135deg, {{ ['#FFD400','#C0C0C0','#CD7F32','#3B82F6','#00D26A'][$index % 5] }}, {{ ['#FF9800','#A0A0A0','#B8690E','#2563EB','#00B894'][$index % 5] }});">
+                        <div class="ns-leaderboard-student-avatar" style="background: linear-gradient(135deg, {{ ['#FFC107','#C0C0C0','#CD7F32','#3B82F6','#00D26A'][$index % 5] }}, {{ ['#FF9800','#A0A0A0','#B8690E','#2563EB','#00B894'][$index % 5] }});">
                             {{ strtoupper(substr($student->name, 0, 1)) }}
                         </div>
                         <div>

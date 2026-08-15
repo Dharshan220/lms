@@ -6,28 +6,28 @@
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
     :root {
-        --bg: #050505;
-        --card: #121212;
-        --elevated: #181818;
-        --accent: #FFD400;
-        --success: #00D26A;
-        --warning: #FF9800;
-        --danger: #FF4D4F;
-        --info: #3B82F6;
+        --bg: #F7F7F5;
+        --card: #FFFFFF;
+        --elevated: #F7F7F5;
+        --accent: #FFC107;
+        --success: #16A34A;
+        --warning: #B45309;
+        --danger: #D92D20;
+        --info: #2563EB;
     }
 
     .virtual-lab-page {
         background: var(--bg);
         min-height: 100vh;
         font-family: 'IBM Plex Sans', sans-serif;
-        color: #E0E0E0;
+        color: #111111;
         padding: 2rem 0;
     }
 
     .virtual-lab-page h1,
     .virtual-lab-page h2,
     .virtual-lab-page h3 {
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
     }
 
     .virtual-lab-page .mono-num {
@@ -41,7 +41,7 @@
     .page-header h1 {
         font-size: 2rem;
         font-weight: 700;
-        color: #FFFFFF;
+        color: #111111;
         margin-bottom: 0.5rem;
     }
 
@@ -50,7 +50,7 @@
     }
 
     .page-header p {
-        color: #888;
+        color: #9CA3AF;
         font-size: 0.95rem;
     }
 
@@ -63,8 +63,8 @@
 
     .category-filters .filter-btn {
         background: var(--card);
-        border: 1px solid #2A2A2A;
-        color: #AAA;
+        border: 1px solid #EDEDEA;
+        color: #9CA3AF;
         padding: 0.5rem 1.2rem;
         border-radius: 999px;
         font-family: 'IBM Plex Sans', sans-serif;
@@ -77,12 +77,12 @@
     .category-filters .filter-btn:hover {
         border-color: var(--accent);
         color: var(--accent);
-        background: rgba(255, 212, 0, 0.06);
+        background: rgba(255, 193, 7, 0.06);
     }
 
     .category-filters .filter-btn.active {
         background: var(--accent);
-        color: #050505;
+        color: #111111;
         border-color: var(--accent);
         font-weight: 600;
     }
@@ -99,7 +99,7 @@
 
     .lab-card {
         background: var(--card);
-        border: 1px solid #1E1E1E;
+        border: 1px solid #EDEDEA;
         border-radius: 16px;
         padding: 1.8rem;
         transition: all 0.3s ease;
@@ -122,7 +122,7 @@
     }
 
     .lab-card:hover {
-        border-color: #333;
+        border-color: #EDEDEA;
         transform: translateY(-4px);
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
@@ -143,16 +143,16 @@
         flex-shrink: 0;
     }
 
-    .lab-card-icon.iot { background: rgba(255, 212, 0, 0.1); color: var(--accent); }
+    .lab-card-icon.iot { background: rgba(255, 193, 7, 0.1); color: var(--accent); }
     .lab-card-icon.robotics { background: rgba(0, 210, 106, 0.1); color: var(--success); }
     .lab-card-icon.ai-ml { background: rgba(59, 130, 246, 0.1); color: var(--info); }
-    .lab-card-icon.electronics { background: rgba(255, 152, 0, 0.1); color: var(--warning); }
+    .lab-card-icon.electronics { background: rgba(255, 193, 7, 0.1); color: var(--warning); }
     .lab-card-icon.coding { background: rgba(255, 77, 79, 0.1); color: var(--danger); }
 
     .lab-card-title {
         font-size: 1.1rem;
         font-weight: 700;
-        color: #FFFFFF;
+        color: #111111;
         margin-bottom: 0.5rem;
     }
 
@@ -189,9 +189,9 @@
     }
 
     .difficulty-badge.intermediate {
-        background: rgba(255, 152, 0, 0.12);
+        background: rgba(255, 193, 7, 0.12);
         color: var(--warning);
-        border: 1px solid rgba(255, 152, 0, 0.25);
+        border: 1px solid rgba(255, 193, 7, 0.25);
     }
 
     .difficulty-badge.advanced {
@@ -229,11 +229,11 @@
 
     .start-lab-btn {
         background: var(--accent);
-        color: #050505;
+        color: #111111;
         border: none;
         padding: 0.55rem 1.4rem;
         border-radius: 10px;
-        font-family: 'Space Mono', monospace;
+        font-family: 'Baloo 2', 'Inter', sans-serif;
         font-size: 0.8rem;
         font-weight: 700;
         cursor: pointer;
@@ -246,7 +246,7 @@
     .start-lab-btn:hover {
         background: #FFDF4D;
         transform: scale(1.04);
-        box-shadow: 0 4px 20px rgba(255, 212, 0, 0.25);
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.25);
     }
 
     .empty-state {

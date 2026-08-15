@@ -38,7 +38,7 @@
     .ns-auth-logo span {
         font-size: 24px;
         font-weight: 800;
-        background: linear-gradient(135deg, #FF8F65, #4ECDC4);
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -48,7 +48,7 @@
         width: 72px;
         height: 72px;
         border-radius: 50%;
-        background: rgba(78, 205, 196, 0.1);
+        background: rgba(255, 193, 7, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -57,19 +57,19 @@
 
     .ns-auth-icon i {
         font-size: 32px;
-        color: #4ECDC4;
+        color: #FFC107;
     }
 
     .ns-auth-card h2 {
         font-size: 26px;
         font-weight: 800;
-        color: #F9FAFB;
+        color: #111111;
         margin-bottom: 12px;
     }
 
     .ns-auth-card .ns-subtitle {
         font-size: 15px;
-        color: #6B7280;
+        color: #4B5563;
         margin-bottom: 32px;
         line-height: 1.6;
     }
@@ -83,7 +83,7 @@
         display: block;
         font-size: 13px;
         font-weight: 600;
-        color: #D1D5DB;
+        color: #4B5563;
         margin-bottom: 6px;
     }
 
@@ -91,35 +91,35 @@
         width: 100%;
         padding: 12px 16px;
         border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.04);
-        color: #F3F4F6;
+        border: 1px solid #D0D5DD;
+        background: #FFFFFF;
+        color: #111111;
         font-size: 15px;
         outline: none;
         transition: border-color 0.2s;
     }
 
-    .ns-form-control::placeholder { color: #4B5563; }
-    .ns-form-control:focus { border-color: #FF6B35; }
+    .ns-form-control::placeholder { color: #9CA3AF; }
+    .ns-form-control:focus { border-color: #FFC107; box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15); }
 
     .ns-btn-gradient {
         width: 100%;
         padding: 13px 24px;
         font-size: 15px;
         font-weight: 700;
-        color: #fff;
-        background: linear-gradient(135deg, #FF6B35, #E55A24);
+        color: #111111;
+        background: linear-gradient(135deg, #F7B500, #FFD54F);
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
         transition: all 0.3s;
         margin-top: 8px;
     }
 
     .ns-btn-gradient:hover {
         transform: translateY(-1px);
-        box-shadow: 0 6px 24px rgba(255, 107, 53, 0.45);
+        box-shadow: 0 6px 24px rgba(255, 193, 7, 0.45);
     }
 
     .ns-auth-back {
@@ -137,20 +137,28 @@
         transition: color 0.2s;
     }
 
-    .ns-auth-back a:hover { color: #FF6B35; }
+    .ns-auth-back a:hover { color: #F7B500; }
 
     .ns-error-msg {
         padding: 10px 14px;
         border-radius: 8px;
         background: rgba(239, 68, 68, 0.1);
         border: 1px solid rgba(239, 68, 68, 0.25);
-        color: #FCA5A5;
+        color: #D92D20;
         font-size: 13px;
         margin-bottom: 20px;
         text-align: left;
     }
 
     .ns-error-msg ul { margin: 0; padding-left: 16px; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
 </style>
 
 <div class="ns-auth-wrapper">
